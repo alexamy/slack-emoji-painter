@@ -1,4 +1,3 @@
-import images from './images.json';
 import whiteSquare from './assets/white_square.png';
 
 export interface State {
@@ -9,6 +8,7 @@ export interface State {
 	images: Record<string, string>;
 }
 
+const images = import('./images.json');
 const defaultImages: Record<string, string> = {
 	':white_square:': whiteSquare,
 };
