@@ -32,7 +32,18 @@ export function App() {
 				}`}
 			>
 				{Object.entries(images).map(([key, path]) => {
-					return <img key={key} src={path} width={32} height={32} />;
+					return (
+						<img
+							key={key}
+							src={path}
+							width={32}
+							height={32}
+							onClick={() => {
+								brushSetter.current?.(key);
+								setVisible(false);
+							}}
+						/>
+					);
 				})}
 			</div>
 			<div>

@@ -16,6 +16,7 @@ const defaultState: State = {
 	images: {
 		':aaa:': '/aaa.png',
 		':white_square:': '/white_square.png',
+		':you-dead:': '/you-dead.png',
 	},
 };
 
