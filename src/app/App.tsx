@@ -1,3 +1,4 @@
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import {
 	addToFavorites,
 	clear,
@@ -11,7 +12,6 @@ import {
 	setSize,
 	useAppStore,
 } from './store';
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 export function App() {
 	const { field, images, brush, background, favorites } = useAppStore();
