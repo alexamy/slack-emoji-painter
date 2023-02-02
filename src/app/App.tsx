@@ -52,12 +52,9 @@ export function App() {
 								}}
 								onContextMenu={(event) => {
 									event.preventDefault();
-
-									if (isDownRight.current) {
-										erase(row, col);
-									}
+									erase(row, col);
 								}}
-								onMouseOver={(event) => {
+								onMouseOver={() => {
 									if (isDownLeft.current) {
 										paint(row, col, brush);
 									}
@@ -82,7 +79,7 @@ export function App() {
 				</div>
 				<div
 					className='w-fit select-none'
-					onMouseLeave={(event) => {
+					onMouseLeave={() => {
 						isDownLeft.current = false;
 						isDownRight.current = false;
 					}}
