@@ -88,8 +88,8 @@ export function App() {
 					<SizeInputs width={field[0].length} height={field.length} />
 					<Buttons />
 				</div>
-				<div className='mb-4 flex space-x-4 text-white'>
-					<span>Main (left click):</span>
+				<div className='mb-4 flex space-x-4'>
+					<span className='text-white'>Main (left click):</span>
 					<img
 						className='h-[32px] w-[32px] cursor-pointer'
 						ref={brushRef}
@@ -104,7 +104,7 @@ export function App() {
 							setVisible(true);
 						}}
 					/>
-					<span>Background (right click):</span>
+					<span className='text-white'>Background (right click):</span>
 					<img
 						className='h-[32px] w-[32px] cursor-pointer'
 						ref={backgroundRef}
@@ -119,6 +119,12 @@ export function App() {
 							setVisible(true);
 						}}
 					/>
+					<button
+						className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
+						onClick={copy}
+					>
+						Copy for Slack
+					</button>
 				</div>
 				<div
 					className='w-fit select-none'
@@ -276,12 +282,6 @@ function useFieldPainter(
 function Buttons() {
 	return (
 		<>
-			<button
-				className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
-				onClick={copy}
-			>
-				Copy
-			</button>
 			<button
 				className='rounded bg-white px-4 hover:bg-red-200 active:bg-red-300'
 				onClick={clear}
