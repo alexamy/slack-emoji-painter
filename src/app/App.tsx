@@ -8,21 +8,19 @@ export function App() {
 
 	const canvas = useMemo(() => {
 		return [...Array(height).keys()].map((row) => {
-			const elements = [...Array(width).keys()].map((column) => {
-				return (
-					<img
-						key={column}
-						className='shrink-0'
-						src={squareImg}
-						width={32}
-						height={32}
-					/>
-				);
-			});
-
 			return (
 				<div key={row} className='flex'>
-					{elements}
+					{[...Array(width).keys()].map((column) => {
+						return (
+							<img
+								key={column}
+								className='shrink-0'
+								src={squareImg}
+								width={32}
+								height={32}
+							/>
+						);
+					})}
 				</div>
 			);
 		});
