@@ -7,7 +7,7 @@ export interface State {
 	height: number;
 }
 
-export const useStore = create(
+export const useAppStore = create(
 	devtools(
 		persist(
 			immer<State>(() => ({
@@ -19,6 +19,15 @@ export const useStore = create(
 	)
 );
 
-export function action() {
-	useStore.setState((state) => {});
+export function setWidth({
+	width,
+	height,
+}: {
+	width?: number;
+	height?: number;
+}) {
+	useAppStore.setState((state) => {
+		if (width) state.width = width;
+		if (height) state.height = height;
+	});
 }
