@@ -1,29 +1,32 @@
 import { setSize, useAppStore } from './store';
 import squareImg from './assets/white_square.png';
+import { useMemo } from 'react';
 
 export function App() {
 	const width = useAppStore((state) => state.width);
 	const height = useAppStore((state) => state.height);
 
-	const canvas = [...Array(height).keys()].map((row) => {
-		const elements = [...Array(width).keys()].map((column) => {
+	const canvas = useMemo(() => {
+		return [...Array(height).keys()].map((row) => {
+			const elements = [...Array(width).keys()].map((column) => {
+				return (
+					<img
+						key={column}
+						className='shrink-0'
+						src={squareImg}
+						width={32}
+						height={32}
+					/>
+				);
+			});
+
 			return (
-				<img
-					key={column}
-					className='shrink-0'
-					src={squareImg}
-					width={32}
-					height={32}
-				/>
+				<div key={row} className='flex'>
+					{elements}
+				</div>
 			);
 		});
-
-		return (
-			<div key={row} className='flex'>
-				{elements}
-			</div>
-		);
-	});
+	}, [width, height]);
 
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
