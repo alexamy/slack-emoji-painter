@@ -32,7 +32,7 @@ export function App() {
 				<div className='mb-4 flex space-x-4'>
 					<SizeInputs width={width} height={height} />
 					<button
-						className='rounded bg-gray-200 px-2 hover:bg-gray-300'
+						className='rounded bg-white px-2 hover:bg-gray-200 active:bg-gray-300'
 						onClick={reset}
 					>
 						Reset
