@@ -17,6 +17,11 @@ export function App() {
 
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
+			<div className='absolute flex w-72 flex-wrap rounded bg-slate-600 p-1'>
+				{Object.entries(images).map(([key, path]) => {
+					return <img src={path} width={32} height={32} />;
+				})}
+			</div>
 			<div>
 				<div className='mb-4 flex space-x-4'>
 					<SizeInputs width={field[0].length} height={field.length} />
