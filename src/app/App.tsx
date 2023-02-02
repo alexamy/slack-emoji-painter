@@ -4,6 +4,8 @@ import {
 	erase,
 	paint,
 	reset,
+	setBackground,
+	setBrush,
 	setSize,
 	useAppStore,
 } from './store';
@@ -17,6 +19,9 @@ export function App() {
 
 	const [visible, setVisible] = useState(false);
 	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const brushSetter = useRef<(brush: string) => void>();
+	const brushRef = useRef<HTMLImageElement | null>(null);
+	const backgroundRef = useRef<HTMLImageElement | null>(null);
 
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
@@ -37,9 +42,33 @@ export function App() {
 				</div>
 				<div className='mb-4 flex space-x-4 text-white'>
 					<span>Current brush:</span>
-					<img src={images[brush]} width={32} height={32} />
+					<img
+						ref={brushRef}
+						src={images[brush]}
+						width={32}
+						height={32}
+						onClick={() => {
+							if (!brushRef.current) return;
+							const { x, y } = brushRef.current.getBoundingClientRect();
+							brushSetter.current = setBrush;
+							setPosition({ x, y });
+							setVisible(true);
+						}}
+					/>
 					<span>Current background:</span>
-					<img src={images[background]} width={32} height={32} />
+					<img
+						ref={backgroundRef}
+						src={images[background]}
+						width={32}
+						height={32}
+						onClick={() => {
+							if (!backgroundRef.current) return;
+							const { x, y } = backgroundRef.current.getBoundingClientRect();
+							brushSetter.current = setBackground;
+							setPosition({ x, y });
+							setVisible(true);
+						}}
+					/>
 				</div>
 				<div
 					className='w-fit select-none'
