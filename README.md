@@ -1,6 +1,6 @@
 # Slack emoji painter
 
-## Paint like a PRO
+> Paint like a Pro
 
 ## Get emojis from your slack
 
