@@ -34,6 +34,7 @@ export function App() {
 				{Object.entries(images).map(([key, path]) => {
 					return (
 						<img
+							className='h-[32px] w-[32px] shrink-0 grow-0'
 							key={key}
 							src={path}
 							width={32}
