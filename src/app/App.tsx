@@ -44,7 +44,7 @@ export function App() {
 			>
 				<div>Favorites</div>
 				<div className='flex flex-wrap'>
-					{favorites.map((key) => {
+					{Object.keys(favorites).map((key) => {
 						return (
 							<img
 								className='h-[32px] w-[32px] shrink-0 grow-0'

@@ -5,7 +5,7 @@ export interface State {
 	brush: string;
 	background: string;
 	field: string[][];
-	favorites: string[];
+	favorites: Record<string, null>;
 	images: Record<string, string>;
 }
 
@@ -17,7 +17,7 @@ export const defaultState: State = {
 	brush: ':white_square:',
 	background: ':white_square:',
 	field: [[':white_square:']],
-	favorites: [],
+	favorites: {},
 	images: {
 		...defaultImages,
 		...(images as unknown as Record<string, string>),

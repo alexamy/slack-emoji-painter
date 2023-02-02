@@ -61,14 +61,13 @@ export function setBackground(brush: string) {
 
 export function addToFavorites(key: string) {
 	useAppStore.setState((state) => {
-		state.favorites.push(key);
+		state.favorites[key] = null;
 	});
 }
 
 export function removeFromFavorites(key: string) {
 	useAppStore.setState((state) => {
-		const index = state.favorites.indexOf(key);
-		if (index > -1) state.favorites.splice(index, 1);
+		delete state.favorites[key];
 	});
 }
 
