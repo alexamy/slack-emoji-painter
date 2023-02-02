@@ -1,5 +1,4 @@
 import { reset, setSize, useAppStore } from './store';
-import squareImg from './assets/white_square.png';
 import { useMemo } from 'react';
 
 export function App() {
@@ -15,7 +14,7 @@ export function App() {
 							<img
 								key={column}
 								className='shrink-0'
-								src={squareImg}
+								src={'/white_square.png'}
 								width={32}
 								height={32}
 							/>
