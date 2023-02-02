@@ -1,22 +1,28 @@
-import { copy, reset, setSize, useAppStore } from './store';
+import { clear, copy, paint, reset, setSize, useAppStore } from './store';
 import { useMemo } from 'react';
 
 export function App() {
-	const images = useAppStore((state) => state.images);
-	const field = useAppStore((state) => state.field);
+	const { images, field, background, brush } = useAppStore((state) => state);
 
 	const canvas = useMemo(() => {
-		return field.map((row, rowIndex) => {
+		return field.map((keys, row) => {
 			return (
-				<div key={rowIndex} className='flex'>
-					{row.map((key, colIndex) => {
+				<div key={row} className='flex'>
+					{keys.map((key, col) => {
 						return (
 							<img
-								key={colIndex}
+								key={col}
 								className='shrink-0'
 								src={images[key]}
 								width={32}
 								height={32}
+								onMouseOver={() => {
+									paint(row, col, brush);
+								}}
+								onContextMenu={(event) => {
+									event.preventDefault();
+									paint(row, col, background);
+								}}
 							/>
 						);
 					})}
@@ -35,6 +41,12 @@ export function App() {
 						onClick={reset}
 					>
 						Reset
+					</button>
+					<button
+						className='rounded bg-white px-4 hover:bg-red-200 active:bg-red-300'
+						onClick={clear}
+					>
+						Clear
 					</button>
 					<button
 						className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
