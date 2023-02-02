@@ -19,7 +19,7 @@ export const useAppStore = create(
 	)
 );
 
-export function setWidth({
+export function setSize({
 	width,
 	height,
 }: {
