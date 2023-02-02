@@ -52,7 +52,7 @@ export function App() {
 					<Buttons />
 				</div>
 				<div className='mb-4 flex space-x-4 text-white'>
-					<span>Current brush:</span>
+					<span>Left click:</span>
 					<img
 						ref={brushRef}
 						src={images[brush]}
@@ -66,7 +66,7 @@ export function App() {
 							setVisible(true);
 						}}
 					/>
-					<span>Current background:</span>
+					<span>Right click (background):</span>
 					<img
 						ref={backgroundRef}
 						src={images[background]}
@@ -210,7 +210,7 @@ function Buttons() {
 				className='rounded bg-white px-4 hover:bg-red-200 active:bg-red-300'
 				onClick={clear}
 			>
-				Clear
+				Clear with background
 			</button>
 			<button
 				className='rounded bg-white px-2 hover:bg-red-200 active:bg-red-300'
