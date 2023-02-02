@@ -10,7 +10,7 @@ import {
 import { MutableRefObject, useMemo, useRef } from 'react';
 
 export function App() {
-	const { field } = useAppStore();
+	const { field, images, brush, background } = useAppStore();
 	const isLeftDown = useRef(false);
 	const isRightDown = useRef(false);
 	const canvas = useFieldPainter(isLeftDown, isRightDown);
@@ -21,6 +21,12 @@ export function App() {
 				<div className='mb-4 flex space-x-4'>
 					<SizeInputs width={field[0].length} height={field.length} />
 					<Buttons />
+				</div>
+				<div className='mb-4 flex space-x-4 text-white'>
+					<span>Current brush:</span>
+					<img src={images[brush]} width={32} height={32} />
+					<span>Current background:</span>
+					<img src={images[background]} width={32} height={32} />
 				</div>
 				<div
 					className='w-fit select-none'
