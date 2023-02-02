@@ -7,7 +7,7 @@ export const useAppStore = create(
 	devtools(
 		persist(
 			immer<State>(() => defaultState),
-			{ name: 'slack-emoji-painter', version: 2 },
+			{ name: 'slack-emoji-painter', version: 3 },
 		),
 	),
 );
