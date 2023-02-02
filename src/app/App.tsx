@@ -1,4 +1,4 @@
-import { setSize, useAppStore } from './store';
+import { reset, setSize, useAppStore } from './store';
 import squareImg from './assets/white_square.png';
 import { useMemo } from 'react';
 
@@ -29,7 +29,15 @@ export function App() {
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
 			<div>
-				<SizeInputs width={width} height={height} />
+				<div className='mb-4 flex space-x-4'>
+					<SizeInputs width={width} height={height} />
+					<button
+						className='rounded bg-gray-200 px-2 hover:bg-gray-300'
+						onClick={reset}
+					>
+						Reset
+					</button>
+				</div>
 				<div>{canvas}</div>
 			</div>
 		</div>
@@ -38,7 +46,7 @@ export function App() {
 
 function SizeInputs({ width, height }: { width: number; height: number }) {
 	return (
-		<div className='mb-4 flex space-x-4'>
+		<>
 			<span>
 				<label htmlFor='width' className='mr-2 text-white'>
 					Width:
@@ -67,7 +75,7 @@ function SizeInputs({ width, height }: { width: number; height: number }) {
 					}}
 				/>
 			</span>
-		</div>
+		</>
 	);
 }
 

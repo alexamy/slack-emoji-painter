@@ -23,6 +23,12 @@ export const useAppStore = create(
 	),
 );
 
+export function reset() {
+	useAppStore.setState(() => {
+		return defaultState;
+	});
+}
+
 export function setSize({
 	width,
 	height,
