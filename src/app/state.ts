@@ -8,7 +8,7 @@ export interface State {
 	images: Record<string, string>;
 }
 
-const images = import('./images.json');
+const { default: images } = await import('./images.json');
 const defaultImages: Record<string, string> = {
 	':white_square:': whiteSquare,
 };
