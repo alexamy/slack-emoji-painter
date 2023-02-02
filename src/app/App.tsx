@@ -24,38 +24,44 @@ export function App() {
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
 			<div>
-				<div className='mb-4 flex space-x-4'>
-					<span>
-						<label htmlFor='width' className='mr-2 text-white'>
-							Width:
-						</label>
-						<input
-							type='number'
-							name='width'
-							value={width}
-							className='w-12 text-right'
-							onChange={(event) => {
-								setSize({ width: limit(event.currentTarget.value) });
-							}}
-						/>
-					</span>
-					<span>
-						<label htmlFor='height' className='mr-2 text-white'>
-							Height:
-						</label>
-						<input
-							type='number'
-							name='height'
-							value={height}
-							className='w-12 text-right'
-							onChange={(event) => {
-								setSize({ height: limit(event.currentTarget.value) });
-							}}
-						/>
-					</span>
-				</div>
+				<SizeInputs width={width} height={height} />
 				<div>{rows}</div>
 			</div>
+		</div>
+	);
+}
+
+function SizeInputs({ width, height }: { width: number; height: number }) {
+	return (
+		<div className='mb-4 flex space-x-4'>
+			<span>
+				<label htmlFor='width' className='mr-2 text-white'>
+					Width:
+				</label>
+				<input
+					type='number'
+					name='width'
+					value={width}
+					className='w-12 text-right'
+					onChange={(event) => {
+						setSize({ width: limit(event.currentTarget.value) });
+					}}
+				/>
+			</span>
+			<span>
+				<label htmlFor='height' className='mr-2 text-white'>
+					Height:
+				</label>
+				<input
+					type='number'
+					name='height'
+					value={height}
+					className='w-12 text-right'
+					onChange={(event) => {
+						setSize({ height: limit(event.currentTarget.value) });
+					}}
+				/>
+			</span>
 		</div>
 	);
 }
