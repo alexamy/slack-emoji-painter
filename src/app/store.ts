@@ -3,15 +3,20 @@ import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 export interface State {
-	width: number;
-	height: number;
+	images: Record<string, string>;
 	field: string[][];
+	brush: string;
+	background: string;
 }
 
 const defaultState: State = {
-	field: [[]],
-	width: 1,
-	height: 1,
+	brush: ':aaa:',
+	background: ':white_square:',
+	field: [[':aaa:', ':white_square:']],
+	images: {
+		':aaa:': '/aaa.png',
+		':white_square:': '/white_square.png',
+	},
 };
 
 export const useAppStore = create(
@@ -36,8 +41,24 @@ export function setSize({
 	width?: number;
 	height?: number;
 }) {
-	useAppStore.setState((state) => {
-		if (width) state.width = width;
-		if (height) state.height = height;
+	useAppStore.setState(({ field, background }) => {
+		if (height) {
+			const emptyRow = Array(field[0].length).fill(background);
+			while (field.length > height) {
+				field.pop();
+			}
+			while (field.length < height) {
+				field.push(emptyRow);
+			}
+		}
+
+		if (width) {
+			while (field[0].length > width) {
+				field.forEach((row) => row.pop());
+			}
+			while (field[0].length < width) {
+				field.forEach((row) => row.push(background));
+			}
+		}
 	});
 }

@@ -1,21 +1,20 @@
 import { reset, setSize, useAppStore } from './store';
 import { useMemo } from 'react';
-import { getEmojiPath } from './images';
 
 export function App() {
-	const width = useAppStore((state) => state.width);
-	const height = useAppStore((state) => state.height);
+	const images = useAppStore((state) => state.images);
+	const field = useAppStore((state) => state.field);
 
 	const canvas = useMemo(() => {
-		return [...Array(height).keys()].map((row) => {
+		return field.map((row, rowIndex) => {
 			return (
-				<div key={row} className='flex'>
-					{[...Array(width).keys()].map((column) => {
+				<div key={rowIndex} className='flex'>
+					{row.map((key, colIndex) => {
 						return (
 							<img
-								key={column}
+								key={colIndex}
 								className='shrink-0'
-								src={getEmojiPath('white_square')}
+								src={images[key]}
 								width={32}
 								height={32}
 							/>
@@ -24,13 +23,13 @@ export function App() {
 				</div>
 			);
 		});
-	}, [width, height]);
+	}, [field]);
 
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
 			<div>
 				<div className='mb-4 flex space-x-4'>
-					<SizeInputs width={width} height={height} />
+					<SizeInputs width={field[0].length} height={field.length} />
 					<button
 						className='rounded bg-white px-2 hover:bg-gray-200 active:bg-gray-300'
 						onClick={reset}
