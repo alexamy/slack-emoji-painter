@@ -4,12 +4,12 @@ export function App() {
 	const width = useAppStore((state) => state.width);
 	const height = useAppStore((state) => state.height);
 
-	const rows = [...Array(height).keys()].map((row) => {
+	const canvas = [...Array(height).keys()].map((row) => {
 		const elements = [...Array(width).keys()].map((column) => {
 			return (
 				<div
 					key={column}
-					className='h-8 w-8 shrink-0 border-[1px] border-slate-800 bg-white'
+					className='h-8 w-8 shrink-0 border-[1px] border-slate-400 bg-white'
 				></div>
 			);
 		});
@@ -25,7 +25,7 @@ export function App() {
 		<div className='h-screen w-screen bg-slate-900 p-4'>
 			<div>
 				<SizeInputs width={width} height={height} />
-				<div>{rows}</div>
+				<div>{canvas}</div>
 			</div>
 		</div>
 	);
