@@ -7,7 +7,7 @@ import {
 	setSize,
 	useAppStore,
 } from './store';
-import { MutableRefObject, useMemo, useRef } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 export function App() {
 	const { field, images, brush, background } = useAppStore();
@@ -15,11 +15,19 @@ export function App() {
 	const isRightDown = useRef(false);
 	const canvas = useFieldPainter(isLeftDown, isRightDown);
 
+	const [visible, setVisible] = useState(false);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
-			<div className='absolute flex w-72 flex-wrap rounded bg-slate-600 p-1'>
+			<div
+				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+				className={`absolute flex w-72 flex-wrap rounded bg-slate-600 p-1 ${
+					visible ? 'visible' : 'hidden'
+				}`}
+			>
 				{Object.entries(images).map(([key, path]) => {
-					return <img src={path} width={32} height={32} />;
+					return <img key={key} src={path} width={32} height={32} />;
 				})}
 			</div>
 			<div>

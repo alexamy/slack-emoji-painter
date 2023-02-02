@@ -63,6 +63,18 @@ export function erase(row: number, col: number) {
 	});
 }
 
+export function setBrush(brush: string) {
+	useAppStore.setState((state) => {
+		state.brush = brush;
+	});
+}
+
+export function setBackground(brush: string) {
+	useAppStore.setState((state) => {
+		state.background = brush;
+	});
+}
+
 export function setSize({
 	width,
 	height,
