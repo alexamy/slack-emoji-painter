@@ -5,7 +5,7 @@ export interface State {
 	brush: string;
 	background: string;
 	field: string[][];
-	favorites: [];
+	favorites: string[];
 	images: Record<string, string>;
 }
 

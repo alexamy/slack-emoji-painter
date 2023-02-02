@@ -1,8 +1,10 @@
 import {
+	addToFavorites,
 	clear,
 	copy,
 	erase,
 	paint,
+	removeFromFavorites,
 	reset,
 	setBackground,
 	setBrush,
@@ -12,7 +14,7 @@ import {
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 export function App() {
-	const { field, images, brush, background } = useAppStore();
+	const { field, images, brush, background, favorites } = useAppStore();
 	const isLeftDown = useRef(false);
 	const isRightDown = useRef(false);
 	const canvas = useFieldPainter(isLeftDown, isRightDown);
@@ -26,6 +28,11 @@ export function App() {
 	const contextMenuRef = useRef<HTMLDivElement | null>(null);
 	useClickOutside(contextMenuRef, () => setVisible(false));
 
+	function setBrushFromMenu(key: string) {
+		brushSetter.current?.(key);
+		setVisible(false);
+	}
+
 	return (
 		<div className='h-screen w-screen p-4'>
 			<div
@@ -36,6 +43,25 @@ export function App() {
 				}`}
 			>
 				<div>Favorites</div>
+				<div className='flex flex-wrap'>
+					{favorites.map((key) => {
+						return (
+							<img
+								className='h-[32px] w-[32px] shrink-0 grow-0'
+								title={key}
+								key={key}
+								src={images[key]}
+								width={32}
+								height={32}
+								onClick={() => setBrushFromMenu(key)}
+								onContextMenu={(event) => {
+									event.preventDefault();
+									removeFromFavorites(key);
+								}}
+							/>
+						);
+					})}
+				</div>
 				<div>All</div>
 				<div className='flex flex-wrap'>
 					{Object.entries(images).map(([key, path]) => {
@@ -47,9 +73,10 @@ export function App() {
 								src={path}
 								width={32}
 								height={32}
-								onClick={() => {
-									brushSetter.current?.(key);
-									setVisible(false);
+								onClick={() => setBrushFromMenu(key)}
+								onContextMenu={(event) => {
+									event.preventDefault();
+									addToFavorites(key);
 								}}
 							/>
 						);
