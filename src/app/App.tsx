@@ -1,4 +1,5 @@
 import { setSize, useAppStore } from './store';
+import squareImg from './assets/white_square.png';
 
 export function App() {
 	const width = useAppStore((state) => state.width);
@@ -7,10 +8,13 @@ export function App() {
 	const canvas = [...Array(height).keys()].map((row) => {
 		const elements = [...Array(width).keys()].map((column) => {
 			return (
-				<div
+				<img
 					key={column}
-					className='h-8 w-8 shrink-0 border-[1px] border-slate-400 bg-white'
-				></div>
+					className='shrink-0'
+					src={squareImg}
+					width={32}
+					height={32}
+				/>
 			);
 		});
 
