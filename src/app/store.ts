@@ -57,6 +57,12 @@ export function paint(row: number, col: number, brush: string) {
 	});
 }
 
+export function erase(row: number, col: number) {
+	useAppStore.setState((state) => {
+		state.field[row][col] = state.background;
+	});
+}
+
 export function setSize({
 	width,
 	height,

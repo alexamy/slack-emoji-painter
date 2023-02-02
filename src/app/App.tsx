@@ -1,4 +1,12 @@
-import { clear, copy, paint, reset, setSize, useAppStore } from './store';
+import {
+	clear,
+	copy,
+	erase,
+	paint,
+	reset,
+	setSize,
+	useAppStore,
+} from './store';
 import { useMemo, useRef } from 'react';
 
 export function App() {
@@ -28,7 +36,7 @@ export function App() {
 
 									if (event.button === 2) {
 										isDownRight.current = true;
-										paint(row, col, background);
+										erase(row, col);
 									}
 								}}
 								onMouseUp={(event) => {
@@ -46,7 +54,7 @@ export function App() {
 									event.preventDefault();
 
 									if (isDownRight.current) {
-										paint(row, col, background);
+										erase(row, col);
 									}
 								}}
 								onMouseOver={(event) => {
@@ -54,7 +62,7 @@ export function App() {
 										paint(row, col, brush);
 									}
 									if (isDownRight.current) {
-										paint(row, col, background);
+										erase(row, col);
 									}
 								}}
 							/>
@@ -73,7 +81,7 @@ export function App() {
 					<Buttons />
 				</div>
 				<div
-					className='w-fit'
+					className='w-fit select-none'
 					onMouseLeave={(event) => {
 						isDownLeft.current = false;
 						isDownRight.current = false;
