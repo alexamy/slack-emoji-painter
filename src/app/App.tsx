@@ -31,13 +31,13 @@ export function App() {
 				<div className='mb-4 flex space-x-4'>
 					<SizeInputs width={field[0].length} height={field.length} />
 					<button
-						className='rounded bg-white px-2 hover:bg-gray-200 active:bg-gray-300'
+						className='rounded bg-white px-2 hover:bg-red-200 active:bg-red-300'
 						onClick={reset}
 					>
 						Reset
 					</button>
 					<button
-						className='rounded bg-white px-2 hover:bg-gray-200 active:bg-gray-300'
+						className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
 						onClick={copy}
 					>
 						Copy
