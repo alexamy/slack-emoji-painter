@@ -1,4 +1,5 @@
 import whiteSquare from './assets/white_square.png';
+import images from './images.json';
 
 export interface State {
 	brush: string;
@@ -8,7 +9,6 @@ export interface State {
 	images: Record<string, string>;
 }
 
-const { default: images } = await import('./images.json');
 const defaultImages: Record<string, string> = {
 	':white_square:': whiteSquare,
 };
