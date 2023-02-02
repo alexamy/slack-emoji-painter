@@ -1,5 +1,6 @@
 import { reset, setSize, useAppStore } from './store';
 import { useMemo } from 'react';
+import { getEmojiPath } from './images';
 
 export function App() {
 	const width = useAppStore((state) => state.width);
@@ -14,7 +15,7 @@ export function App() {
 							<img
 								key={column}
 								className='shrink-0'
-								src={'/white_square.png'}
+								src={getEmojiPath('white_square')}
 								width={32}
 								height={32}
 							/>
