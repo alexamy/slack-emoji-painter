@@ -24,10 +24,10 @@ export function App() {
 	const backgroundRef = useRef<HTMLImageElement | null>(null);
 
 	return (
-		<div className='h-screen w-screen bg-slate-900 p-4'>
+		<div className='h-screen w-screen p-4'>
 			<div
 				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-				className={`absolute flex w-72 flex-wrap rounded bg-slate-600 p-1 ${
+				className={`absolute flex w-[936px] flex-wrap rounded bg-slate-600 p-1 ${
 					visible ? 'visible' : 'hidden'
 				}`}
 			>

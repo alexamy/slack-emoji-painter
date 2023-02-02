@@ -1,3 +1,4 @@
+import { hnImages } from '../hn';
 import whiteSquare from './assets/white_square.png';
 
 export interface State {
@@ -7,11 +8,16 @@ export interface State {
 	background: string;
 }
 
+const images: Record<string, string> = {
+	':white_square:': whiteSquare,
+};
+
 export const defaultState: State = {
 	brush: ':white_square:',
 	background: ':white_square:',
 	field: [[':white_square:']],
 	images: {
-		':white_square:': whiteSquare,
+		...images,
+		...hnImages,
 	},
 };
