@@ -9,7 +9,6 @@ Go to `https://<your-organization>.slack.com/customize/emoji`.
 Open developer tools in console tab. Paste and run this code:
 
 ```javascript
-// get list
 const result = {};
 const allCount = parseInt(document.querySelector('.p-customize_emoji_wrapper__count').textContent);
 let lastVisited = '';
