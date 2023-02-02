@@ -1,4 +1,4 @@
-import { reset, setSize, useAppStore } from './store';
+import { copy, reset, setSize, useAppStore } from './store';
 import { useMemo } from 'react';
 
 export function App() {
@@ -35,6 +35,12 @@ export function App() {
 						onClick={reset}
 					>
 						Reset
+					</button>
+					<button
+						className='rounded bg-white px-2 hover:bg-gray-200 active:bg-gray-300'
+						onClick={copy}
+					>
+						Copy
 					</button>
 				</div>
 				<div>{canvas}</div>

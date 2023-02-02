@@ -34,6 +34,13 @@ export function reset() {
 	});
 }
 
+export function copy() {
+	const { field } = useAppStore.getState();
+	const text = field.map((row) => row.join('')).join('\n');
+
+	navigator.clipboard.writeText(text);
+}
+
 export function setSize({
 	width,
 	height,
