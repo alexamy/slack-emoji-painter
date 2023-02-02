@@ -36,24 +36,7 @@ export function App() {
 			<div>
 				<div className='mb-4 flex space-x-4'>
 					<SizeInputs width={field[0].length} height={field.length} />
-					<button
-						className='rounded bg-white px-2 hover:bg-red-200 active:bg-red-300'
-						onClick={reset}
-					>
-						Reset
-					</button>
-					<button
-						className='rounded bg-white px-4 hover:bg-red-200 active:bg-red-300'
-						onClick={clear}
-					>
-						Clear
-					</button>
-					<button
-						className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
-						onClick={copy}
-					>
-						Copy
-					</button>
+					<Buttons />
 				</div>
 				<div>{canvas}</div>
 			</div>
@@ -92,6 +75,31 @@ function SizeInputs({ width, height }: { width: number; height: number }) {
 					}}
 				/>
 			</span>
+		</>
+	);
+}
+
+function Buttons() {
+	return (
+		<>
+			<button
+				className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
+				onClick={copy}
+			>
+				Copy
+			</button>
+			<button
+				className='rounded bg-white px-4 hover:bg-red-200 active:bg-red-300'
+				onClick={clear}
+			>
+				Clear
+			</button>
+			<button
+				className='rounded bg-white px-2 hover:bg-red-200 active:bg-red-300'
+				onClick={reset}
+			>
+				Reset
+			</button>
 		</>
 	);
 }
