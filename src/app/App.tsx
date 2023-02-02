@@ -1,8 +1,10 @@
 import { clear, copy, paint, reset, setSize, useAppStore } from './store';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 export function App() {
 	const { images, field, background, brush } = useAppStore((state) => state);
+	const isDownLeft = useRef(false);
+	const isDownRight = useRef(false);
 
 	const canvas = useMemo(() => {
 		return field.map((keys, row) => {
@@ -12,16 +14,48 @@ export function App() {
 						return (
 							<img
 								key={col}
-								className='shrink-0'
+								className='shrink-0 cursor-pointer'
 								src={images[key]}
 								width={32}
 								height={32}
-								onMouseOver={() => {
-									paint(row, col, brush);
+								onMouseDown={(event) => {
+									event.preventDefault();
+
+									if (event.button === 0) {
+										isDownLeft.current = true;
+										paint(row, col, brush);
+									}
+
+									if (event.button === 2) {
+										isDownRight.current = true;
+										paint(row, col, background);
+									}
+								}}
+								onMouseUp={(event) => {
+									event.preventDefault();
+
+									if (event.button === 0) {
+										isDownLeft.current = false;
+									}
+
+									if (event.button === 2) {
+										isDownRight.current = false;
+									}
 								}}
 								onContextMenu={(event) => {
 									event.preventDefault();
-									paint(row, col, background);
+
+									if (isDownRight.current) {
+										paint(row, col, background);
+									}
+								}}
+								onMouseOver={(event) => {
+									if (isDownLeft.current) {
+										paint(row, col, brush);
+									}
+									if (isDownRight.current) {
+										paint(row, col, background);
+									}
 								}}
 							/>
 						);
@@ -38,7 +72,15 @@ export function App() {
 					<SizeInputs width={field[0].length} height={field.length} />
 					<Buttons />
 				</div>
-				<div>{canvas}</div>
+				<div
+					className='w-fit'
+					onMouseLeave={(event) => {
+						isDownLeft.current = false;
+						isDownRight.current = false;
+					}}
+				>
+					{canvas}
+				</div>
 			</div>
 		</div>
 	);
