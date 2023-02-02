@@ -39,6 +39,7 @@ export function App() {
 					return (
 						<img
 							className='h-[32px] w-[32px] shrink-0 grow-0'
+							title={key}
 							key={key}
 							src={path}
 							width={32}
@@ -59,6 +60,7 @@ export function App() {
 				<div className='mb-4 flex space-x-4 text-white'>
 					<span>Left click:</span>
 					<img
+						className='h-[32px] w-[32px]'
 						ref={brushRef}
 						src={images[brush]}
 						width={32}
@@ -73,6 +75,7 @@ export function App() {
 					/>
 					<span>Right click (background):</span>
 					<img
+						className='h-[32px] w-[32px]'
 						ref={backgroundRef}
 						src={images[background]}
 						width={32}
@@ -150,7 +153,7 @@ function useFieldPainter(
 						return (
 							<img
 								key={col}
-								className='shrink-0 cursor-pointer'
+								className='h-[32px] w-[32px] shrink-0 cursor-pointer'
 								src={images[key]}
 								width={32}
 								height={32}
