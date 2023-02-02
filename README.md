@@ -2,7 +2,7 @@
 
 ## Paint like a PRO
 
-## Get emojis from you slack
+## Get emojis from your slack
 
 Go to `https://<your-organization>.slack.com/customize/emoji`.
 
@@ -35,3 +35,5 @@ while(true) {
   await new Promise(resolve => setTimeout(resolve, 2000));
 }
 ```
+
+Wait until saving is done. When run `copy(result)` to copy emojis list to clipboard.
