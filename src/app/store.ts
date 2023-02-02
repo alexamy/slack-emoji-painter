@@ -5,18 +5,22 @@ import { immer } from 'zustand/middleware/immer';
 export interface State {
 	width: number;
 	height: number;
+	field: string[][];
 }
+
+const defaultState: State = {
+	field: [[]],
+	width: 1,
+	height: 1,
+};
 
 export const useAppStore = create(
 	devtools(
 		persist(
-			immer<State>(() => ({
-				width: 10,
-				height: 10,
-			})),
-			{ name: 'slack-emoji-painter' }
-		)
-	)
+			immer<State>(() => defaultState),
+			{ name: 'slack-emoji-painter' },
+		),
+	),
 );
 
 export function setSize({
