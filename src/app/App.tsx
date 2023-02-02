@@ -89,9 +89,9 @@ export function App() {
 					<Buttons />
 				</div>
 				<div className='mb-4 flex space-x-4 text-white'>
-					<span>Left click:</span>
+					<span>Main (left click):</span>
 					<img
-						className='h-[32px] w-[32px]'
+						className='h-[32px] w-[32px] cursor-pointer'
 						ref={brushRef}
 						src={images[brush]}
 						width={32}
@@ -104,9 +104,9 @@ export function App() {
 							setVisible(true);
 						}}
 					/>
-					<span>Right click (background):</span>
+					<span>Background (right click):</span>
 					<img
-						className='h-[32px] w-[32px]'
+						className='h-[32px] w-[32px] cursor-pointer'
 						ref={backgroundRef}
 						src={images[background]}
 						width={32}
@@ -128,6 +128,44 @@ export function App() {
 					}}
 				>
 					{canvas}
+				</div>
+				<div className='mt-4 text-white'>
+					Drawing:
+					<ul className='mb-2 list-inside list-disc marker:text-slate-400'>
+						<li>
+							Click on field with <b>left mouse button</b> to draw main emoji
+						</li>
+						<li>
+							Click on field with <b>right mouse button</b> to draw background
+							emoji
+						</li>
+						<li>Hold mouse button to brush-like painting</li>
+						<li>
+							Copy emojis with <b>copy</b> button and paste them into Slack!
+						</li>
+					</ul>
+					Select emoji:
+					<ul className='mb-2 list-inside list-disc marker:text-slate-400'>
+						<li>
+							Click on the <b>main</b> or <b>background</b> emoji to open emojis
+							menu
+						</li>
+						<li>Click on the emoji to select it</li>
+						<li>Right click on the emoji to add it to favorites</li>
+					</ul>
+					Field settings:
+					<ul className='list-inside list-disc marker:text-slate-400'>
+						<li>
+							Use <b>width</b> / <b>height</b> to change field size
+						</li>
+						<li>
+							Fill entire field with background emoji with{' '}
+							<b>Clear with background</b> button
+						</li>
+						<li>
+							Reset entire app state with <b>Reset</b> button
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
