@@ -9,7 +9,7 @@ import {
 	setSize,
 	useAppStore,
 } from './store';
-import { MutableRefObject, useMemo, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 export function App() {
 	const { field, images, brush, background } = useAppStore();
@@ -23,9 +23,13 @@ export function App() {
 	const brushRef = useRef<HTMLImageElement | null>(null);
 	const backgroundRef = useRef<HTMLImageElement | null>(null);
 
+	const contextMenuRef = useRef<HTMLDivElement | null>(null);
+	useClickOutside(contextMenuRef, () => setVisible(false));
+
 	return (
 		<div className='h-screen w-screen p-4'>
 			<div
+				ref={contextMenuRef}
 				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
 				className={`absolute flex w-[936px] flex-wrap rounded bg-slate-600 p-1 ${
 					visible ? 'visible' : 'hidden'
@@ -228,4 +232,23 @@ function limit(inputNumber: string, min = 1, max = 30): number {
 	const number = isInLimit ? value : Math.min(max, Math.max(min, value));
 
 	return number;
+}
+
+function useClickOutside(
+	ref: MutableRefObject<HTMLElement | null>,
+	onOutside: () => void,
+) {
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (ref.current) {
+				const isOutside = !ref.current.contains(event.target as Node);
+				if (isOutside) onOutside();
+			}
+		}
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [ref, onOutside]);
 }
