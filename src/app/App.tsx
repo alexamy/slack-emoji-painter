@@ -7,68 +7,13 @@ import {
 	setSize,
 	useAppStore,
 } from './store';
-import { useMemo, useRef } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 
 export function App() {
-	const { images, field, background, brush } = useAppStore((state) => state);
-	const isDownLeft = useRef(false);
-	const isDownRight = useRef(false);
-
-	const canvas = useMemo(() => {
-		return field.map((keys, row) => {
-			return (
-				<div key={row} className='flex'>
-					{keys.map((key, col) => {
-						return (
-							<img
-								key={col}
-								className='shrink-0 cursor-pointer'
-								src={images[key]}
-								width={32}
-								height={32}
-								onMouseDown={(event) => {
-									event.preventDefault();
-
-									if (event.button === 0) {
-										isDownLeft.current = true;
-										paint(row, col, brush);
-									}
-
-									if (event.button === 2) {
-										isDownRight.current = true;
-										erase(row, col);
-									}
-								}}
-								onMouseOver={() => {
-									if (isDownLeft.current) {
-										paint(row, col, brush);
-									}
-									if (isDownRight.current) {
-										erase(row, col);
-									}
-								}}
-								onMouseUp={(event) => {
-									event.preventDefault();
-
-									if (event.button === 0) {
-										isDownLeft.current = false;
-									}
-
-									if (event.button === 2) {
-										isDownRight.current = false;
-									}
-								}}
-								onContextMenu={(event) => {
-									event.preventDefault();
-									erase(row, col);
-								}}
-							/>
-						);
-					})}
-				</div>
-			);
-		});
-	}, [field]);
+	const { field } = useAppStore();
+	const isLeftDown = useRef(false);
+	const isRightDown = useRef(false);
+	const canvas = useFieldPainter(isLeftDown, isRightDown);
 
 	return (
 		<div className='h-screen w-screen bg-slate-900 p-4'>
@@ -80,8 +25,8 @@ export function App() {
 				<div
 					className='w-fit select-none'
 					onMouseLeave={() => {
-						isDownLeft.current = false;
-						isDownRight.current = false;
+						isLeftDown.current = false;
+						isRightDown.current = false;
 					}}
 				>
 					{canvas}
@@ -124,6 +69,73 @@ function SizeInputs({ width, height }: { width: number; height: number }) {
 			</span>
 		</>
 	);
+}
+
+function useFieldPainter(
+	isLeftDown: MutableRefObject<boolean>,
+	isRightDown: MutableRefObject<boolean>,
+) {
+	const images = useAppStore((state) => state.images);
+	const field = useAppStore((state) => state.field);
+	const brush = useAppStore((state) => state.brush);
+
+	const canvas = useMemo(() => {
+		return field.map((keys, row) => {
+			return (
+				<div key={row} className='flex'>
+					{keys.map((key, col) => {
+						return (
+							<img
+								key={col}
+								className='shrink-0 cursor-pointer'
+								src={images[key]}
+								width={32}
+								height={32}
+								onMouseDown={(event) => {
+									event.preventDefault();
+
+									if (event.button === 0) {
+										isLeftDown.current = true;
+										paint(row, col, brush);
+									}
+
+									if (event.button === 2) {
+										isRightDown.current = true;
+										erase(row, col);
+									}
+								}}
+								onMouseOver={() => {
+									if (isLeftDown.current) {
+										paint(row, col, brush);
+									}
+									if (isRightDown.current) {
+										erase(row, col);
+									}
+								}}
+								onMouseUp={(event) => {
+									event.preventDefault();
+
+									if (event.button === 0) {
+										isLeftDown.current = false;
+									}
+
+									if (event.button === 2) {
+										isRightDown.current = false;
+									}
+								}}
+								onContextMenu={(event) => {
+									event.preventDefault();
+									erase(row, col);
+								}}
+							/>
+						);
+					})}
+				</div>
+			);
+		});
+	}, [field]);
+
+	return canvas;
 }
 
 function Buttons() {
