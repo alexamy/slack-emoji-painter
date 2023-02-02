@@ -85,10 +85,6 @@ export function App() {
 			</div>
 			<div>
 				<div className='mb-4 flex space-x-4'>
-					<SizeInputs width={field[0].length} height={field.length} />
-					<Buttons />
-				</div>
-				<div className='mb-4 flex space-x-4'>
 					<span className='text-white'>Main (left click):</span>
 					<img
 						className='h-[32px] w-[32px] cursor-pointer'
@@ -126,6 +122,11 @@ export function App() {
 						Copy for Slack
 					</button>
 				</div>
+				<div className='mb-4 flex space-x-4'>
+					<SizeInputs width={field[0].length} height={field.length} />
+					<Buttons />
+				</div>
+
 				<div
 					className='w-fit select-none'
 					onMouseLeave={() => {
