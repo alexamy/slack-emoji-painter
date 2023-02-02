@@ -31,26 +31,30 @@ export function App() {
 			<div
 				ref={contextMenuRef}
 				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-				className={`absolute flex w-[936px] flex-wrap rounded bg-slate-600 p-1 ${
+				className={`absolute w-[936px] rounded bg-slate-600 p-1 text-sm text-white ${
 					visible ? 'visible' : 'hidden'
 				}`}
 			>
-				{Object.entries(images).map(([key, path]) => {
-					return (
-						<img
-							className='h-[32px] w-[32px] shrink-0 grow-0'
-							title={key}
-							key={key}
-							src={path}
-							width={32}
-							height={32}
-							onClick={() => {
-								brushSetter.current?.(key);
-								setVisible(false);
-							}}
-						/>
-					);
-				})}
+				<div>Favorites</div>
+				<div>All</div>
+				<div className='flex flex-wrap'>
+					{Object.entries(images).map(([key, path]) => {
+						return (
+							<img
+								className='h-[32px] w-[32px] shrink-0 grow-0'
+								title={key}
+								key={key}
+								src={path}
+								width={32}
+								height={32}
+								onClick={() => {
+									brushSetter.current?.(key);
+									setVisible(false);
+								}}
+							/>
+						);
+					})}
+				</div>
 			</div>
 			<div>
 				<div className='mb-4 flex space-x-4'>
