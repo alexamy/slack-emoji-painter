@@ -39,6 +39,14 @@ export function App() {
 										erase(row, col);
 									}
 								}}
+								onMouseOver={() => {
+									if (isDownLeft.current) {
+										paint(row, col, brush);
+									}
+									if (isDownRight.current) {
+										erase(row, col);
+									}
+								}}
 								onMouseUp={(event) => {
 									event.preventDefault();
 
@@ -53,14 +61,6 @@ export function App() {
 								onContextMenu={(event) => {
 									event.preventDefault();
 									erase(row, col);
-								}}
-								onMouseOver={() => {
-									if (isDownLeft.current) {
-										paint(row, col, brush);
-									}
-									if (isDownRight.current) {
-										erase(row, col);
-									}
 								}}
 							/>
 						);
