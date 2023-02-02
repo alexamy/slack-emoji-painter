@@ -52,9 +52,9 @@ export function copy() {
 	navigator.clipboard.writeText(text);
 }
 
-export function paint(row: number, col: number, brush: string) {
+export function paint(row: number, col: number) {
 	useAppStore.setState((state) => {
-		state.field[row][col] = brush;
+		state.field[row][col] = state.brush;
 	});
 }
 

@@ -136,7 +136,6 @@ function useFieldPainter(
 ) {
 	const images = useAppStore((state) => state.images);
 	const field = useAppStore((state) => state.field);
-	const brush = useAppStore((state) => state.brush);
 
 	const canvas = useMemo(() => {
 		return field.map((keys, row) => {
@@ -155,7 +154,7 @@ function useFieldPainter(
 
 									if (event.button === 0) {
 										isLeftDown.current = true;
-										paint(row, col, brush);
+										paint(row, col);
 									}
 
 									if (event.button === 2) {
@@ -165,7 +164,7 @@ function useFieldPainter(
 								}}
 								onMouseOver={() => {
 									if (isLeftDown.current) {
-										paint(row, col, brush);
+										paint(row, col);
 									}
 									if (isRightDown.current) {
 										erase(row, col);
