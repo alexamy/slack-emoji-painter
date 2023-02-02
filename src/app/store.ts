@@ -2,15 +2,17 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-export interface State {}
+export interface State {
+	width: number;
+	height: number;
+}
 
 export const useStore = create(
 	devtools(
 		persist(
 			immer<State>(() => ({
-				tags: {},
-				cards: {},
-				columns: {},
+				width: 10,
+				height: 10,
 			})),
 			{ name: 'slack-emoji-painter' }
 		)
