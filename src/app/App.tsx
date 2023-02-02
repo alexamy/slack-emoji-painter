@@ -221,7 +221,7 @@ function Buttons() {
 	);
 }
 
-function limit(inputNumber: string, min = 1, max = 200): number {
+function limit(inputNumber: string, min = 1, max = 30): number {
 	const value = Number(inputNumber);
 	const isInLimit = value >= min && value <= max;
 	const number = isInLimit ? value : Math.min(max, Math.max(min, value));
