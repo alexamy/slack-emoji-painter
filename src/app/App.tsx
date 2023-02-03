@@ -44,6 +44,7 @@ export function App() {
 			<div
 				ref={contextMenuRef}
 				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+				onContextMenu={(event) => event.preventDefault()}
 				className={`absolute w-[440px] rounded bg-slate-600 p-1 text-sm text-white ${
 					visible ? 'visible' : 'hidden'
 				}`}
@@ -69,12 +70,20 @@ export function App() {
 					})}
 				</div>
 				<div>All</div>
-				<input
-					placeholder='Type to filter emojis'
-					value={query}
-					onInput={(event) => setQuery(event.currentTarget.value)}
-					className='mb-1 w-full p-1 text-black'
-				/>
+				<div className='flex items-center space-x-1'>
+					<input
+						placeholder='Type to filter emojis'
+						value={query}
+						onInput={(event) => setQuery(event.currentTarget.value)}
+						className='mb-1 w-full p-1 text-black'
+					/>
+					<span
+						onClick={() => setQuery('')}
+						className='-translate-y-[2px] cursor-pointer font-bold text-red-400 hover:text-red-500'
+					>
+						X
+					</span>
+				</div>
 				<VirtuosoGrid
 					style={{ height: 330 }}
 					data={emojiList}
