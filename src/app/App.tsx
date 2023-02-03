@@ -34,6 +34,11 @@ export function App() {
 		setVisible(false);
 	}
 
+	const [query, setQuery] = useState('');
+	const emojiList = useMemo(() => {
+		return Object.entries(images).filter(([key]) => key.includes(query));
+	}, [query]);
+
 	return (
 		<div className='h-screen w-screen p-4'>
 			<div
@@ -64,9 +69,15 @@ export function App() {
 					})}
 				</div>
 				<div>All</div>
+				<input
+					placeholder='Type to filter emojis'
+					value={query}
+					onInput={(event) => setQuery(event.currentTarget.value)}
+					className='mb-1 w-full p-1 text-black'
+				/>
 				<VirtuosoGrid
 					style={{ height: 330 }}
-					data={Object.entries(images)}
+					data={emojiList}
 					listClassName='flex flex-wrap'
 					itemContent={(_index, [key, path]) => (
 						<img
