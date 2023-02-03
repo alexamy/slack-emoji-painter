@@ -942,6 +942,11 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-virtuoso@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-4.0.8.tgz#6543573e5b2da8cd5808bd687655cf24d7930dfe"
+  integrity sha512-ne9QzKajqwDT13t2nt5uktuFkyBTjRsJCdF06gdwcPVP6lrWt/VE5tkKf2OVtMqfethR8/FHuAYDOLyT5YtddQ==
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"

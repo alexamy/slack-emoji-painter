@@ -1,4 +1,5 @@
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { VirtuosoGrid } from 'react-virtuoso';
 import {
 	addToFavorites,
 	clear,
@@ -38,7 +39,7 @@ export function App() {
 			<div
 				ref={contextMenuRef}
 				style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-				className={`absolute w-[936px] rounded bg-slate-600 p-1 text-sm text-white ${
+				className={`absolute w-[440px] rounded bg-slate-600 p-1 text-sm text-white ${
 					visible ? 'visible' : 'hidden'
 				}`}
 			>
@@ -63,25 +64,25 @@ export function App() {
 					})}
 				</div>
 				<div>All</div>
-				<div className='flex flex-wrap'>
-					{Object.entries(images).map(([key, path]) => {
-						return (
-							<img
-								className='h-[32px] w-[32px] shrink-0 grow-0'
-								title={key}
-								key={key}
-								src={path}
-								width={32}
-								height={32}
-								onClick={() => setBrushFromMenu(key)}
-								onContextMenu={(event) => {
-									event.preventDefault();
-									addToFavorites(key);
-								}}
-							/>
-						);
-					})}
-				</div>
+				<VirtuosoGrid
+					style={{ height: 330 }}
+					data={Object.entries(images)}
+					listClassName='flex flex-wrap'
+					itemContent={(_index, [key, path]) => (
+						<img
+							className='h-[32px] w-[32px] shrink-0 grow-0'
+							title={key}
+							src={path}
+							width={32}
+							height={32}
+							onClick={() => setBrushFromMenu(key)}
+							onContextMenu={(event) => {
+								event.preventDefault();
+								addToFavorites(key);
+							}}
+						/>
+					)}
+				/>
 			</div>
 			<div>
 				<div className='mb-4 flex space-x-4'>
