@@ -1,4 +1,11 @@
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	MutableRefObject,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 import {
 	addToFavorites,
@@ -29,9 +36,20 @@ export function App() {
 	const contextMenuRef = useRef<HTMLDivElement | null>(null);
 	useClickOutside(contextMenuRef, () => setVisible(false));
 
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const [emojisFile, setEmojisFile] = useState<unknown>();
+
 	function setBrushFromMenu(key: string) {
 		brushSetter.current?.(key);
 		setVisible(false);
+	}
+
+	async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+		const file = event.currentTarget.files?.[0];
+		if (!file) return;
+
+		const text = await file.text();
+		setEmojisFile(JSON.parse(text));
 	}
 
 	const [query, setQuery] = useState('');
@@ -145,6 +163,20 @@ export function App() {
 			<div className='mb-4 flex space-x-4'>
 				<SizeInputs width={field[0].length} height={field.length} />
 				<Buttons />
+			</div>
+			<div className='mb-4'>
+				<button
+					className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
+					onClick={() => fileInputRef.current?.click()}
+				>
+					Upload emojis JSON
+				</button>
+				<input
+					ref={fileInputRef}
+					type='file'
+					onChange={handleFileChange}
+					className='hidden'
+				/>
 			</div>
 			<div
 				className='w-fit select-none'
