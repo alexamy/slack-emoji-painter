@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "prepare": "husky install",
