@@ -71,6 +71,20 @@ export function removeFromFavorites(key: string) {
 	});
 }
 
+export function replaceEmojis(data: unknown) {
+	useAppStore.setState((state) => {
+		if (!data) return;
+		if (typeof data !== 'object') return;
+
+		const isProper = Object.entries(data).every(
+			([key, url]) => typeof key === 'string' && typeof url === 'string',
+		);
+		if (!isProper) return;
+
+		state.images = data as Record<string, string>;
+	});
+}
+
 export function setSize({
 	width,
 	height,

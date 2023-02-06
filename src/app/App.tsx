@@ -14,6 +14,7 @@ import {
 	erase,
 	paint,
 	removeFromFavorites,
+	replaceEmojis,
 	reset,
 	setBackground,
 	setBrush,
@@ -37,7 +38,6 @@ export function App() {
 	useClickOutside(contextMenuRef, () => setVisible(false));
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
-	const [emojisFile, setEmojisFile] = useState<unknown>();
 
 	function setBrushFromMenu(key: string) {
 		brushSetter.current?.(key);
@@ -49,7 +49,8 @@ export function App() {
 		if (!file) return;
 
 		const text = await file.text();
-		setEmojisFile(JSON.parse(text));
+		const emojiData = JSON.parse(text);
+		replaceEmojis(emojiData);
 	}
 
 	const [query, setQuery] = useState('');
