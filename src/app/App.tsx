@@ -56,7 +56,7 @@ export function App() {
 	const [query, setQuery] = useState('');
 	const emojiList = useMemo(() => {
 		return Object.entries(images).filter(([key]) => key.includes(query));
-	}, [query]);
+	}, [query, images]);
 
 	return (
 		<div className='h-screen w-screen p-4'>
