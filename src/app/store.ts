@@ -99,7 +99,7 @@ export function replaceEmojis(data: unknown) {
 		);
 		if (!isProper) return;
 
-		state.images = data as Record<string, string>;
+		state.images = { ...state.images, ...(data as Record<string, string>) };
 	});
 }
 
