@@ -1,7 +1,25 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { defaultState, State } from './state';
+import whiteSquare from './assets/white_square.png';
+
+export interface State {
+	brush: string;
+	background: string;
+	field: string[][];
+	favorites: Record<string, null>;
+	images: Record<string, string>;
+}
+
+export const defaultState: State = {
+	brush: ':white_square:',
+	background: ':white_square:',
+	field: [[':white_square:']],
+	favorites: {},
+	images: {
+		':white_square:': whiteSquare,
+	},
+};
 
 export const useAppStore = create(
 	devtools(
