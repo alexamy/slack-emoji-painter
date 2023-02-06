@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://alexamy.github.io/slack-emoji-painter/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
