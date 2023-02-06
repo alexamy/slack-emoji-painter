@@ -1,7 +1,7 @@
 const emojis = {};
 const allCount = parseInt(document.querySelector('.p-customize_emoji_wrapper__count').textContent);
 let lastVisited = '';
-const log = (s) => console.log('[SEP] %c%s', 'background: #2f3640; color: #00a8ff; font-weight: bold; font-size: 18px; padding: 1px', s);
+const log = (s) => console.log('[sep] %c%s', 'background: #2f3640; color: #00a8ff; font-weight: bold; font-size: 18px; padding: 1px', s);
 while(true) {
   const list = document.querySelector('.c-virtual_list__scroll_container');
   const emojis = Array.from(list.children);
@@ -14,16 +14,13 @@ while(true) {
   log(`Emojis saved: ${Object.keys(emojis).length}/${allCount}...`);
 
   const last = emojis.slice(-5)[0];
-  if(lastVisited === last.textContent) {
-    log('Finished.');
-    break;
-  }
+  if(lastVisited === last.textContent) break;
   lastVisited = last.textContent;
 
   last.scrollIntoView();
   await new Promise(resolve => setTimeout(resolve, 2000));
 }
-log('Downloading emojis JSON.');
+log('Finished. Downloading emojis JSON.');
 const file = new Blob([JSON.stringify(emojis, null, 2)], { type: 'text/json' });
 const a = document.createElement('a');
 a.href = URL.createObjectURL(file);
