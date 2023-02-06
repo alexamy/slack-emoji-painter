@@ -15,7 +15,7 @@ while(true) {
 
   const last = emojis.slice(-5)[0];
   if(lastVisited === last.textContent) {
-    log('Finished. Run `copy(result)` to save emoji list into a clipboard.');
+    log('Finished.');
     break;
   }
   lastVisited = last.textContent;
@@ -23,6 +23,7 @@ while(true) {
   last.scrollIntoView();
   await new Promise(resolve => setTimeout(resolve, 2000));
 }
+log('Downloading emojis JSON.');
 const file = new Blob([JSON.stringify(emojis, null, 2)], { type: 'text/json' });
 const a = document.createElement('a');
 a.href = URL.createObjectURL(file);
