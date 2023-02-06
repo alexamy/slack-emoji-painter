@@ -104,61 +104,58 @@ export function App() {
 					)}
 				/>
 			</div>
-			<div>
-				<div className='mb-4 flex space-x-4'>
-					<span className='text-white'>Main (left click):</span>
-					<img
-						className='h-[32px] w-[32px] cursor-pointer'
-						ref={brushRef}
-						src={images[brush]}
-						width={32}
-						height={32}
-						onClick={() => {
-							if (!brushRef.current) return;
-							const { x, y } = brushRef.current.getBoundingClientRect();
-							brushSetter.current = setBrush;
-							setPosition({ x, y });
-							setVisible(true);
-						}}
-					/>
-					<span className='text-white'>Background (right click):</span>
-					<img
-						className='h-[32px] w-[32px] cursor-pointer'
-						ref={backgroundRef}
-						src={images[background]}
-						width={32}
-						height={32}
-						onClick={() => {
-							if (!backgroundRef.current) return;
-							const { x, y } = backgroundRef.current.getBoundingClientRect();
-							brushSetter.current = setBackground;
-							setPosition({ x, y });
-							setVisible(true);
-						}}
-					/>
-					<button
-						className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
-						onClick={copy}
-					>
-						Copy for Slack
-					</button>
-				</div>
-				<div className='mb-4 flex space-x-4'>
-					<SizeInputs width={field[0].length} height={field.length} />
-					<Buttons />
-				</div>
-
-				<div
-					className='w-fit select-none'
-					onMouseLeave={() => {
-						isLeftDown.current = false;
-						isRightDown.current = false;
+			<div className='mb-4 flex space-x-4'>
+				<span className='text-white'>Main (left click):</span>
+				<img
+					className='h-[32px] w-[32px] cursor-pointer'
+					ref={brushRef}
+					src={images[brush]}
+					width={32}
+					height={32}
+					onClick={() => {
+						if (!brushRef.current) return;
+						const { x, y } = brushRef.current.getBoundingClientRect();
+						brushSetter.current = setBrush;
+						setPosition({ x, y });
+						setVisible(true);
 					}}
+				/>
+				<span className='text-white'>Background (right click):</span>
+				<img
+					className='h-[32px] w-[32px] cursor-pointer'
+					ref={backgroundRef}
+					src={images[background]}
+					width={32}
+					height={32}
+					onClick={() => {
+						if (!backgroundRef.current) return;
+						const { x, y } = backgroundRef.current.getBoundingClientRect();
+						brushSetter.current = setBackground;
+						setPosition({ x, y });
+						setVisible(true);
+					}}
+				/>
+				<button
+					className='rounded bg-white px-4 hover:bg-gray-200 active:bg-gray-300'
+					onClick={copy}
 				>
-					{canvas}
-				</div>
-				<Help />
+					Copy for Slack
+				</button>
 			</div>
+			<div className='mb-4 flex space-x-4'>
+				<SizeInputs width={field[0].length} height={field.length} />
+				<Buttons />
+			</div>
+			<div
+				className='w-fit select-none'
+				onMouseLeave={() => {
+					isLeftDown.current = false;
+					isRightDown.current = false;
+				}}
+			>
+				{canvas}
+			</div>
+			<Help />
 		</div>
 	);
 }
