@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import whiteSquare from './assets/white_square.png';
+import smile from './assets/smile.png';
 
 export interface State {
 	brush: string;
@@ -12,12 +13,13 @@ export interface State {
 }
 
 export const defaultState: State = {
-	brush: ':white_square:',
+	brush: ':smile:',
 	background: ':white_square:',
-	field: [[':white_square:']],
+	field: [[':white_square:', ':smile:']],
 	favorites: {},
 	images: {
 		':white_square:': whiteSquare,
+		':smile:': smile,
 	},
 };
 
