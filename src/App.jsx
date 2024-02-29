@@ -1,5 +1,5 @@
 import './App.css';
-import { Index, createEffect, onMount } from 'solid-js';
+import { Index, createEffect, createMemo, onMount } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
 // store
@@ -85,6 +85,7 @@ export function App() {
       <CurrentEmoji store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
+      <List store={[store, setStore]} />
       <Help />
     </div>
   )
@@ -319,4 +320,16 @@ function Help() {
       </ul>
     </div>
 	);
+}
+
+function List(props) {
+  const [store, setStore] = props.store;
+
+  return (
+    <div class="list">
+      <Index each={Object.entries(store.images)}>{(url) => (
+        <img class="emoji" src={url()[1]} />
+      )}</Index>
+    </div>
+  );
 }
