@@ -112,11 +112,14 @@ function Field(props) {
     }));
   });
 
-  function changeCell(e, row, col, emoji) {
+  function changeCell(e, row, col) {
     e.preventDefault();
-    setStore("field", produce(field => {
-      field[row][col] = emoji;
-    }));
+    if(store.mouse) {
+      setStore("field", produce(field => {
+        const emoji = store.mouse === "left" ? store.fg : store.bg;
+        field[row][col] = emoji;
+      }));
+    }
   }
 
   function onMouseDown(e, row, col) {
@@ -126,18 +129,12 @@ function Field(props) {
       if(e.button === 2) return "right";
       return null;
     });
-    if(store.mouse) {
-      const emoji = store.mouse === "left" ? store.fg : store.bg;
-      changeCell(e, row, col, emoji);
-    }
+    changeCell(e, row, col);
   }
 
   function onMouseOver(e, row, col) {
     e.preventDefault();
-    if(store.mouse) {
-      const emoji = store.mouse === "left" ? store.fg : store.bg;
-      changeCell(e, row, col, emoji);
-    }
+    changeCell(e, row, col);
   }
 
   function onMouseUp(e, row, col) {
