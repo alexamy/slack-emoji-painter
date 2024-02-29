@@ -29,11 +29,13 @@ function createAppStore() {
   // select fg and bg from new images
   createEffect(() => {
     const first = Object.keys(store.images)[0];
+    const second = Object.keys(store.images)[1];
+
     if(!store.images[store.fg]) {
       setStore("fg", first);
     }
     if(!store.images[store.bg]) {
-      setStore("bg", first);
+      setStore("bg", second ?? first);
     }
   });
 
