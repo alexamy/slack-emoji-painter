@@ -8,11 +8,11 @@ function createAppStore() {
     width: 8,
     height: 4,
     field: [],
+    magicstring: "eyI6LXNhdGFuLToiOiJodHRwczovL2Vtb2ppLnNsYWNrLWVkZ2UuY29tL1Q0N0JLNlgxVS8tc2F0YW4tL2U0MGNiYjRmODcyNmZhZTQuanBnIiwiOjEyb3ptb3VzZS1idXR0ZXJtaWxrOiI6Imh0dHBzOi8vZW1vamkuc2xhY2stZWRnZS5jb20vVDQ3Qks2WDFVLzEyb3ptb3VzZS1idXR0ZXJtaWxrLzJlNjI2ZDdhZDJmZjEyYmIucG5nIn0=",
+    images: {},
     mouse: null, // left / right / none
     fg: "",
     bg: "",
-    magicstring: "eyI6LXNhdGFuLToiOiJodHRwczovL2Vtb2ppLnNsYWNrLWVkZ2UuY29tL1Q0N0JLNlgxVS8tc2F0YW4tL2U0MGNiYjRmODcyNmZhZTQuanBnIiwiOjEyb3ptb3VzZS1idXR0ZXJtaWxrOiI6Imh0dHBzOi8vZW1vamkuc2xhY2stZWRnZS5jb20vVDQ3Qks2WDFVLzEyb3ptb3VzZS1idXR0ZXJtaWxrLzJlNjI2ZDdhZDJmZjEyYmIucG5nIn0=",
-    images: {},
   });
 
   // TODO save images to local storage
