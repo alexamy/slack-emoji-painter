@@ -5,6 +5,7 @@ import { createStore, produce, unwrap } from 'solid-js/store';
 // store
 function createAppStore() {
   const [store, setStore] = createStore({
+    version: 1,
     width: 8,
     height: 4,
     field: [],
@@ -21,9 +22,12 @@ function createAppStore() {
 
     try {
       const data = JSON.parse(raw);
+      if(data.version !== store.version) {
+        throw new Error("Version mismatch.");
+      }
       setStore(data);
     } catch(e) {
-      console.error(e);
+      console.log(e);
       return;
     }
   });
@@ -128,7 +132,7 @@ function Buttons(props) {
         Copy
       </button>
       <button onClick={loadEmojis}>
-        Enter magic string
+        Load images JSON
       </button>
     </div>
   );
