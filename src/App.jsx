@@ -7,8 +7,8 @@ export function App() {
     width: 8,
     height: 4,
     field: [],
-    currentFg: ":-satan-:",
-    currentBg: ":12ozmouse-buttermilk:",
+    fg: ":-satan-:",
+    bg: ":12ozmouse-buttermilk:",
     images: {
       ":-satan-:": "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
       ":12ozmouse-buttermilk:": "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
@@ -18,11 +18,11 @@ export function App() {
   // new images uploaded
   createEffect(() => {
     const first = Object.keys(store.images)[0];
-    if(!store.images[store.currentFg]) {
-      setStore("currentFg", first);
+    if(!store.images[store.fg]) {
+      setStore("fg", first);
     }
-    if(!store.images[store.currentBg]) {
-      setStore("currentBg", first);
+    if(!store.images[store.bg]) {
+      setStore("bg", first);
     }
   });
 
@@ -45,11 +45,11 @@ function CurrentEmoji(props) {
     <div>
       <img
         class="emoji"
-        src={store.images[store.currentFg]}
+        src={store.images[store.fg]}
       />
       <img
         class="emoji"
-        src={store.images[store.currentBg]}
+        src={store.images[store.bg]}
       />
     </div>
   );
@@ -97,14 +97,14 @@ function Field(props) {
   });
 
   // change the width of the field
-  createEffect(() => {
+  createEffect(() => {emoji
     setStore("field", produce(field => {
       if(store.width < field[0].length) {
         field.forEach(col => col.length = store.width);
       } else if (store.width > field[0].length) {
         field.forEach(col => {
           for(let i = col.length; i < store.width; i++) {
-            col.push(store.currentBg);
+            col.push(store.bg);
           }
         });
       }
@@ -126,8 +126,8 @@ function Field(props) {
             <img
               class="emoji"
               src={store.images[cell()]}
-              onClick={(e, ) => changeCell(e, row, col, store.currentFg)}
-              onContextMenu={(e, ) => changeCell(e, row, col, store.currentBg)}
+              onClick={(e, ) => changeCell(e, row, col, store.fg)}
+              onContextMenu={(e, ) => changeCell(e, row, col, store.bg)}
             />
           )}</Index>
         </div>
