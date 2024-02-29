@@ -35,6 +35,7 @@ export function App() {
       <CurrentEmoji store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
+      <Help />
     </div>
   )
 }
@@ -189,4 +190,44 @@ function Field(props) {
       )}</Index>
     </div>
   );
+}
+
+// help messages
+function Help() {
+	return (
+		<div>
+			Drawing:
+			<ul>
+				<li>
+					Click on field with <b>left mouse button</b> to draw main emoji
+				</li>
+				<li>
+					Click on field with <b>right mouse button</b> to draw background emoji
+				</li>
+				<li>Hold mouse button to brush-like painting</li>
+				<li>
+					Copy emojis with <b>copy</b> button and paste them into Slack!
+				</li>
+			</ul>
+			Select emoji:
+			<ul>
+        <li>
+					Click on the <b>main</b> or <b>background</b> emoji to open emojis
+					menu
+				</li>
+				<li>Click on the emoji to select it</li>
+				<li>Right click on the emoji to add it to favorites</li>
+			</ul>
+			Field settings:
+			<ul>
+        <li>
+					Use <b>width</b> / <b>height</b> to change field size
+				</li>
+				<li>
+					Fill entire field with background emoji with{' '}
+					<b>Clear with background</b> button
+				</li>
+			</ul>
+		</div>
+	);
 }
