@@ -80,6 +80,10 @@ function validateEmojis(text) {
 export function App() {
   const [store, setStore] = createAppStore();
 
+  onMount(() => {
+    window.addEventListener("contextmenu", e => e.preventDefault());
+  });
+
   return (
     <div class="app">
       <CurrentEmoji store={[store, setStore]} />
