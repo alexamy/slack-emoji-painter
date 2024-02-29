@@ -8,7 +8,6 @@ function createAppStore() {
     width: 8,
     height: 4,
     field: [],
-    magicstring: "eyI6LXNhdGFuLToiOiJodHRwczovL2Vtb2ppLnNsYWNrLWVkZ2UuY29tL1Q0N0JLNlgxVS8tc2F0YW4tL2U0MGNiYjRmODcyNmZhZTQuanBnIiwiOjEyb3ptb3VzZS1idXR0ZXJtaWxrOiI6Imh0dHBzOi8vZW1vamkuc2xhY2stZWRnZS5jb20vVDQ3Qks2WDFVLzEyb3ptb3VzZS1idXR0ZXJtaWxrLzJlNjI2ZDdhZDJmZjEyYmIucG5nIn0=",
     images: {},
     mouse: null, // left / right / none
     fg: "",
@@ -35,13 +34,6 @@ function createAppStore() {
     localStorage.setItem("store", data);
   });
 
-  // convert magic string to images
-  createEffect(() => {
-    const images = convertMagicString(store.magicstring);
-    if(!images) return;
-    setStore("images", images);
-  });
-
   // select fg and bg from new images
   createEffect(() => {
     const first = Object.keys(store.images)[0];
@@ -58,11 +50,9 @@ function createAppStore() {
   return [store, setStore];
 }
 
-function convertMagicString(text) {
+function validateEmojis(text) {
   try {
-    const data = atob(text);
-    const images = JSON.parse(data);
-
+    const images = JSON.parse(text);
     // check what images is an object with string keys and values starting with "http"
     if(typeof images !== "object") throw new Error("Not an object.");
     for(const [key, value] of Object.entries(images)) {
@@ -122,14 +112,15 @@ function Buttons(props) {
   }
 
   function loadEmojis() {
-    const text = prompt("Enter magic string:");
+    const text = prompt("Enter images text:");
     if(!text) return;
 
-    setStore("magicstring", text);
+    const images = validateEmojis(text);
+    setStore("images", images);
   }
 
   return (
-    <div class="buttons" title="Contact authorized personnel to acquire your magic string">
+    <div class="buttons" title="Contact authorized personnel to acquire images">
       <button onClick={clearWithBackground}>
         Clear with Background
       </button>
