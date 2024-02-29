@@ -5,7 +5,9 @@
 }
 
 .field {
+  padding: 15px;
   width: fit-content;
+  white-space: nowrap;
 }
 
 .emoji {

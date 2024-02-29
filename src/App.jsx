@@ -2,7 +2,7 @@ import './App.css';
 import { Index, createEffect } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
-export function App() {
+function createAppStore() {
   const [store, setStore] = createStore({
     width: 8,
     height: 4,
@@ -29,6 +29,12 @@ export function App() {
       setStore("bg", first);
     }
   });
+
+  return [store, setStore];
+}
+
+export function App() {
+  const [store, setStore] = createAppStore();
 
   return (
     <div class="app">
@@ -217,22 +223,24 @@ function Field(props) {
   }
 
   return (
-    <div class="field" onMouseLeave={onMouseUp} >
-      <Index each={store.field}>{(emojis, row) => (
-        <div class="row">
-          <Index each={emojis()}>{(cell, col) => (
-            <img
-              class="emoji"
-              src={store.images[cell()]}
-              onClick={e => e.preventDefault()}
-              onContextMenu={e => e.preventDefault()}
-              onMouseDown={e => onMouseDown(e, row, col)}
-              onMouseOver={e => onMouseOver(e, row, col)}
-              onMouseUp={e => onMouseUp(e, row, col)}
-            />
-          )}</Index>
-        </div>
-      )}</Index>
+    <div class="field-outer" onContextMenu={e => e.preventDefault()}>
+      <div class="field" onMouseLeave={onMouseUp}>
+        <Index each={store.field}>{(emojis, row) => (
+          <div class="row">
+            <Index each={emojis()}>{(cell, col) => (
+              <img
+                class="emoji"
+                src={store.images[cell()]}
+                onClick={e => e.preventDefault()}
+                onContextMenu={e => e.preventDefault()}
+                onMouseDown={e => onMouseDown(e, row, col)}
+                onMouseOver={e => onMouseOver(e, row, col)}
+                onMouseUp={e => onMouseUp(e, row, col)}
+              />
+            )}</Index>
+          </div>
+        )}</Index>
+      </div>
     </div>
   );
 }
