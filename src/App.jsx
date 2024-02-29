@@ -1,5 +1,5 @@
 import './App.css';
-import { Index, createEffect, createMemo, onMount } from 'solid-js';
+import { Index, Show, createEffect, createMemo, onMount } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
 // store
@@ -16,6 +16,7 @@ function createAppStore() {
     mouse: null, // left / right
     fg: "",
     bg: "",
+    isListOpened: false,
   });
 
   // load store from local storage on mount if available
@@ -82,10 +83,12 @@ export function App() {
   return (
     <div class="app">
       <CurrentEmoji store={[store, setStore]} />
+      <Show when={store.isListOpened}>
+        <List store={[store, setStore]} />
+      </Show>
       <Buttons store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
-      <List store={[store, setStore]} />
       <Help />
     </div>
   )
@@ -332,6 +335,7 @@ function Help() {
       </ul>
       Emoji list:
       <ul>
+        <li>Click on foreground or background emoji to open emoji picker.</li>
         <li>Click on the emoji to set foreground emoji.</li>
         <li>Right-click on the emoji to to set background emoji.</li>
       </ul>
