@@ -25,10 +25,10 @@ export function App() {
   createEffect(() => console.log(unwrap(store)));
 
   return (
-    <>
+    <div class="app">
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
-    </>
+    </div>
   )
 }
 
@@ -36,7 +36,7 @@ function FieldSize(props) {
   const [store, setStore] = props.store;
 
   return (
-    <>
+    <div>
       <input
         type='number'
         class="counter"
@@ -51,7 +51,7 @@ function FieldSize(props) {
         onInput={e => setStore("height", e.target.value)}
         min={1}
       />
-    </>
+    </div>
   );
 }
 
@@ -87,15 +87,17 @@ function Field(props) {
   });
 
   return (
-    <Index each={store.field}>{(row) => (
-      <div class="row">
-        <Index each={row()}>{(cell) => (
-          <img
-            class="emoji"
-            src={store.images[cell()]}
-          />
-        )}</Index>
-      </div>
-    )}</Index>
+    <div>
+      <Index each={store.field}>{(row) => (
+        <div class="row">
+          <Index each={row()}>{(cell) => (
+            <img
+              class="emoji"
+              src={store.images[cell()]}
+            />
+          )}</Index>
+        </div>
+      )}</Index>
+    </div>
   );
 }
