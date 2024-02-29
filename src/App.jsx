@@ -69,6 +69,15 @@ function Buttons(props) {
   function loadEmojis() {
     const text = prompt("Enter magic string:");
     if(!text) return;
+
+    try {
+      const data = atob(text);
+      const images = JSON.parse(data);
+      setStore("images", images);
+    } catch(e) {
+      console.error(e);
+      return;
+    }
   }
 
   return (
