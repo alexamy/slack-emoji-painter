@@ -1,5 +1,5 @@
-import { Index, createContext, createEffect, useContext } from 'solid-js';
 import './App.css';
+import { Index, createEffect } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
 export function App() {
@@ -26,6 +26,20 @@ export function App() {
 
   return (
     <>
+      <input
+        type='number'
+        class="counter"
+        value={store.width}
+        onInput={e => setStore("width", e.target.value)}
+        min={1}
+      />
+      <input
+        type='number'
+        class="counter"
+        value={store.height}
+        onInput={e => setStore("height", e.target.value)}
+        min={1}
+      />
       <Field store={[store, setStore]} />
     </>
   )
@@ -41,7 +55,7 @@ function Field(props) {
         field.length = store.height;
       } else {
         for(let i = field.length; i < store.height; i++) {
-          field.push([]);
+          field.push([...field[0] ?? []]);
         }
       }
     }));
