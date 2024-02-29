@@ -74,11 +74,11 @@ function Buttons(props) {
       const data = atob(text);
       const images = JSON.parse(data);
       // check what images is an object with string keys and values starting with "http"
-      if(typeof images !== "object") throw new Error("Not an object");
+      if(typeof images !== "object") throw new Error("Not an object.");
       for(const [key, value] of Object.entries(images)) {
-        if(typeof key !== "string") throw new Error("Key is not a string");
-        if(typeof value !== "string") throw new Error("Value is not a string");
-        if(!value.startsWith("http")) throw new Error("Value is not a URL");
+        if(typeof key !== "string") throw new Error("Key is not a string.");
+        if(typeof value !== "string") throw new Error("Value is not a string.");
+        if(!value.startsWith("http")) throw new Error("Value is not a URL.");
       }
 
       setStore("images", images);
