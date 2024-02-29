@@ -1,17 +1,21 @@
 {
-  "name": "ss",
+  "name": "slack-emoji-painter",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "homepage": "https://alexamy.github.io/slack-emoji-painter/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "solid-js": "^1.8.15"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "vite": "^5.1.4",
     "vite-plugin-solid": "^2.10.1"
   }

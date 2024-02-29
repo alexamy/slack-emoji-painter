@@ -1,28 +1,10 @@
-## Usage
+# Slack emoji painter
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+Navigate to `https://<your-organization>.slack.com/customize/emoji`.
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+Open the developer tools and navigate to the Console tab. Then, copy and paste the provided code into the console and execute it.
 
-## Available Scripts
+Open developer tools, then Console tab.
+Copy-paste and run [this code](https://gist.github.com/alexamy/67dac86a9e604f29318982a41f7ab53d).
 
-In the project directory, you can run:
-
-### `npm run dev`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-Learn more about deploying your application with the [documentations](https://vitejs.dev/guide/static-deploy.html)
+The browser will download a file named 'emojis.json', which you can then upload to this application.
