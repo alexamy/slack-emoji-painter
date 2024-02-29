@@ -9,8 +9,11 @@ function createAppStore() {
     width: 8,
     height: 4,
     field: [],
-    images: {},
-    mouse: null, // left / right / none
+    images: {
+      ":-satan-:": "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
+      ":12ozmouse-buttermilk:": "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
+    },
+    mouse: null, // left / right
     fg: "",
     bg: "",
   });
@@ -124,6 +127,7 @@ function Buttons(props) {
 
       setStore("images", images);
     }
+    reader.readAsText(file);
   }
 
   return (
