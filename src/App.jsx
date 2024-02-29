@@ -18,8 +18,12 @@ export function App() {
   // new images uploaded
   createEffect(() => {
     const first = Object.keys(store.images)[0];
-    setStore("currentFg", first);
-    setStore("currentBg", first);
+    if(!store.images[store.currentFg]) {
+      setStore("currentFg", first);
+    }
+    if(!store.images[store.currentBg]) {
+      setStore("currentBg", first);
+    }
   });
 
   createEffect(() => console.log(unwrap(store)));
@@ -84,7 +88,7 @@ function Field(props) {
     setStore("field", produce(field => {
       if(store.height < field.length) {
         field.length = store.height;
-      } else {
+      } else if(store.height > field.length) {
         for(let i = field.length; i < store.height; i++) {
           field.push([...field[0] ?? []]);
         }
@@ -97,7 +101,7 @@ function Field(props) {
     setStore("field", produce(field => {
       if(store.width < field[0].length) {
         field.forEach(col => col.length = store.width);
-      } else {
+      } else if (store.width > field[0].length) {
         field.forEach(col => {
           for(let i = col.length; i < store.width; i++) {
             col.push(store.currentBg);
