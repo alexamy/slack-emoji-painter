@@ -92,7 +92,7 @@ function Buttons(props) {
   }
 
   return (
-    <div class="buttons">
+    <div class="buttons" title="Contact authorized personnel to acquire your magic string">
       <button onClick={clearWithBackground}>
         Clear with Background
       </button>
@@ -241,7 +241,6 @@ function Field(props) {
 function Help() {
 	return (
     <div>
-      <div><b>Contact authorized personnel to acquire your magic string.</b></div>
       Drawing:
       <ul>
         <li>
