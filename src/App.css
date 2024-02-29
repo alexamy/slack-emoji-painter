@@ -1,0 +1,50 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  padding: 15px;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.emoji {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.current-emoji {
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 8px;
+  background-color: #242424;
+}
+
+.field-size {
+  display: flex;
+  gap: 8px;
+}
+
+.counter {
+  width: 40px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emojis {
+
+}

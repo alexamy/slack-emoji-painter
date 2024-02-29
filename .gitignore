@@ -24,5 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 
-# Emojis
-emojis.json
+map*.json
