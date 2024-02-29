@@ -26,10 +26,28 @@ export function App() {
 
   return (
     <div class="app">
+      <CurrentEmoji store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
     </div>
   )
+}
+
+function CurrentEmoji(props) {
+  const [store, setStore] = props.store;
+
+  return (
+    <div>
+      <img
+        class="emoji"
+        src={store.images[store.currentFg]}
+      />
+      <img
+        class="emoji"
+        src={store.images[store.currentBg]}
+      />
+    </div>
+  );
 }
 
 function FieldSize(props) {
