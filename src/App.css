@@ -35,3 +35,13 @@
 .counter {
   width: 40px;
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emojis {
+
+}

@@ -298,14 +298,17 @@ function List(props) {
 
   return (
     <div class="list">
-      <For each={Object.entries(store.images)}>{([name, url]) => (
-        <img
-          class="emoji"
-          src={url}
-          onContextMenu={e => e.preventDefault()}
-          onMouseDown={e => onMouseDown(e, name)}
-        />
-      )}</For>
+      Emojis list
+      <div class="emojis">
+        <For each={Object.entries(store.images)}>{([name, url]) => (
+          <img
+            class="emoji"
+            src={url}
+            onContextMenu={e => e.preventDefault()}
+            onMouseDown={e => onMouseDown(e, name)}
+          />
+        )}</For>
+      </div>
     </div>
   );
 }
