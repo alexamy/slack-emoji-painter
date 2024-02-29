@@ -7,6 +7,7 @@ export function App() {
     width: 8,
     height: 4,
     field: [],
+    mouse: null, // left / right / none
     fg: ":-satan-:",
     bg: ":12ozmouse-buttermilk:",
     images: {
@@ -118,6 +119,32 @@ function Field(props) {
     }));
   }
 
+  function onMouseDown(e, row, col) {
+    e.preventDefault();
+    setStore("mouse", () => {
+      if(e.button === 0) return "left";
+      if(e.button === 2) return "right";
+      return null;
+    });
+    if(store.mouse) {
+      const emoji = store.mouse === "left" ? store.fg : store.bg;
+      changeCell(e, row, col, emoji);
+    }
+  }
+
+  function onMouseOver(e, row, col) {
+    e.preventDefault();
+    if(store.mouse) {
+      const emoji = store.mouse === "left" ? store.fg : store.bg;
+      changeCell(e, row, col, emoji);
+    }
+  }
+
+  function onMouseUp(e, row, col) {
+    e.preventDefault();
+    setStore("mouse", null);
+  }
+
   return (
     <div>
       <Index each={store.field}>{(emojis, row) => (
@@ -126,8 +153,11 @@ function Field(props) {
             <img
               class="emoji"
               src={store.images[cell()]}
-              onClick={(e, ) => changeCell(e, row, col, store.fg)}
-              onContextMenu={(e, ) => changeCell(e, row, col, store.bg)}
+              onClick={e => e.preventDefault()}
+              onContextMenu={e => e.preventDefault()}
+              onMouseDown={e => onMouseDown(e, row, col)}
+              onMouseOver={e => onMouseOver(e, row, col)}
+              onMouseUp={e => onMouseUp(e, row, col)}
             />
           )}</Index>
         </div>
