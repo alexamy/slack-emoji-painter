@@ -2,8 +2,6 @@ import { Index, createContext, createEffect, useContext } from 'solid-js';
 import './App.css';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
-const AppContext = createContext([]);
-
 export function App() {
   const [store, setStore] = createStore({
     width: 8,
@@ -28,15 +26,13 @@ export function App() {
 
   return (
     <>
-      <AppContext.Provider value={[store, setStore]}>
-      <Field />
-      </AppContext.Provider>
+      <Field store={[store, setStore]} />
     </>
   )
 }
 
-function Field() {
-  const [store, setStore] = useContext(AppContext);
+function Field(props) {
+  const [store, setStore] = props.store;
 
   // change the height of the field
   createEffect(() => {
