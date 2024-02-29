@@ -165,6 +165,7 @@ function CurrentEmoji(props) {
   function onClick(e) {
     e.preventDefault();
     setStore("isListOpened", !store.isListOpened);
+    window.scrollTo(0, 0);
   }
 
   return (
