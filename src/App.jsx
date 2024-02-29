@@ -195,39 +195,37 @@ function Field(props) {
 // help messages
 function Help() {
 	return (
-		<div>
-			Drawing:
-			<ul>
-				<li>
-					Click on field with <b>left mouse button</b> to draw main emoji
-				</li>
-				<li>
-					Click on field with <b>right mouse button</b> to draw background emoji
-				</li>
-				<li>Hold mouse button to brush-like painting</li>
-				<li>
-					Copy emojis with <b>copy</b> button and paste them into Slack!
-				</li>
-			</ul>
-			Select emoji:
-			<ul>
+    <div>
+      Drawing:
+      <ul>
         <li>
-					Click on the <b>main</b> or <b>background</b> emoji to open emojis
-					menu
-				</li>
-				<li>Click on the emoji to select it</li>
-				<li>Right click on the emoji to add it to favorites</li>
-			</ul>
-			Field settings:
-			<ul>
+          Click on the field with the <b>left mouse button</b> to draw the main emoji.
+        </li>
         <li>
-					Use <b>width</b> / <b>height</b> to change field size
-				</li>
-				<li>
-					Fill entire field with background emoji with{' '}
-					<b>Clear with background</b> button
-				</li>
-			</ul>
-		</div>
+          Click on the field with the <b>right mouse button</b> to draw the background emoji.
+        </li>
+        <li>Hold the mouse button to paint like a brush.</li>
+        <li>
+          Copy emojis with the <b>copy</b> button and paste them into Slack!
+        </li>
+      </ul>
+      Select emoji:
+      <ul>
+        <li>
+          Click on the <b>main</b> or <b>background</b> emoji to open the emoji menu.
+        </li>
+        <li>Click on the emoji to select it.</li>
+        <li>Right-click on the emoji to add it to favorites.</li>
+      </ul>
+      Field settings:
+      <ul>
+        <li>
+          Use the <b>width</b> / <b>height</b> to change the field size.
+        </li>
+        <li>
+          Fill the entire field with the background emoji using the <b>Clear with background</b> button.
+        </li>
+      </ul>
+    </div>
 	);
 }
