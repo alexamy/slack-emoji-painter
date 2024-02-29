@@ -39,7 +39,6 @@ function createAppStore() {
   createEffect(() => {
     const images = convertMagicString(store.magicstring);
     if(!images) return;
-
     setStore("images", images);
   });
 
