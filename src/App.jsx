@@ -20,16 +20,13 @@ function createAppStore() {
 
   // convert magic string to images
   createEffect(() => {
-    try {
-      const data = atob(store.magicstring);
-      const images = JSON.parse(data);
-      setStore("images", images);
-    } catch(e) {
-      console.error(e);
-    }
+    const images = convertMagicString(store.magicstring);
+    if(!images) return;
+
+    setStore("images", images);
   });
 
-  // new images uploaded
+  // select fg and bg from new images
   createEffect(() => {
     const first = Object.keys(store.images)[0];
     if(!store.images[store.fg]) {
@@ -43,8 +40,24 @@ function createAppStore() {
   return [store, setStore];
 }
 
-function convertMagicString(str) {
+function convertMagicString(text) {
+  try {
+    const data = atob(text);
+    const images = JSON.parse(data);
 
+    // check what images is an object with string keys and values starting with "http"
+    if(typeof images !== "object") throw new Error("Not an object.");
+    for(const [key, value] of Object.entries(images)) {
+      if(typeof key !== "string") throw new Error("Key is not a string.");
+      if(typeof value !== "string") throw new Error("Value is not a string.");
+      if(!value.startsWith("http")) throw new Error("Value is not a URL.");
+    }
+
+    return images;
+  } catch(e) {
+    console.error(e);
+    return;
+  }
 }
 
 // app
@@ -94,22 +107,7 @@ function Buttons(props) {
     const text = prompt("Enter magic string:");
     if(!text) return;
 
-    try {
-      const data = atob(text);
-      const images = JSON.parse(data);
-      // check what images is an object with string keys and values starting with "http"
-      if(typeof images !== "object") throw new Error("Not an object.");
-      for(const [key, value] of Object.entries(images)) {
-        if(typeof key !== "string") throw new Error("Key is not a string.");
-        if(typeof value !== "string") throw new Error("Value is not a string.");
-        if(!value.startsWith("http")) throw new Error("Value is not a URL.");
-      }
-
-      setStore("images", images);
-    } catch(e) {
-      console.error(e);
-      return;
-    }
+    setStore("magicstring", text);
   }
 
   return (
