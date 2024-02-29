@@ -15,7 +15,7 @@ export function App() {
     },
   });
 
-  // uploaded new images
+  // new images uploaded
   createEffect(() => {
     const first = Object.keys(store.images)[0];
     setStore("currentFg", first);
@@ -23,6 +23,17 @@ export function App() {
   });
 
   createEffect(() => console.log(unwrap(store)));
+
+  return (
+    <>
+      <FieldSize store={[store, setStore]} />
+      <Field store={[store, setStore]} />
+    </>
+  )
+}
+
+function FieldSize(props) {
+  const [store, setStore] = props.store;
 
   return (
     <>
@@ -40,9 +51,8 @@ export function App() {
         onInput={e => setStore("height", e.target.value)}
         min={1}
       />
-      <Field store={[store, setStore]} />
     </>
-  )
+  );
 }
 
 function Field(props) {
