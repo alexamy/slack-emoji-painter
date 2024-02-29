@@ -81,8 +81,8 @@ export function App() {
 
   return (
     <div class="app">
-      <Buttons store={[store, setStore]} />
       <CurrentEmoji store={[store, setStore]} />
+      <Buttons store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
       <List store={[store, setStore]} />
@@ -136,7 +136,7 @@ function Buttons(props) {
   return (
     <div class="buttons">
       <button onClick={clearWithBackground}>
-        Clear with Background
+        Clear
       </button>
       <button onClick={copy}>
         Copy

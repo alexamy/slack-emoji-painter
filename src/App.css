@@ -23,8 +23,11 @@
 }
 
 .current-emoji {
+  position: sticky;
+  top: 0;
   display: flex;
   gap: 8px;
+  background-color: #242424;
 }
 
 .field-size {
