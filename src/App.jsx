@@ -126,7 +126,9 @@ function Buttons(props) {
       const images = validateEmojis(text);
       if(!images) return;
 
-      setStore("images", images);
+      setStore(produce(state => {
+        state.images = images;
+      }));
     }
     reader.readAsText(file);
   }
