@@ -327,11 +327,22 @@ function Help() {
 function List(props) {
   const [store, setStore] = props.store;
 
+  function onMouseDown(e, name) {
+    e.preventDefault();
+    if(e.button === 0) setStore("fg", name);
+    if(e.button === 2) setStore("bg", name);
+  }
+
   return (
     <div class="list">
-      <Index each={Object.entries(store.images)}>{(url) => (
-        <img class="emoji" src={url()[1]} />
-      )}</Index>
+      <For each={Object.entries(store.images)}>{([name, url]) => (
+        <img
+          class="emoji"
+          src={url}
+          onContextMenu={e => e.preventDefault()}
+          onMouseDown={e => onMouseDown(e, name)}
+        />
+      )}</For>
     </div>
   );
 }
