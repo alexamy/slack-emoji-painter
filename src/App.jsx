@@ -121,7 +121,7 @@ function Buttons(props) {
 
   function loadEmojis(file) {
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.addEventListener("load", e => {
       const text = e.target.result;
       const images = validateEmojis(text);
       if(!images) return;
@@ -129,7 +129,7 @@ function Buttons(props) {
       setStore(produce(state => {
         state.images = images;
       }));
-    }
+    }, { once: true });
     reader.readAsText(file);
   }
 
