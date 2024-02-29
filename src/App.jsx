@@ -61,7 +61,7 @@ function FieldSize(props) {
   const [store, setStore] = props.store;
 
   return (
-    <div>
+    <div class="field-size">
       Width:
       <input
         type='number'
