@@ -1,5 +1,5 @@
 import './App.css';
-import { Index, createEffect } from 'solid-js';
+import { Index, createEffect, onMount } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
 // store
@@ -15,8 +15,25 @@ function createAppStore() {
     bg: "",
   });
 
-  // TODO save images to local storage
-  // TODO load images from local storage on mount if available
+  // load store from local storage on mount if available
+  onMount(() => {
+    const raw = localStorage.getItem("store");
+    if(!raw) return;
+
+    try {
+      const data = JSON.parse(raw);
+      setStore(data);
+    } catch(e) {
+      console.error(e);
+      return;
+    }
+  });
+
+  // save store to local storage
+  createEffect(() => {
+    const data = JSON.stringify(unwrap(store));
+    localStorage.setItem("store", data);
+  });
 
   // convert magic string to images
   createEffect(() => {
