@@ -1,6 +1,8 @@
-import { Index, createEffect } from 'solid-js';
+import { Index, createContext, createEffect } from 'solid-js';
 import './App.css';
 import { createStore, produce, unwrap } from 'solid-js/store';
+
+const AppContext = createContext({});
 
 export function App() {
   const [store, setStore] = createStore({
@@ -49,16 +51,18 @@ export function App() {
 
   return (
     <>
-      <Index each={store.field}>{(row) => (
-        <div class="row">
-          <Index each={row()}>{(cell) => (
-            <img
-              class="emoji"
-              src={store.images[cell()]}
-            />
-          )}</Index>
-        </div>
-      )}</Index>
+      <AppContext.Provider value={store}>
+        <Index each={store.field}>{(row) => (
+          <div class="row">
+            <Index each={row()}>{(cell) => (
+              <img
+                class="emoji"
+                src={store.images[cell()]}
+              />
+            )}</Index>
+          </div>
+        )}</Index>
+      </AppContext.Provider>
     </>
   )
 }
