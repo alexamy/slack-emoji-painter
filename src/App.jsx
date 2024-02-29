@@ -115,12 +115,15 @@ function Buttons(props) {
     navigator.clipboard.writeText(text);
   }
 
-  function loadEmojis() {
-    const text = prompt("Enter images text:");
-    if(!text) return;
+  function loadEmojis(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const text = e.target.result;
+      const images = validateEmojis(text);
+      if(!images) return;
 
-    const images = validateEmojis(text);
-    setStore("images", images);
+      setStore("images", images);
+    }
   }
 
   return (
@@ -131,9 +134,14 @@ function Buttons(props) {
       <button onClick={copy}>
         Copy
       </button>
-      <button onClick={loadEmojis} title="Contact authorized personnel to acquire images">
+      <input
+        type="file"
+        accept=".json"
+        onChange={e => loadEmojis(e.target.files[0])}
+        title="Contact authorized personnel to acquire images"
+      >
         Load images JSON
-      </button>
+      </input>
     </div>
   );
 }
