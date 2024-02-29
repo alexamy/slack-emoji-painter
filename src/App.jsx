@@ -54,10 +54,26 @@ function Buttons(props) {
     }));
   }
 
+  function copy() {
+    let text = "";
+    for(const row of store.field) {
+      for(const cell of row) {
+        text += cell;
+      }
+      text += "\n";
+    }
+
+    console.log("Copied.");
+    navigator.clipboard.writeText(text);
+  }
+
   return (
     <div class="buttons">
       <button onClick={clearWithBackground}>
         Clear with Background
+      </button>
+      <button onClick={copy}>
+        Copy
       </button>
     </div>
   );
