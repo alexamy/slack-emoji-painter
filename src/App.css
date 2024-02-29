@@ -10,6 +10,11 @@
   white-space: nowrap;
 }
 
+.row {
+  display: flex;
+  gap: 0;
+}
+
 .emoji {
   width: 32px;
   height: 32px;
