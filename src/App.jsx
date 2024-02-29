@@ -16,6 +16,9 @@ export function App() {
     },
   });
 
+  // TODO save images to local storage
+  // TODO load images from local storage on mount if available
+
   // new images uploaded
   createEffect(() => {
     const first = Object.keys(store.images)[0];
@@ -106,6 +109,8 @@ function Buttons(props) {
 // current foreground and background emojis
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
+
+  // TODO add context menu and favorites
 
   return (
     <div class="current-emoji">
@@ -236,6 +241,7 @@ function Field(props) {
 function Help() {
 	return (
     <div>
+      <div><b>Contact authorized personnel to acquire your magic string.</b></div>
       Drawing:
       <ul>
         <li>
