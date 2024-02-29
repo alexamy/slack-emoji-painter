@@ -33,6 +33,7 @@ export function App() {
   )
 }
 
+// current foreground and background emojis
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
 
@@ -50,6 +51,7 @@ function CurrentEmoji(props) {
   );
 }
 
+// field size controls
 function FieldSize(props) {
   const [store, setStore] = props.store;
 
@@ -73,6 +75,7 @@ function FieldSize(props) {
   );
 }
 
+// the field itself
 function Field(props) {
   const [store, setStore] = props.store;
 
