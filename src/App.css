@@ -4,6 +4,10 @@
   gap: 16px;
 }
 
+.field {
+  width: fit-content;
+}
+
 .emoji {
   width: 32px;
   height: 32px;

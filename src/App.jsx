@@ -62,6 +62,7 @@ function FieldSize(props) {
 
   return (
     <div>
+      Width:
       <input
         type='number'
         class="counter"
@@ -69,6 +70,7 @@ function FieldSize(props) {
         onInput={e => setStore("width", e.target.value)}
         min={1}
       />
+      Height:
       <input
         type='number'
         class="counter"
@@ -98,7 +100,7 @@ function Field(props) {
   });
 
   // change the width of the field
-  createEffect(() => {emoji
+  createEffect(() => {
     setStore("field", produce(field => {
       if(store.width < field[0].length) {
         field.forEach(col => col.length = store.width);
@@ -143,7 +145,7 @@ function Field(props) {
   }
 
   return (
-    <div>
+    <div class="field" onMouseLeave={onMouseUp} >
       <Index each={store.field}>{(emojis, row) => (
         <div class="row">
           <Index each={emojis()}>{(cell, col) => (
