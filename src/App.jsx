@@ -27,8 +27,6 @@ export function App() {
     }
   });
 
-  createEffect(() => console.log(unwrap(store)));
-
   return (
     <div class="app">
       <Buttons store={[store, setStore]} />
@@ -40,6 +38,7 @@ export function App() {
   )
 }
 
+// buttons
 function Buttons(props) {
   const [store, setStore] = props.store;
 
@@ -67,6 +66,11 @@ function Buttons(props) {
     navigator.clipboard.writeText(text);
   }
 
+  function loadEmojis() {
+    const text = prompt("Enter magic string:");
+    if(!text) return;
+  }
+
   return (
     <div class="buttons">
       <button onClick={clearWithBackground}>
@@ -74,6 +78,9 @@ function Buttons(props) {
       </button>
       <button onClick={copy}>
         Copy
+      </button>
+      <button onClick={loadEmojis}>
+        Enter magic string
       </button>
     </div>
   );
