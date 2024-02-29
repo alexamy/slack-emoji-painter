@@ -111,9 +111,10 @@ function Field(props) {
     }));
   });
 
-  function changeCell(row, col) {
+  function changeCell(e, row, col, emoji) {
+    e.preventDefault();
     setStore("field", produce(field => {
-      field[row][col] = store.currentFg;
+      field[row][col] = emoji;
     }));
   }
 
@@ -125,7 +126,8 @@ function Field(props) {
             <img
               class="emoji"
               src={store.images[cell()]}
-              onClick={() => changeCell(row, col)}
+              onClick={(e, ) => changeCell(e, row, col, store.currentFg)}
+              onContextMenu={(e, ) => changeCell(e, row, col, store.currentBg)}
             />
           )}</Index>
         </div>
