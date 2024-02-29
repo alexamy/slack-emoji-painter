@@ -124,14 +124,14 @@ function Buttons(props) {
   }
 
   return (
-    <div class="buttons" title="Contact authorized personnel to acquire images">
+    <div class="buttons">
       <button onClick={clearWithBackground}>
         Clear with Background
       </button>
       <button onClick={copy}>
         Copy
       </button>
-      <button onClick={loadEmojis}>
+      <button onClick={loadEmojis} title="Contact authorized personnel to acquire images">
         Load images JSON
       </button>
     </div>
