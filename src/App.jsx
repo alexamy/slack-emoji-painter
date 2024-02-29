@@ -31,6 +31,7 @@ export function App() {
 
   return (
     <div class="app">
+      <Buttons store={[store, setStore]} />
       <CurrentEmoji store={[store, setStore]} />
       <FieldSize store={[store, setStore]} />
       <Field store={[store, setStore]} />
@@ -38,16 +39,41 @@ export function App() {
   )
 }
 
+function Buttons(props) {
+  const [store, setStore] = props.store;
+
+  function clearWithBackground() {
+    setStore(produce(store => {
+      const field = [];
+      for(let i = 0; i < store.height; i++) {
+        const row = Array(store.width).fill(store.bg);
+        field.push(row);
+      }
+      store.field = field;
+    }));
+  }
+
+  return (
+    <div class="buttons">
+      <button onClick={clearWithBackground}>
+        Clear with Background
+      </button>
+    </div>
+  );
+}
+
 // current foreground and background emojis
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
 
   return (
-    <div>
+    <div class="current-emoji">
+      Foreground:
       <img
         class="emoji"
         src={store.images[store.fg]}
       />
+      Background:
       <img
         class="emoji"
         src={store.images[store.bg]}
@@ -67,7 +93,7 @@ function FieldSize(props) {
         type='number'
         class="counter"
         value={store.width}
-        onInput={e => setStore("width", e.target.value)}
+        onInput={e => setStore("width", parseInt(e.target.value))}
         min={1}
       />
       Height:
@@ -75,7 +101,7 @@ function FieldSize(props) {
         type='number'
         class="counter"
         value={store.height}
-        onInput={e => setStore("height", e.target.value)}
+        onInput={e => setStore("height", parseInt(e.target.value))}
         min={1}
       />
     </div>
