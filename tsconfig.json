@@ -1,0 +1,14 @@
+{
+	"include": ["src"],
+  "lib": ["DOM", "ESNext"],
+  "strict": true,
+  "isolatedModules": true,
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "composite": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+  }
+}
