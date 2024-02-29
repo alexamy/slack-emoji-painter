@@ -160,7 +160,12 @@ function Buttons(props) {
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
 
-  // TODO add context menu and favorites
+  // TODO add favorites?
+
+  function onClick(e) {
+    e.preventDefault();
+    setStore("isListOpened", !store.isListOpened);
+  }
 
   return (
     <div class="current-emoji">
@@ -168,11 +173,13 @@ function CurrentEmoji(props) {
       <img
         class="emoji"
         src={store.images[store.fg]}
+        onClick={onClick}
       />
       Background:
       <img
         class="emoji"
         src={store.images[store.bg]}
+        onClick={onClick}
       />
     </div>
   );
@@ -301,7 +308,6 @@ function List(props) {
 
   return (
     <div class="list">
-      Emojis list
       <div class="emojis">
         <For each={Object.entries(store.images)}>{([name, url]) => (
           <img
