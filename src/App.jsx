@@ -2,22 +2,32 @@ import './App.css';
 import { Index, createEffect } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
+// store
 function createAppStore() {
   const [store, setStore] = createStore({
     width: 8,
     height: 4,
     field: [],
     mouse: null, // left / right / none
-    fg: ":-satan-:",
-    bg: ":12ozmouse-buttermilk:",
-    images: {
-      ":-satan-:": "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
-      ":12ozmouse-buttermilk:": "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
-    },
+    fg: "",
+    bg: "",
+    magicstring: "eyI6LXNhdGFuLToiOiJodHRwczovL2Vtb2ppLnNsYWNrLWVkZ2UuY29tL1Q0N0JLNlgxVS8tc2F0YW4tL2U0MGNiYjRmODcyNmZhZTQuanBnIiwiOjEyb3ptb3VzZS1idXR0ZXJtaWxrOiI6Imh0dHBzOi8vZW1vamkuc2xhY2stZWRnZS5jb20vVDQ3Qks2WDFVLzEyb3ptb3VzZS1idXR0ZXJtaWxrLzJlNjI2ZDdhZDJmZjEyYmIucG5nIn0=",
+    images: {},
   });
 
   // TODO save images to local storage
   // TODO load images from local storage on mount if available
+
+  // convert magic string to images
+  createEffect(() => {
+    try {
+      const data = atob(store.magicstring);
+      const images = JSON.parse(data);
+      setStore("images", images);
+    } catch(e) {
+      console.error(e);
+    }
+  });
 
   // new images uploaded
   createEffect(() => {
@@ -33,6 +43,11 @@ function createAppStore() {
   return [store, setStore];
 }
 
+function convertMagicString(str) {
+
+}
+
+// app
 export function App() {
   const [store, setStore] = createAppStore();
 
