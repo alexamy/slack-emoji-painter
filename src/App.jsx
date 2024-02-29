@@ -212,7 +212,7 @@ function Field(props) {
         field.length = store.height;
       } else if(store.height > field.length) {
         for(let i = field.length; i < store.height; i++) {
-          field.push([...field[0] ?? []]);
+          field.push(Array(store.width).fill(store.bg));
         }
       }
     }));
@@ -330,13 +330,10 @@ function Help() {
           Copy emojis with the <b>copy</b> button and paste them into Slack!
         </li>
       </ul>
-      Select emoji:
+      Emoji list:
       <ul>
-        <li>
-          Click on the <b>main</b> or <b>background</b> emoji to open the emoji menu.
-        </li>
-        <li>Click on the emoji to select it.</li>
-        <li>Right-click on the emoji to add it to favorites.</li>
+        <li>Click on the emoji to set foreground emoji.</li>
+        <li>Right-click on the emoji to to set background emoji.</li>
       </ul>
       Field settings:
       <ul>
