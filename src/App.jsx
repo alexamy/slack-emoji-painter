@@ -31,7 +31,7 @@ function createAppStore() {
 
   // save store to local storage
   createEffect(() => {
-    const data = JSON.stringify(unwrap(store));
+    const data = JSON.stringify(store);
     localStorage.setItem("store", data);
   });
 
