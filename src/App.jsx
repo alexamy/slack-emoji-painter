@@ -317,8 +317,6 @@ function List(props) {
     return result;
   });
 
-  // TODO add favorites
-
   function onMouseDown(e, name) {
     e.preventDefault();
     if(e.button === 0) setStore("fg", name);
