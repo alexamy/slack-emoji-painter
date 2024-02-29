@@ -29,6 +29,7 @@
 
 .current-emoji {
   position: sticky;
+  padding: 10px 0;
   top: 0;
   display: flex;
   gap: 8px;
