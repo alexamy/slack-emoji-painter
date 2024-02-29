@@ -111,14 +111,21 @@ function Field(props) {
     }));
   });
 
+  function changeCell(row, col) {
+    setStore("field", produce(field => {
+      field[row][col] = store.currentFg;
+    }));
+  }
+
   return (
     <div>
-      <Index each={store.field}>{(row) => (
+      <Index each={store.field}>{(emojis, row) => (
         <div class="row">
-          <Index each={row()}>{(cell) => (
+          <Index each={emojis()}>{(cell, col) => (
             <img
               class="emoji"
               src={store.images[cell()]}
+              onClick={() => changeCell(row, col)}
             />
           )}</Index>
         </div>
