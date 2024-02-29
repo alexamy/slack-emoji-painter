@@ -1,8 +1,8 @@
-import { Index, createContext, createEffect } from 'solid-js';
+import { Index, createContext, createEffect, useContext } from 'solid-js';
 import './App.css';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
-const AppContext = createContext({});
+const AppContext = createContext([]);
 
 export function App() {
   const [store, setStore] = createStore({
@@ -24,7 +24,21 @@ export function App() {
     setStore("currentBg", first);
   });
 
-  // change the size of the field
+  createEffect(() => console.log(unwrap(store)));
+
+  return (
+    <>
+      <AppContext.Provider value={[store, setStore]}>
+      <Field />
+      </AppContext.Provider>
+    </>
+  )
+}
+
+function Field() {
+  const [store, setStore] = useContext(AppContext);
+
+  // change the height of the field
   createEffect(() => {
     setStore("field", produce(field => {
       if(store.height < field.length) {
@@ -34,7 +48,12 @@ export function App() {
           field.push([]);
         }
       }
+    }));
+  });
 
+  // change the width of the field
+  createEffect(() => {
+    setStore("field", produce(field => {
       if(store.width < field[0].length) {
         field.forEach(col => col.length = store.width);
       } else {
@@ -47,22 +66,16 @@ export function App() {
     }));
   });
 
-  createEffect(() => console.log(unwrap(store)));
-
   return (
-    <>
-      <AppContext.Provider value={store}>
-        <Index each={store.field}>{(row) => (
-          <div class="row">
-            <Index each={row()}>{(cell) => (
-              <img
-                class="emoji"
-                src={store.images[cell()]}
-              />
-            )}</Index>
-          </div>
+    <Index each={store.field}>{(row) => (
+      <div class="row">
+        <Index each={row()}>{(cell) => (
+          <img
+            class="emoji"
+            src={store.images[cell()]}
+          />
         )}</Index>
-      </AppContext.Provider>
-    </>
-  )
+      </div>
+    )}</Index>
+  );
 }
