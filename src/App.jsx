@@ -164,8 +164,6 @@ function Buttons(props) {
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
 
-  // TODO add favorites?
-
   function onClick(e) {
     e.preventDefault();
     setStore("isListOpened", !store.isListOpened);
@@ -304,6 +302,9 @@ function Field(props) {
 // emojis list
 function List(props) {
   const [store, setStore] = props.store;
+
+  // TODO add search by name
+  // TODO add favorites
 
   function onMouseDown(e, name) {
     e.preventDefault();
