@@ -45,8 +45,42 @@ function createAppStore() {
   });
 
   persistStore([store, setStore]);
+  syncSelectedEmojis([store, setStore]);
+  syncFieldSize([store, setStore]);
 
-  // select fg and bg from new images
+  return [store, setStore] as const;
+}
+
+function persistStore(state: Store) {
+  const [store, setStore] = state;
+
+  // load store from local storage on mount if available
+  onMount(() => {
+    const raw = localStorage.getItem("store");
+    if (!raw) return;
+
+    try {
+      const data = JSON.parse(raw);
+      if (data.version !== store.version) {
+        throw new Error("Version mismatch.");
+      }
+      setStore(data);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  });
+
+  // save store to local storage
+  createEffect(() => {
+    const data = JSON.stringify(store);
+    localStorage.setItem("store", data);
+  });
+}
+
+function syncSelectedEmojis(state: Store) {
+  const [store, setStore] = state;
+
   createEffect(() => {
     const [first, second] = Object.keys(store.images);
 
@@ -57,6 +91,10 @@ function createAppStore() {
       setStore("bg", second ?? first);
     }
   });
+}
+
+function syncFieldSize(state: Store) {
+  const [store, setStore] = state;
 
   // change the height of the field
   createEffect(() => {
@@ -90,35 +128,6 @@ function createAppStore() {
         }
       }),
     );
-  });
-
-  return [store, setStore] as const;
-}
-
-function persistStore(state: Store) {
-  const [store, setStore] = state;
-
-  // load store from local storage on mount if available
-  onMount(() => {
-    const raw = localStorage.getItem("store");
-    if (!raw) return;
-
-    try {
-      const data = JSON.parse(raw);
-      if (data.version !== store.version) {
-        throw new Error("Version mismatch.");
-      }
-      setStore(data);
-    } catch (e) {
-      console.log(e);
-      return;
-    }
-  });
-
-  // save store to local storage
-  createEffect(() => {
-    const data = JSON.stringify(store);
-    localStorage.setItem("store", data);
   });
 }
 
