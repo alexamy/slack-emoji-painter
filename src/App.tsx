@@ -185,29 +185,27 @@ function List() {
   }
 
   return (
-    <Show when={store.isListOpened}>
-      <div class="list">
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={search()}
-          onInput={(e) => setSearch(e.target.value)}
-        />
-        <div class="emojis">
-          <For each={Object.entries(filtered())}>
-            {([name, url]) => (
-              <img
-                class="emoji"
-                src={url}
-                title={name}
-                onContextMenu={(e) => e.preventDefault()}
-                onMouseDown={(e) => onMouseDown(e, name)}
-              />
-            )}
-          </For>
-        </div>
+    <div class="list" style={{ display: store.isListOpened ? "flex" : "none" }}>
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={search()}
+        onInput={(e) => setSearch(e.target.value)}
+      />
+      <div class="emojis">
+        <For each={Object.entries(filtered())}>
+          {([name, url]) => (
+            <img
+              class="emoji"
+              src={url}
+              title={name}
+              onContextMenu={(e) => e.preventDefault()}
+              onMouseDown={(e) => onMouseDown(e, name)}
+            />
+          )}
+        </For>
       </div>
-    </Show>
+    </div>
   );
 }
 
