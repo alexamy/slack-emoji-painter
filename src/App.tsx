@@ -1,23 +1,30 @@
 import "./App.css";
 import { For, Index, Show, createMemo, createSignal } from "solid-js";
 import { produce } from "solid-js/store";
-import { StoreProp, createAppStore, validateEmojis } from "./store";
+import {
+  StoreProp,
+  StoreProvider,
+  createAppStore,
+  validateEmojis,
+} from "./store";
 
 // app
 export function App() {
   const [store, setStore] = createAppStore();
 
   return (
-    <div class="app">
-      <CurrentEmoji store={[store, setStore]} />
-      <Show when={store.isListOpened}>
-        <List store={[store, setStore]} />
-      </Show>
-      <Buttons store={[store, setStore]} />
-      <FieldSize store={[store, setStore]} />
-      <Field store={[store, setStore]} />
-      <Help />
-    </div>
+    <StoreProvider>
+      <div class="app">
+        <CurrentEmoji store={[store, setStore]} />
+        <Show when={store.isListOpened}>
+          <List store={[store, setStore]} />
+        </Show>
+        <Buttons store={[store, setStore]} />
+        <FieldSize store={[store, setStore]} />
+        <Field store={[store, setStore]} />
+        <Help />
+      </div>
+    </StoreProvider>
   );
 }
 

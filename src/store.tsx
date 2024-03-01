@@ -1,7 +1,18 @@
 import { createStore, produce } from "solid-js/store";
-import { onMount, createEffect } from "solid-js";
+import { onMount, createEffect, createContext, JSX } from "solid-js";
 
-export type StoreProp = { store: ReturnType<typeof createAppStore> };
+export type Store = ReturnType<typeof createAppStore>;
+export type StoreProp = { store: Store };
+
+export const AppContext = createContext<Store>([] as unknown as Store);
+
+export function StoreProvider(props: { children: JSX.Element }) {
+  const store = createAppStore();
+
+  return (
+    <AppContext.Provider value={store}>{props.children}</AppContext.Provider>
+  );
+}
 
 // store
 export function createAppStore() {
