@@ -1,5 +1,5 @@
 import "./App.css";
-import { For, Show, createMemo, createSignal, useContext } from "solid-js";
+import { For, createMemo, createSignal, useContext } from "solid-js";
 import { AppContext, StoreProvider } from "./store";
 
 // app
