@@ -14,7 +14,7 @@ export function StoreProvider(props: { children: JSX.Element }) {
 }
 
 // store
-export function createAppStore() {
+function createAppStore() {
   const [store, setStore] = createStore({
     version: 1,
     width: 8,
