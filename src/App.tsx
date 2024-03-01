@@ -264,19 +264,17 @@ function Help() {
           <b>Copy</b> button copies the field content as text to the clipboard.
         </li>
         <li>
-          <b>Load images JSON</b> button loads a JSON file with emojis. The JSON
-          should be structured as an object where each entry consists of a
-          "name" key and a corresponding "url" value.
+          <b>Load images JSON</b> button loads a JSON file with emojis.
+        </li>
+        <li>
+          The JSON should be structured as an object where each entry consists
+          of a "name" key and a corresponding "url" value.
         </li>
       </ul>
       Field settings:
       <ul>
         <li>
-          Use the <b>width</b> / <b>height</b> to change the field size.
-        </li>
-        <li>
-          Fill the entire field with the background emoji using the{" "}
-          <b>Clear with background</b> button.
+          Use the <b>width</b> / <b>height</b> sliders to change the field size.
         </li>
       </ul>
     </div>
