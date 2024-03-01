@@ -49,14 +49,19 @@ function Buttons() {
     <div class="buttons">
       <button onClick={clearWithBackground}>Clear</button>
       <button onClick={copy}>Copy</button>
+      <button>
+        <label for="files" class="btn">
+          Load images JSON
+        </label>
+      </button>
       <input
+        id="files"
         type="file"
         accept=".json"
-        onChange={(e) => load(e.target.files?.[0])}
+        style={{ visibility: "hidden" }}
         title="Contact authorized personnel to acquire images"
-      >
-        Load images JSON
-      </input>
+        onChange={(e) => load(e.target.files?.[0])}
+      />
     </div>
   );
 }
@@ -243,9 +248,26 @@ function Help() {
       </ul>
       Emoji list:
       <ul>
-        <li>Click on foreground or background emoji to open emoji picker.</li>
+        <li>
+          Click on foreground or background emoji to open emoji picker, click
+          again to hide.
+        </li>
         <li>Click on the emoji to set foreground emoji.</li>
         <li>Right-click on the emoji to to set background emoji.</li>
+      </ul>
+      Buttons:
+      <ul>
+        <li>
+          <b>Clear</b> button fills the entire field with the background emoji.
+        </li>
+        <li>
+          <b>Copy</b> button copies the field content as text to the clipboard.
+        </li>
+        <li>
+          <b>Load images JSON</b> button loads a JSON file with emojis. The JSON
+          should be structured as an object where each entry consists of a
+          "name" key and a corresponding "url" value.
+        </li>
       </ul>
       Field settings:
       <ul>
