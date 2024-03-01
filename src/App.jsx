@@ -353,7 +353,7 @@ function Help() {
       Drawing:
       <ul>
         <li>
-          Click on the field with the <b>left mouse button</b> to draw the main emoji.
+          Click on the field with the <b>left mouse button</b> to draw the foreground emoji.
         </li>
         <li>
           Click on the field with the <b>right mouse button</b> to draw the background emoji.
