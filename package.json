@@ -19,5 +19,13 @@
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
     "vite-plugin-solid": "^2.10.1"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "semi": true,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "useTabs": false,
+    "tabWidth": 2
   }
 }
