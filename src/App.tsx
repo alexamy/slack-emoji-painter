@@ -9,6 +9,8 @@ import {
 } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 
+type StoreProp = { store: ReturnType<typeof createAppStore> };
+
 // store
 function createAppStore() {
   const [store, setStore] = createStore({
@@ -64,10 +66,10 @@ function createAppStore() {
     }
   });
 
-  return [store, setStore];
+  return [store, setStore] as const;
 }
 
-function validateEmojis(text) {
+function validateEmojis(text: string) {
   try {
     const images = JSON.parse(text);
     // check what images is an object with string keys and values starting with "http"
@@ -104,7 +106,7 @@ export function App() {
 }
 
 // buttons
-function Buttons(props) {
+function Buttons(props: StoreProp) {
   const [store, setStore] = props.store;
 
   function clearWithBackground() {
@@ -170,7 +172,7 @@ function Buttons(props) {
 }
 
 // current foreground and background emojis
-function CurrentEmoji(props) {
+function CurrentEmoji(props: StoreProp) {
   const [store, setStore] = props.store;
 
   function onClick(e) {
@@ -190,7 +192,7 @@ function CurrentEmoji(props) {
 }
 
 // field size controls
-function FieldSize(props) {
+function FieldSize(props: StoreProp) {
   const [store, setStore] = props.store;
 
   return (
@@ -216,7 +218,7 @@ function FieldSize(props) {
 }
 
 // the field itself
-function Field(props) {
+function Field(props: StoreProp) {
   const [store, setStore] = props.store;
 
   // change the height of the field
@@ -314,7 +316,7 @@ function Field(props) {
 }
 
 // emojis list
-function List(props) {
+function List(props: StoreProp) {
   const [store, setStore] = props.store;
 
   const [search, setSearch] = createSignal("");
