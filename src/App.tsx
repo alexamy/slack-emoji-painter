@@ -62,18 +62,23 @@ function Buttons() {
 function CurrentEmoji() {
   const [store, { setStore }] = useContext(AppContext);
 
-  function onClick(e: MouseEvent) {
+  function switchList(e: MouseEvent) {
     e.preventDefault();
     setStore("isListOpened", !store.isListOpened);
     window.scrollTo(0, 0);
   }
 
+  function swap() {
+    setStore({ fg: store.bg, bg: store.fg });
+  }
+
   return (
     <div class="current-emoji">
       Foreground:
-      <img class="emoji" src={store.images[store.fg]} onClick={onClick} />
+      <img class="emoji" src={store.images[store.fg]} onClick={switchList} />
       Background:
-      <img class="emoji" src={store.images[store.bg]} onClick={onClick} />
+      <img class="emoji" src={store.images[store.bg]} onClick={switchList} />
+      <button onClick={swap}>Swap</button>
     </div>
   );
 }
@@ -222,7 +227,12 @@ function Help() {
         </li>
         <li>Hold the mouse button to paint like a brush.</li>
         <li>
-          Copy emojis with the <b>copy</b> button and paste them into Slack!
+          Click <b>swap</b> button to swap foreground and background emojis.
+        </li>
+        <li>
+          <i>
+            Copy emojis with the <b>copy</b> button and paste them into Slack!
+          </i>
         </li>
       </ul>
       Emoji list:
