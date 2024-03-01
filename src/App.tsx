@@ -144,7 +144,7 @@ function Field() {
   }
 
   return (
-    <div class="field-outer" onContextMenu={(e) => e.preventDefault()}>
+    <div onContextMenu={(e) => e.preventDefault()}>
       <div class="field" onMouseLeave={onMouseUp}>
         <For each={store.field}>
           {(emojis, row) => (
