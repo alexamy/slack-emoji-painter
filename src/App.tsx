@@ -152,25 +152,25 @@ function Field() {
   return (
     <div class="field-outer" onContextMenu={(e) => e.preventDefault()}>
       <div class="field" onMouseLeave={onMouseUp}>
-        <Index each={store.field}>
+        <For each={store.field}>
           {(emojis, row) => (
             <div class="row">
-              <Index each={emojis()}>
+              <For each={emojis}>
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell()]}
+                    src={store.images[cell]}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
-                    onMouseDown={(e) => onMouseDown(e, row, col)}
-                    onMouseOver={(e) => onMouseOver(e, row, col)}
+                    onMouseDown={(e) => onMouseDown(e, row(), col())}
+                    onMouseOver={(e) => onMouseOver(e, row(), col())}
                     onMouseUp={(e) => onMouseUp(e)}
                   />
                 )}
-              </Index>
+              </For>
             </div>
           )}
-        </Index>
+        </For>
       </div>
     </div>
   );
