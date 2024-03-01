@@ -7,7 +7,7 @@ import {
   useContext,
 } from "solid-js";
 
-export type Store = ReturnType<typeof createAppStore>;
+type Store = ReturnType<typeof createAppStore>;
 
 interface StoreData {
   version: number;
@@ -21,7 +21,7 @@ interface StoreData {
   isListOpened: boolean;
 }
 
-export const AppContext = createContext<Store>([] as unknown as Store);
+const AppContext = createContext<Store>([] as unknown as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
   const store = createAppStore();
