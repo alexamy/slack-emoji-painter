@@ -116,15 +116,14 @@ function syncFieldSize(state: Store) {
   createEffect(() => {
     setStore(
       "field",
-      produce((field) => {
-        if (store.width < field[0].length) {
-          field.forEach((col) => (col.length = store.width));
-        } else if (store.width > field[0].length) {
-          field.forEach((col) => {
-            for (let i = col.length; i < store.width; i++) {
-              col.push(store.bg);
-            }
-          });
+      Array.from({ length: store.height }).map((_, i) => i),
+      produce((column) => {
+        if (store.width < column.length) {
+          column.length = store.width;
+        } else if (store.width > column.length) {
+          for (let i = column.length; i < store.width; i++) {
+            column.push(store.bg);
+          }
         }
       }),
     );
