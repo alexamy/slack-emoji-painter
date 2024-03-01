@@ -108,17 +108,9 @@ function CurrentEmoji() {
   return (
     <div class="current-emoji">
       Foreground:
-      <img
-        class="emoji"
-        src={store.images[store.fg as keyof typeof store.images]}
-        onClick={onClick}
-      />
+      <img class="emoji" src={store.images[store.fg]} onClick={onClick} />
       Background:
-      <img
-        class="emoji"
-        src={store.images[store.bg as keyof typeof store.images]}
-        onClick={onClick}
-      />
+      <img class="emoji" src={store.images[store.bg]} onClick={onClick} />
     </div>
   );
 }
@@ -196,7 +188,7 @@ function Field() {
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell() as keyof typeof store.images]}
+                    src={store.images[cell()]}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
                     onMouseDown={(e) => onMouseDown(e, row, col)}

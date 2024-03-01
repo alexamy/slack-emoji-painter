@@ -48,13 +48,12 @@ function createAppStore() {
 
   // select fg and bg from new images
   createEffect(() => {
-    const first = Object.keys(store.images)[0];
-    const second = Object.keys(store.images)[1];
+    const [first, second] = Object.keys(store.images);
 
-    if (!store.images[store.fg as keyof typeof store.images]) {
+    if (!store.images[store.fg]) {
       setStore("fg", first);
     }
-    if (!store.images[store.bg as keyof typeof store.images]) {
+    if (!store.images[store.bg]) {
       setStore("bg", second ?? first);
     }
   });
