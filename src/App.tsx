@@ -269,7 +269,7 @@ function Field(props: StoreProp) {
     );
   });
 
-  function changeCell(e, row, col) {
+  function changeCell(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
     if (store.mouse) {
       setStore(
@@ -282,9 +282,9 @@ function Field(props: StoreProp) {
     }
   }
 
-  function onMouseDown(e, row, col) {
+  function onMouseDown(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
-    setStore("mouse", () => {
+    setStore("mouse", (mouse) => {
       if (e.button === 0) return "left";
       if (e.button === 2) return "right";
       return null;
@@ -292,12 +292,12 @@ function Field(props: StoreProp) {
     changeCell(e, row, col);
   }
 
-  function onMouseOver(e, row, col) {
+  function onMouseOver(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
     changeCell(e, row, col);
   }
 
-  function onMouseUp(e, row, col) {
+  function onMouseUp(e: MouseEvent) {
     e.preventDefault();
     setStore("mouse", null);
   }
@@ -312,12 +312,12 @@ function Field(props: StoreProp) {
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell()]}
+                    src={store.images[cell() as keyof typeof store.images]}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
                     onMouseDown={(e) => onMouseDown(e, row, col)}
                     onMouseOver={(e) => onMouseOver(e, row, col)}
-                    onMouseUp={(e) => onMouseUp(e, row, col)}
+                    onMouseUp={(e) => onMouseUp(e)}
                   />
                 )}
               </Index>
