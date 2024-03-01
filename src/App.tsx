@@ -17,7 +17,7 @@ function createAppStore() {
     version: 1,
     width: 8,
     height: 4,
-    field: [],
+    field: [[""]],
     images: {
       ":-satan-:":
         "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
@@ -25,8 +25,8 @@ function createAppStore() {
         "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
     },
     mouse: null, // left / right
-    fg: "",
-    bg: "",
+    fg: ":-satan-:",
+    bg: ":12ozmouse-buttermilk:",
     isListOpened: false,
   });
 
@@ -58,10 +58,10 @@ function createAppStore() {
     const first = Object.keys(store.images)[0];
     const second = Object.keys(store.images)[1];
 
-    if (!store.images[store.fg]) {
+    if (!store.images[store.fg as keyof typeof store.images]) {
       setStore("fg", first);
     }
-    if (!store.images[store.bg]) {
+    if (!store.images[store.bg as keyof typeof store.images]) {
       setStore("bg", second ?? first);
     }
   });
@@ -80,7 +80,7 @@ function validateEmojis(text: string) {
       if (!value.startsWith("http")) throw new Error("Value is not a URL.");
     }
 
-    return images;
+    return images as Record<string, string>;
   } catch (e) {
     console.error(e);
     return;
@@ -135,12 +135,15 @@ function Buttons(props: StoreProp) {
     navigator.clipboard.writeText(text);
   }
 
-  function loadEmojis(file) {
+  function loadEmojis(file: File | undefined) {
+    if (!file) return;
     const reader = new FileReader();
     reader.addEventListener(
       "load",
       (e) => {
-        const text = e.target.result;
+        const text = e.target?.result;
+        if (typeof text !== "string") return;
+
         const images = validateEmojis(text);
         if (!images) return;
 
@@ -162,7 +165,7 @@ function Buttons(props: StoreProp) {
       <input
         type="file"
         accept=".json"
-        onChange={(e) => loadEmojis(e.target.files[0])}
+        onChange={(e) => loadEmojis(e.target.files?.[0])}
         title="Contact authorized personnel to acquire images"
       >
         Load images JSON
@@ -220,6 +223,8 @@ function FieldSize(props: StoreProp) {
 // the field itself
 function Field(props: StoreProp) {
   const [store, setStore] = props.store;
+
+  // TODO move effects to the store
 
   // change the height of the field
   createEffect(() => {
