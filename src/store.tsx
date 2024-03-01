@@ -1,5 +1,11 @@
 import { createStore, produce } from "solid-js/store";
-import { onMount, createEffect, createContext, JSX } from "solid-js";
+import {
+  onMount,
+  createEffect,
+  createContext,
+  JSX,
+  useContext,
+} from "solid-js";
 
 export type Store = ReturnType<typeof createAppStore>;
 
@@ -25,24 +31,8 @@ export function StoreProvider(props: { children: JSX.Element }) {
   );
 }
 
-// store
-function createAppStore() {
-  const [store, setStore] = createStore<StoreData>({
-    version: 1,
-    width: 8,
-    height: 4,
-    mouse: null,
-    fg: "",
-    bg: "",
-    isListOpened: false,
-    field: [],
-    images: {
-      ":-satan-:":
-        "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
-      ":12ozmouse-buttermilk:":
-        "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
-    },
-  });
+export function useStoreContext() {
+  const [store, setStore] = useContext(AppContext);
 
   function clearWith(emoji: string) {
     setStore("field", () => {
@@ -96,23 +86,40 @@ function createAppStore() {
     );
   }
 
-  const methods = {
-    setStore,
-    clearWith,
-    asText,
-    loadEmojis,
-    updateCell,
-  };
+  return [
+    store,
+    { setStore, clearWith, asText, loadEmojis, updateCell },
+  ] as const;
+}
 
-  persistStore([store, methods]);
-  syncSelectedEmojis([store, methods]);
-  syncFieldSize([store, methods]);
+// store
+function createAppStore() {
+  const [store, setStore] = createStore<StoreData>({
+    version: 1,
+    width: 8,
+    height: 4,
+    mouse: null,
+    fg: "",
+    bg: "",
+    isListOpened: false,
+    field: [],
+    images: {
+      ":-satan-:":
+        "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
+      ":12ozmouse-buttermilk:":
+        "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
+    },
+  });
 
-  return [store, methods] as const;
+  persistStore([store, setStore]);
+  syncSelectedEmojis([store, setStore]);
+  syncFieldSize([store, setStore]);
+
+  return [store, setStore] as const;
 }
 
 function persistStore(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // load store from local storage on mount if available
   onMount(() => {
@@ -139,7 +146,7 @@ function persistStore(state: Store) {
 }
 
 function syncSelectedEmojis(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // if new images loaded, set the current fg and bg to the first two images
   createEffect(() => {
@@ -155,7 +162,7 @@ function syncSelectedEmojis(state: Store) {
 }
 
 function syncFieldSize(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // change the height of the field
   createEffect(() => {

@@ -1,6 +1,6 @@
 import "./App.css";
-import { For, createMemo, createSignal, useContext } from "solid-js";
-import { AppContext, StoreProvider } from "./store";
+import { For, createMemo, createSignal } from "solid-js";
+import { StoreProvider, useStoreContext } from "./store";
 
 // app
 export function App() {
@@ -20,7 +20,7 @@ export function App() {
 
 // buttons
 function Buttons() {
-  const [store, { clearWith, asText, loadEmojis }] = useContext(AppContext);
+  const [store, { clearWith, asText, loadEmojis }] = useStoreContext();
 
   function clearWithBackground() {
     clearWith(store.bg);
@@ -60,7 +60,7 @@ function Buttons() {
 
 // current foreground and background emojis
 function CurrentEmoji() {
-  const [store, { setStore }] = useContext(AppContext);
+  const [store, { setStore }] = useStoreContext();
 
   function switchList(e: MouseEvent) {
     e.preventDefault();
@@ -95,7 +95,7 @@ function CurrentEmoji() {
 
 // field size controls
 function FieldSize() {
-  const [store, { setStore }] = useContext(AppContext);
+  const [store, { setStore }] = useStoreContext();
 
   return (
     <div class="field-size">
@@ -121,7 +121,7 @@ function FieldSize() {
 
 // the field itself
 function Field() {
-  const [store, { setStore, updateCell }] = useContext(AppContext);
+  const [store, { setStore, updateCell }] = useStoreContext();
 
   function onMouseDown(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
@@ -172,7 +172,7 @@ function Field() {
 
 // emojis list
 function List() {
-  const [store, { setStore }] = useContext(AppContext);
+  const [store, { setStore }] = useStoreContext();
 
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
