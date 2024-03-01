@@ -27,7 +27,7 @@ export function App() {
 }
 
 // buttons
-function Buttons(props: StoreProp) {
+function Buttons() {
   const [store, setStore] = useContext(AppContext);
 
   function clearWithBackground() {
