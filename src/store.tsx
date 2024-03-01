@@ -67,10 +67,29 @@ function createAppStore() {
     return text;
   }
 
+  function loadEmojis(file: File) {
+    const reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      (e) => {
+        const text = e.target?.result;
+        if (typeof text !== "string") return;
+
+        const images = validateEmojis(text);
+        if (!images) return;
+
+        setStore({ images });
+      },
+      { once: true },
+    );
+    reader.readAsText(file);
+  }
+
   const methods = {
     setStore,
     clearWith,
     asText,
+    loadEmojis,
   };
 
   persistStore([store, methods]);
@@ -160,7 +179,7 @@ function syncFieldSize(state: Store) {
   });
 }
 
-export function validateEmojis(text: string) {
+function validateEmojis(text: string) {
   try {
     const images = JSON.parse(text);
     // check what images is an object with string keys and values starting with "http"

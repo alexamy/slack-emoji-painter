@@ -8,7 +8,7 @@ import {
   useContext,
 } from "solid-js";
 import { produce } from "solid-js/store";
-import { AppContext, StoreProvider, validateEmojis } from "./store";
+import { AppContext, StoreProvider } from "./store";
 
 // app
 export function App() {
@@ -28,7 +28,7 @@ export function App() {
 
 // buttons
 function Buttons() {
-  const [store, { setStore, clearWith, asText }] = useContext(AppContext);
+  const [store, { clearWith, asText, loadEmojis }] = useContext(AppContext);
 
   function clearWithBackground() {
     clearWith(store.bg);
@@ -40,23 +40,9 @@ function Buttons() {
     navigator.clipboard.writeText(text);
   }
 
-  function loadEmojis(file: File | undefined) {
+  function load(file: File | undefined) {
     if (!file) return;
-    const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      (e) => {
-        const text = e.target?.result;
-        if (typeof text !== "string") return;
-
-        const images = validateEmojis(text);
-        if (!images) return;
-
-        setStore({ images });
-      },
-      { once: true },
-    );
-    reader.readAsText(file);
+    loadEmojis(file);
   }
 
   return (
@@ -66,7 +52,7 @@ function Buttons() {
       <input
         type="file"
         accept=".json"
-        onChange={(e) => loadEmojis(e.target.files?.[0])}
+        onChange={(e) => load(e.target.files?.[0])}
         title="Contact authorized personnel to acquire images"
       >
         Load images JSON
