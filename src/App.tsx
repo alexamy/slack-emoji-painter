@@ -31,16 +31,14 @@ function Buttons() {
   const [store, setStore] = useContext(AppContext);
 
   function clearWithBackground() {
-    setStore(
-      produce((store) => {
-        const field = [];
-        for (let i = 0; i < store.height; i++) {
-          const row = Array(store.width).fill(store.bg);
-          field.push(row);
-        }
-        store.field = field;
-      }),
-    );
+    setStore("field", () => {
+      const field = [];
+      for (let i = 0; i < store.height; i++) {
+        const row = Array(store.width).fill(store.bg);
+        field.push(row);
+      }
+      return field;
+    });
   }
 
   function copy() {
