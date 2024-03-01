@@ -1,5 +1,5 @@
 import './App.css';
-import { Index, Show, createEffect, createMemo, onMount } from 'solid-js';
+import { Index, Show, createEffect, createMemo, createSignal, onMount } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
 // store
@@ -80,10 +80,6 @@ function validateEmojis(text) {
 export function App() {
   const [store, setStore] = createAppStore();
 
-  onMount(() => {
-    window.addEventListener("contextmenu", e => e.preventDefault());
-  });
-
   return (
     <div class="app">
       <CurrentEmoji store={[store, setStore]} />
@@ -163,8 +159,6 @@ function Buttons(props) {
 // current foreground and background emojis
 function CurrentEmoji(props) {
   const [store, setStore] = props.store;
-
-  // TODO add favorites?
 
   function onClick(e) {
     e.preventDefault();
@@ -305,6 +299,20 @@ function Field(props) {
 function List(props) {
   const [store, setStore] = props.store;
 
+  const [search, setSearch] = createSignal("");
+  const filtered = createMemo(() => {
+    if(search() === "") return store.images;
+    const query = search().toLowerCase();
+
+    const result = {};
+    for(const [name, url] of Object.entries(store.images)) {
+      if(name.includes(query)) {
+        result[name] = url;
+      }
+    }
+    return result;
+  });
+
   function onMouseDown(e, name) {
     e.preventDefault();
     if(e.button === 0) setStore("fg", name);
@@ -313,11 +321,18 @@ function List(props) {
 
   return (
     <div class="list">
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={search()}
+        onInput={e => setSearch(e.target.value)}
+      />
       <div class="emojis">
-        <For each={Object.entries(store.images)}>{([name, url]) => (
+        <For each={Object.entries(filtered())}>{([name, url]) => (
           <img
             class="emoji"
             src={url}
+            title={name}
             onContextMenu={e => e.preventDefault()}
             onMouseDown={e => onMouseDown(e, name)}
           />
@@ -334,7 +349,7 @@ function Help() {
       Drawing:
       <ul>
         <li>
-          Click on the field with the <b>left mouse button</b> to draw the main emoji.
+          Click on the field with the <b>left mouse button</b> to draw the foreground emoji.
         </li>
         <li>
           Click on the field with the <b>right mouse button</b> to draw the background emoji.

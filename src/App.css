@@ -10,6 +10,11 @@
   white-space: nowrap;
 }
 
+.row {
+  display: flex;
+  gap: 0;
+}
+
 .emoji {
   width: 32px;
   height: 32px;
@@ -24,6 +29,7 @@
 
 .current-emoji {
   position: sticky;
+  padding: 10px 0;
   top: 0;
   display: flex;
   gap: 8px;
