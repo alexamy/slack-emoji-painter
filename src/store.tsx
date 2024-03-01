@@ -2,7 +2,6 @@ import { createStore, produce } from "solid-js/store";
 import { onMount, createEffect, createContext, JSX } from "solid-js";
 
 export type Store = ReturnType<typeof createAppStore>;
-export type StoreProp = { store: Store };
 
 export const AppContext = createContext<Store>([] as unknown as Store);
 

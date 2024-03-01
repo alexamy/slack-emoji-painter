@@ -1,27 +1,25 @@
 import "./App.css";
-import { For, Index, Show, createMemo, createSignal } from "solid-js";
-import { produce } from "solid-js/store";
 import {
-  StoreProp,
-  StoreProvider,
-  createAppStore,
-  validateEmojis,
-} from "./store";
+  For,
+  Index,
+  Show,
+  createMemo,
+  createSignal,
+  useContext,
+} from "solid-js";
+import { produce } from "solid-js/store";
+import { AppContext, StoreProvider, validateEmojis } from "./store";
 
 // app
 export function App() {
-  const [store, setStore] = createAppStore();
-
   return (
     <StoreProvider>
       <div class="app">
-        <CurrentEmoji store={[store, setStore]} />
-        <Show when={store.isListOpened}>
-          <List store={[store, setStore]} />
-        </Show>
-        <Buttons store={[store, setStore]} />
-        <FieldSize store={[store, setStore]} />
-        <Field store={[store, setStore]} />
+        <CurrentEmoji />
+        <List />
+        <Buttons />
+        <FieldSize />
+        <Field />
         <Help />
       </div>
     </StoreProvider>
@@ -30,7 +28,7 @@ export function App() {
 
 // buttons
 function Buttons(props: StoreProp) {
-  const [store, setStore] = props.store;
+  const [store, setStore] = useContext(AppContext);
 
   function clearWithBackground() {
     setStore(
@@ -98,8 +96,8 @@ function Buttons(props: StoreProp) {
 }
 
 // current foreground and background emojis
-function CurrentEmoji(props: StoreProp) {
-  const [store, setStore] = props.store;
+function CurrentEmoji() {
+  const [store, setStore] = useContext(AppContext);
 
   function onClick(e: MouseEvent) {
     e.preventDefault();
@@ -126,8 +124,8 @@ function CurrentEmoji(props: StoreProp) {
 }
 
 // field size controls
-function FieldSize(props: StoreProp) {
-  const [store, setStore] = props.store;
+function FieldSize() {
+  const [store, setStore] = useContext(AppContext);
 
   return (
     <div class="field-size">
@@ -152,8 +150,8 @@ function FieldSize(props: StoreProp) {
 }
 
 // the field itself
-function Field(props: StoreProp) {
-  const [store, setStore] = props.store;
+function Field() {
+  const [store, setStore] = useContext(AppContext);
 
   function changeCell(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
@@ -216,8 +214,8 @@ function Field(props: StoreProp) {
 }
 
 // emojis list
-function List(props: StoreProp) {
-  const [store, setStore] = props.store;
+function List() {
+  const [store, setStore] = useContext(AppContext);
 
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
@@ -240,27 +238,29 @@ function List(props: StoreProp) {
   }
 
   return (
-    <div class="list">
-      <input
-        type="text"
-        placeholder="Search by name"
-        value={search()}
-        onInput={(e) => setSearch(e.target.value)}
-      />
-      <div class="emojis">
-        <For each={Object.entries(filtered())}>
-          {([name, url]) => (
-            <img
-              class="emoji"
-              src={url}
-              title={name}
-              onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => onMouseDown(e, name)}
-            />
-          )}
-        </For>
+    <Show when={store.isListOpened}>
+      <div class="list">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={search()}
+          onInput={(e) => setSearch(e.target.value)}
+        />
+        <div class="emojis">
+          <For each={Object.entries(filtered())}>
+            {([name, url]) => (
+              <img
+                class="emoji"
+                src={url}
+                title={name}
+                onContextMenu={(e) => e.preventDefault()}
+                onMouseDown={(e) => onMouseDown(e, name)}
+              />
+            )}
+          </For>
+        </div>
       </div>
-    </div>
+    </Show>
   );
 }
 
