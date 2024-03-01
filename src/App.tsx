@@ -138,7 +138,7 @@ function Field() {
       <div class="field" onMouseLeave={onMouseUp}>
         <For each={store.field}>
           {(emojis, row) => (
-            <div class="row">
+            <div>
               <For each={emojis}>
                 {(cell, col) => (
                   <img

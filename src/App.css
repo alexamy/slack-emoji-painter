@@ -8,11 +8,7 @@
   padding: 15px;
   width: fit-content;
   white-space: nowrap;
-}
-
-.row {
-  display: flex;
-  gap: 0;
+  line-height: 0;
 }
 
 .emoji {
@@ -52,4 +48,5 @@
 }
 
 .emojis {
+  line-height: 0;
 }
