@@ -85,11 +85,23 @@ function createAppStore() {
     reader.readAsText(file);
   }
 
+  function updateCell(row: number, col: number) {
+    setStore(
+      "field",
+      produce((field) => {
+        if (!store.mouse) return;
+        const emoji = store.mouse === "left" ? store.fg : store.bg;
+        field[row][col] = emoji;
+      }),
+    );
+  }
+
   const methods = {
     setStore,
     clearWith,
     asText,
     loadEmojis,
+    updateCell,
   };
 
   persistStore([store, methods]);

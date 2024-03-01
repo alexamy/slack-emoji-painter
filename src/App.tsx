@@ -107,34 +107,21 @@ function FieldSize() {
 
 // the field itself
 function Field() {
-  const [store, { setStore }] = useContext(AppContext);
-
-  function changeCell(e: MouseEvent, row: number, col: number) {
-    e.preventDefault();
-    if (store.mouse) {
-      setStore(
-        "field",
-        produce((field) => {
-          const emoji = store.mouse === "left" ? store.fg : store.bg;
-          field[row][col] = emoji;
-        }),
-      );
-    }
-  }
+  const [store, { setStore, updateCell }] = useContext(AppContext);
 
   function onMouseDown(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
-    setStore("mouse", (mouse) => {
+    setStore("mouse", () => {
       if (e.button === 0) return "left";
       if (e.button === 2) return "right";
       return null;
     });
-    changeCell(e, row, col);
+    updateCell(row, col);
   }
 
   function onMouseOver(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
-    changeCell(e, row, col);
+    updateCell(row, col);
   }
 
   function onMouseUp(e: MouseEvent) {
