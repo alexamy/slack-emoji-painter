@@ -67,6 +67,40 @@ function createAppStore() {
     }
   });
 
+  // change the height of the field
+  createEffect(() => {
+    setStore(
+      "field",
+      produce((field) => {
+        if (store.height < field.length) {
+          field.length = store.height;
+        } else if (store.height > field.length) {
+          for (let i = field.length; i < store.height; i++) {
+            field.push(Array(store.width).fill(store.bg));
+          }
+        }
+      }),
+    );
+  });
+
+  // change the width of the field
+  createEffect(() => {
+    setStore(
+      "field",
+      produce((field) => {
+        if (store.width < field[0].length) {
+          field.forEach((col) => (col.length = store.width));
+        } else if (store.width > field[0].length) {
+          field.forEach((col) => {
+            for (let i = col.length; i < store.width; i++) {
+              col.push(store.bg);
+            }
+          });
+        }
+      }),
+    );
+  });
+
   return [store, setStore] as const;
 }
 
@@ -232,42 +266,6 @@ function FieldSize(props: StoreProp) {
 // the field itself
 function Field(props: StoreProp) {
   const [store, setStore] = props.store;
-
-  // TODO move effects to the store
-
-  // change the height of the field
-  createEffect(() => {
-    setStore(
-      "field",
-      produce((field) => {
-        if (store.height < field.length) {
-          field.length = store.height;
-        } else if (store.height > field.length) {
-          for (let i = field.length; i < store.height; i++) {
-            field.push(Array(store.width).fill(store.bg));
-          }
-        }
-      }),
-    );
-  });
-
-  // change the width of the field
-  createEffect(() => {
-    setStore(
-      "field",
-      produce((field) => {
-        if (store.width < field[0].length) {
-          field.forEach((col) => (col.length = store.width));
-        } else if (store.width > field[0].length) {
-          field.forEach((col) => {
-            for (let i = col.length; i < store.width; i++) {
-              col.push(store.bg);
-            }
-          });
-        }
-      }),
-    );
-  });
 
   function changeCell(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
