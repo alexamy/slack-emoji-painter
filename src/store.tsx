@@ -105,7 +105,8 @@ function syncFieldSize(state: Store) {
           field.length = store.height;
         } else if (store.height > field.length) {
           for (let i = field.length; i < store.height; i++) {
-            field.push(Array(store.width).fill(store.bg));
+            const row = Array(store.width).fill(store.bg);
+            field.push(row);
           }
         }
       }),
