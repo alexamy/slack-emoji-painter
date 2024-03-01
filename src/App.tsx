@@ -1,16 +1,8 @@
 import "./App.css";
-import {
-  For,
-  Index,
-  Show,
-  createMemo,
-  createSignal,
-  useContext,
-} from "solid-js";
+import { For, Show, createMemo, createSignal, useContext } from "solid-js";
 import { produce } from "solid-js/store";
 import { AppContext, StoreProvider } from "./store";
 
-// app
 export function App() {
   return (
     <StoreProvider>
@@ -35,8 +27,8 @@ function Buttons() {
   }
 
   function copy() {
-    const text = asText();
     console.log("Copied.");
+    const text = asText();
     navigator.clipboard.writeText(text);
   }
 
