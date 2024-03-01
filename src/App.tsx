@@ -28,28 +28,14 @@ export function App() {
 
 // buttons
 function Buttons() {
-  const [store, { setStore }] = useContext(AppContext);
+  const [store, { setStore, clearWith, asText }] = useContext(AppContext);
 
   function clearWithBackground() {
-    setStore("field", () => {
-      const field = [];
-      for (let i = 0; i < store.height; i++) {
-        const row = Array(store.width).fill(store.bg);
-        field.push(row);
-      }
-      return field;
-    });
+    clearWith(store.bg);
   }
 
   function copy() {
-    let text = "";
-    for (const row of store.field) {
-      for (const cell of row) {
-        text += cell;
-      }
-      text += "\n";
-    }
-
+    const text = asText();
     console.log("Copied.");
     navigator.clipboard.writeText(text);
   }

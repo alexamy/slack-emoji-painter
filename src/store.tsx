@@ -44,7 +44,34 @@ function createAppStore() {
     isListOpened: false,
   });
 
-  const methods = { setStore };
+  function clearWith(emoji: string) {
+    setStore("field", () => {
+      const field = [];
+      for (let i = 0; i < store.height; i++) {
+        const row = Array(store.width).fill(emoji);
+        field.push(row);
+      }
+      return field;
+    });
+  }
+
+  function asText() {
+    let text = "";
+    for (const row of store.field) {
+      for (const cell of row) {
+        text += cell;
+      }
+      text += "\n";
+    }
+
+    return text;
+  }
+
+  const methods = {
+    setStore,
+    clearWith,
+    asText,
+  };
 
   persistStore([store, methods]);
   syncSelectedEmojis([store, methods]);
