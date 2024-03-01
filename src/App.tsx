@@ -52,11 +52,7 @@ function Buttons() {
         const images = validateEmojis(text);
         if (!images) return;
 
-        setStore(
-          produce((state) => {
-            state.images = images;
-          }),
-        );
+        setStore({ images });
       },
       { once: true },
     );
