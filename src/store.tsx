@@ -31,17 +31,17 @@ function createAppStore() {
     version: 1,
     width: 8,
     height: 4,
-    field: [[""]],
+    mouse: null,
+    fg: "",
+    bg: "",
+    isListOpened: false,
+    field: [],
     images: {
       ":-satan-:":
         "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
       ":12ozmouse-buttermilk:":
         "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
     },
-    mouse: null, // left / right
-    fg: ":-satan-:",
-    bg: ":12ozmouse-buttermilk:",
-    isListOpened: false,
   });
 
   function clearWith(emoji: string) {
@@ -134,6 +134,7 @@ function persistStore(state: Store) {
 function syncSelectedEmojis(state: Store) {
   const [store, { setStore }] = state;
 
+  // if new images loaded, set the current fg and bg to the first two images
   createEffect(() => {
     const [first, second] = Object.keys(store.images);
 
