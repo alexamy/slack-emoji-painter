@@ -7,6 +7,7 @@ import {
   useContext,
 } from "solid-js";
 
+// types
 type Store = ReturnType<typeof createAppStore>;
 
 interface StoreData {
@@ -21,6 +22,7 @@ interface StoreData {
   isListOpened: boolean;
 }
 
+// context
 const AppContext = createContext<Store>([] as unknown as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
@@ -90,6 +92,24 @@ export function useStoreContext() {
     store,
     { setStore, clearWith, asText, loadEmojis, updateCell },
   ] as const;
+}
+
+function validateEmojis(text: string) {
+  try {
+    const images = JSON.parse(text);
+    // check what images is an object with string keys and values starting with "http"
+    if (typeof images !== "object") throw new Error("Not an object.");
+    for (const [key, value] of Object.entries(images)) {
+      if (typeof key !== "string") throw new Error("Key is not a string.");
+      if (typeof value !== "string") throw new Error("Value is not a string.");
+      if (!value.startsWith("http")) throw new Error("Value is not a URL.");
+    }
+
+    return images as Record<string, string>;
+  } catch (e) {
+    console.error(e);
+    return;
+  }
 }
 
 // store
@@ -197,22 +217,4 @@ function syncFieldSize(state: Store) {
       }),
     );
   });
-}
-
-function validateEmojis(text: string) {
-  try {
-    const images = JSON.parse(text);
-    // check what images is an object with string keys and values starting with "http"
-    if (typeof images !== "object") throw new Error("Not an object.");
-    for (const [key, value] of Object.entries(images)) {
-      if (typeof key !== "string") throw new Error("Key is not a string.");
-      if (typeof value !== "string") throw new Error("Value is not a string.");
-      if (!value.startsWith("http")) throw new Error("Value is not a URL.");
-    }
-
-    return images as Record<string, string>;
-  } catch (e) {
-    console.error(e);
-    return;
-  }
 }
