@@ -1,6 +1,6 @@
 import "./App.css";
 import { For, createMemo, createSignal } from "solid-js";
-import { StoreProvider, useStoreContext } from "./store";
+import { StoreProvider, useStoreContext } from "./context";
 
 // app
 export function App() {
