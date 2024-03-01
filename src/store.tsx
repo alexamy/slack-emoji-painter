@@ -147,12 +147,12 @@ function syncFieldSize(state: Store) {
     setStore(
       "field",
       Array.from({ length: store.height }).map((_, i) => i),
-      produce((column) => {
-        if (store.width < column.length) {
-          column.length = store.width;
-        } else if (store.width > column.length) {
-          for (let i = column.length; i < store.width; i++) {
-            column.push(store.bg);
+      produce((row) => {
+        if (store.width < row.length) {
+          row.length = store.width;
+        } else if (store.width > row.length) {
+          for (let i = row.length; i < store.width; i++) {
+            row.push(store.bg);
           }
         }
       }),
