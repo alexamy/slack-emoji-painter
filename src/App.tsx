@@ -61,11 +61,11 @@ function Buttons() {
 
 // current foreground and background emojis
 function CurrentEmoji() {
-  const [store, { switchList }] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   function onClick(e: MouseEvent) {
     e.preventDefault();
-    switchList();
+    setStore("isListOpened", !store.isListOpened);
     window.scrollTo(0, 0);
   }
 
