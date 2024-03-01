@@ -163,8 +163,8 @@ function List() {
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
     if (search() === "") return store.images;
-    const query = search().toLowerCase();
 
+    const query = search().toLowerCase();
     const result: Record<string, string> = {};
     for (const [name, url] of Object.entries(store.images)) {
       if (name.includes(query)) {
