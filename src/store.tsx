@@ -44,15 +44,17 @@ function createAppStore() {
     isListOpened: false,
   });
 
-  persistStore([store, setStore]);
-  syncSelectedEmojis([store, setStore]);
-  syncFieldSize([store, setStore]);
+  const methods = { setStore };
 
-  return [store, setStore] as const;
+  persistStore([store, methods]);
+  syncSelectedEmojis([store, methods]);
+  syncFieldSize([store, methods]);
+
+  return [store, methods] as const;
 }
 
 function persistStore(state: Store) {
-  const [store, setStore] = state;
+  const [store, { setStore }] = state;
 
   // load store from local storage on mount if available
   onMount(() => {
@@ -79,7 +81,7 @@ function persistStore(state: Store) {
 }
 
 function syncSelectedEmojis(state: Store) {
-  const [store, setStore] = state;
+  const [store, { setStore }] = state;
 
   createEffect(() => {
     const [first, second] = Object.keys(store.images);
@@ -94,7 +96,7 @@ function syncSelectedEmojis(state: Store) {
 }
 
 function syncFieldSize(state: Store) {
-  const [store, setStore] = state;
+  const [store, { setStore }] = state;
 
   // change the height of the field
   createEffect(() => {

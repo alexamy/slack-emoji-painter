@@ -28,7 +28,7 @@ export function App() {
 
 // buttons
 function Buttons() {
-  const [store, setStore] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   function clearWithBackground() {
     setStore("field", () => {
@@ -95,7 +95,7 @@ function Buttons() {
 
 // current foreground and background emojis
 function CurrentEmoji() {
-  const [store, setStore] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   function onClick(e: MouseEvent) {
     e.preventDefault();
@@ -115,7 +115,7 @@ function CurrentEmoji() {
 
 // field size controls
 function FieldSize() {
-  const [store, setStore] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   return (
     <div class="field-size">
@@ -141,7 +141,7 @@ function FieldSize() {
 
 // the field itself
 function Field() {
-  const [store, setStore] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   function changeCell(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
@@ -205,7 +205,7 @@ function Field() {
 
 // emojis list
 function List() {
-  const [store, setStore] = useContext(AppContext);
+  const [store, { setStore }] = useContext(AppContext);
 
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
