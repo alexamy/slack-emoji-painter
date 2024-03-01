@@ -1,5 +1,6 @@
 import "./App.css";
 import {
+  For,
   Index,
   Show,
   createEffect,
@@ -346,7 +347,7 @@ function List(props: StoreProp) {
     return result;
   });
 
-  function onMouseDown(e, name) {
+  function onMouseDown(e: MouseEvent, name: string) {
     e.preventDefault();
     if (e.button === 0) setStore("fg", name);
     if (e.button === 2) setStore("bg", name);
