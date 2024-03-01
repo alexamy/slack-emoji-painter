@@ -178,7 +178,7 @@ function Buttons(props: StoreProp) {
 function CurrentEmoji(props: StoreProp) {
   const [store, setStore] = props.store;
 
-  function onClick(e) {
+  function onClick(e: MouseEvent) {
     e.preventDefault();
     setStore("isListOpened", !store.isListOpened);
     window.scrollTo(0, 0);
@@ -187,9 +187,17 @@ function CurrentEmoji(props: StoreProp) {
   return (
     <div class="current-emoji">
       Foreground:
-      <img class="emoji" src={store.images[store.fg]} onClick={onClick} />
+      <img
+        class="emoji"
+        src={store.images[store.fg as keyof typeof store.images]}
+        onClick={onClick}
+      />
       Background:
-      <img class="emoji" src={store.images[store.bg]} onClick={onClick} />
+      <img
+        class="emoji"
+        src={store.images[store.bg as keyof typeof store.images]}
+        onClick={onClick}
+      />
     </div>
   );
 }
@@ -329,7 +337,7 @@ function List(props: StoreProp) {
     if (search() === "") return store.images;
     const query = search().toLowerCase();
 
-    const result = {};
+    const result: Record<string, string> = {};
     for (const [name, url] of Object.entries(store.images)) {
       if (name.includes(query)) {
         result[name] = url;
