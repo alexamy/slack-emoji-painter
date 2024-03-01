@@ -75,9 +75,19 @@ function CurrentEmoji() {
   return (
     <div class="current-emoji">
       Foreground:
-      <img class="emoji" src={store.images[store.fg]} onClick={switchList} />
+      <img
+        class="emoji"
+        src={store.images[store.fg]}
+        onClick={switchList}
+        onContextMenu={switchList}
+      />
       Background:
-      <img class="emoji" src={store.images[store.bg]} onClick={switchList} />
+      <img
+        class="emoji"
+        src={store.images[store.bg]}
+        onClick={switchList}
+        onContextMenu={switchList}
+      />
       <button onClick={swap}>Swap</button>
     </div>
   );
