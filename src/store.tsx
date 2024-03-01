@@ -3,6 +3,18 @@ import { onMount, createEffect, createContext, JSX } from "solid-js";
 
 export type Store = ReturnType<typeof createAppStore>;
 
+interface StoreData {
+  version: number;
+  width: number;
+  height: number;
+  field: string[][];
+  images: Record<string, string>;
+  mouse: "left" | "right" | null;
+  fg: string;
+  bg: string;
+  isListOpened: boolean;
+}
+
 export const AppContext = createContext<Store>([] as unknown as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
@@ -15,7 +27,7 @@ export function StoreProvider(props: { children: JSX.Element }) {
 
 // store
 function createAppStore() {
-  const [store, setStore] = createStore({
+  const [store, setStore] = createStore<StoreData>({
     version: 1,
     width: 8,
     height: 4,
