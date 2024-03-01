@@ -3,6 +3,7 @@ import { For, Show, createMemo, createSignal, useContext } from "solid-js";
 import { produce } from "solid-js/store";
 import { AppContext, StoreProvider } from "./store";
 
+// app
 export function App() {
   return (
     <StoreProvider>
@@ -60,11 +61,11 @@ function Buttons() {
 
 // current foreground and background emojis
 function CurrentEmoji() {
-  const [store, { setStore }] = useContext(AppContext);
+  const [store, { switchList }] = useContext(AppContext);
 
   function onClick(e: MouseEvent) {
     e.preventDefault();
-    setStore("isListOpened", !store.isListOpened);
+    switchList();
     window.scrollTo(0, 0);
   }
 

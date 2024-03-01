@@ -85,11 +85,16 @@ function createAppStore() {
     reader.readAsText(file);
   }
 
+  function switchList() {
+    setStore("isListOpened", !store.isListOpened);
+  }
+
   const methods = {
     setStore,
     clearWith,
     asText,
     loadEmojis,
+    switchList,
   };
 
   persistStore([store, methods]);
