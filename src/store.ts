@@ -1,7 +1,11 @@
 import { createStore, produce } from "solid-js/store";
-import { onMount, createEffect, createContext, JSX } from "solid-js";
-
-export type Store = ReturnType<typeof createAppStore>;
+import {
+  onMount,
+  createEffect,
+  createContext,
+  JSX,
+  useContext,
+} from "solid-js";
 
 interface StoreData {
   version: number;
@@ -15,18 +19,9 @@ interface StoreData {
   isListOpened: boolean;
 }
 
-export const AppContext = createContext<Store>([] as unknown as Store);
+export type Store = ReturnType<typeof createAppStore>;
 
-export function StoreProvider(props: { children: JSX.Element }) {
-  const store = createAppStore();
-
-  return (
-    <AppContext.Provider value={store}>{props.children}</AppContext.Provider>
-  );
-}
-
-// store
-function createAppStore() {
+export function createAppStore() {
   const [store, setStore] = createStore<StoreData>({
     version: 1,
     width: 8,
@@ -44,75 +39,15 @@ function createAppStore() {
     },
   });
 
-  function clearWith(emoji: string) {
-    setStore("field", () => {
-      const field = [];
-      for (let i = 0; i < store.height; i++) {
-        const row = Array(store.width).fill(emoji);
-        field.push(row);
-      }
-      return field;
-    });
-  }
+  persistStore([store, setStore]);
+  syncSelectedEmojis([store, setStore]);
+  syncFieldSize([store, setStore]);
 
-  function asText() {
-    let text = "";
-    for (const row of store.field) {
-      for (const cell of row) {
-        text += cell;
-      }
-      text += "\n";
-    }
-
-    return text;
-  }
-
-  function loadEmojis(file: File) {
-    const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      (e) => {
-        const text = e.target?.result;
-        if (typeof text !== "string") return;
-
-        const images = validateEmojis(text);
-        if (!images) return;
-
-        setStore({ images });
-      },
-      { once: true },
-    );
-    reader.readAsText(file);
-  }
-
-  function updateCell(row: number, col: number) {
-    setStore(
-      "field",
-      produce((field) => {
-        if (!store.mouse) return;
-        const emoji = store.mouse === "left" ? store.fg : store.bg;
-        field[row][col] = emoji;
-      }),
-    );
-  }
-
-  const methods = {
-    setStore,
-    clearWith,
-    asText,
-    loadEmojis,
-    updateCell,
-  };
-
-  persistStore([store, methods]);
-  syncSelectedEmojis([store, methods]);
-  syncFieldSize([store, methods]);
-
-  return [store, methods] as const;
+  return [store, setStore] as const;
 }
 
 function persistStore(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // load store from local storage on mount if available
   onMount(() => {
@@ -139,7 +74,7 @@ function persistStore(state: Store) {
 }
 
 function syncSelectedEmojis(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // if new images loaded, set the current fg and bg to the first two images
   createEffect(() => {
@@ -155,7 +90,7 @@ function syncSelectedEmojis(state: Store) {
 }
 
 function syncFieldSize(state: Store) {
-  const [store, { setStore }] = state;
+  const [store, setStore] = state;
 
   // change the height of the field
   createEffect(() => {
@@ -190,22 +125,4 @@ function syncFieldSize(state: Store) {
       }),
     );
   });
-}
-
-function validateEmojis(text: string) {
-  try {
-    const images = JSON.parse(text);
-    // check what images is an object with string keys and values starting with "http"
-    if (typeof images !== "object") throw new Error("Not an object.");
-    for (const [key, value] of Object.entries(images)) {
-      if (typeof key !== "string") throw new Error("Key is not a string.");
-      if (typeof value !== "string") throw new Error("Value is not a string.");
-      if (!value.startsWith("http")) throw new Error("Value is not a URL.");
-    }
-
-    return images as Record<string, string>;
-  } catch (e) {
-    console.error(e);
-    return;
-  }
 }
