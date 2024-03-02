@@ -1,11 +1,5 @@
 import { createStore, produce } from "solid-js/store";
-import {
-  onMount,
-  createEffect,
-  createContext,
-  JSX,
-  useContext,
-} from "solid-js";
+import { onMount, createEffect } from "solid-js";
 
 interface StoreData {
   version: number;
