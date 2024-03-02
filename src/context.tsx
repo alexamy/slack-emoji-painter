@@ -3,7 +3,7 @@ import { createAppStore } from "./store";
 import { Store } from "./store";
 import { produce } from "solid-js/store";
 
-const AppContext = createContext<Store>([] as unknown as Store);
+const AppContext = createContext<Store>({} as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
   const store = createAppStore();
