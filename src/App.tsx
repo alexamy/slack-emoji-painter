@@ -39,13 +39,14 @@ function Buttons() {
 
   return (
     <div class="buttons">
-      <button onClick={clearWithBackground}>Clear</button>
       <button onClick={copy}>Copy</button>
+      <div class="divider"></div>
       <button>
         <label for="files" class="btn">
           Load images JSON
         </label>
       </button>
+      <button onClick={clearWithBackground}>Clear</button>
       <input
         id="files"
         type="file"

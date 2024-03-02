@@ -20,6 +20,10 @@
   background-color: #242424;
 }
 
+.divider {
+  width: 20px;
+}
+
 .buttons {
   display: flex;
   gap: 8px;
