@@ -1,5 +1,5 @@
 import "./App.css";
-import { For, createMemo, createSignal } from "solid-js";
+import { For, Index, createMemo, createSignal } from "solid-js";
 import { StoreProvider, useStoreContext } from "./context";
 
 // app
@@ -147,25 +147,25 @@ function Field() {
   return (
     <div onContextMenu={(e) => e.preventDefault()}>
       <div class="field" onMouseLeave={onMouseUp}>
-        <For each={store.field}>
+        <Index each={store.field}>
           {(emojis, row) => (
             <div>
-              <For each={emojis}>
+              <Index each={emojis()}>
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell]}
+                    src={store.images[cell()]}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
-                    onMouseDown={(e) => onMouseDown(e, row(), col())}
-                    onMouseOver={(e) => onMouseOver(e, row(), col())}
+                    onMouseDown={(e) => onMouseDown(e, row, col)}
+                    onMouseOver={(e) => onMouseOver(e, row, col)}
                     onMouseUp={(e) => onMouseUp(e)}
                   />
                 )}
-              </For>
+              </Index>
             </div>
           )}
-        </For>
+        </Index>
       </div>
     </div>
   );

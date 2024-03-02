@@ -45,10 +45,10 @@ export function useStoreContext() {
   }
 
   function drawCell(row: number, col: number) {
+    if (!store.mouse) return;
     setStore(
       "field",
       produce((field) => {
-        if (!store.mouse) return;
         const emoji = store.mouse === "left" ? store.fg : store.bg;
         field[row][col] = emoji;
       }),
