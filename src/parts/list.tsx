@@ -1,4 +1,4 @@
-import { createSignal, createMemo, For } from "solid-js";
+import { createSignal, createMemo, For, Index } from "solid-js";
 import { useStoreContext } from "../context";
 
 export function List() {
@@ -33,17 +33,17 @@ export function List() {
         onInput={(e) => setSearch(e.target.value)}
       />
       <div class="emojis">
-        <For each={Object.entries(filtered())}>
-          {([name, url]) => (
+        <Index each={Object.entries(filtered())}>
+          {(entry) => (
             <img
               class="emoji"
-              src={url}
-              title={name}
+              src={entry()[1]}
+              title={entry()[0]}
               onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => onMouseDown(e, name)}
+              onMouseDown={(e) => onMouseDown(e, entry()[0])}
             />
           )}
-        </For>
+        </Index>
       </div>
     </div>
   );
