@@ -33,38 +33,38 @@ export function createAppStore() {
     },
   });
 
-  persistStore([store, setStore]);
+  onMount(() => loadFromLocalStorage([store, setStore]));
+  createEffect(() => saveToLocalStorage([store, setStore]));
+
   syncSelectedEmojis([store, setStore]);
   syncFieldSize([store, setStore]);
 
   return [store, setStore] as const;
 }
 
-function persistStore(state: Store) {
+function loadFromLocalStorage(state: Store) {
   const [store, setStore] = state;
 
-  // load store from local storage on mount if available
-  onMount(() => {
-    const raw = localStorage.getItem("store");
-    if (!raw) return;
+  const raw = localStorage.getItem("store");
+  if (!raw) return;
 
-    try {
-      const data = JSON.parse(raw);
-      if (data.version !== store.version) {
-        throw new Error("Version mismatch.");
-      }
-      setStore(data);
-    } catch (e) {
-      console.log(e);
-      return;
+  try {
+    const data = JSON.parse(raw);
+    if (data.version !== store.version) {
+      throw new Error("Version mismatch.");
     }
-  });
+    setStore(data);
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+}
 
-  // save store to local storage
-  createEffect(() => {
-    const data = JSON.stringify(store);
-    localStorage.setItem("store", data);
-  });
+function saveToLocalStorage(state: Store) {
+  const [store] = state;
+
+  const data = JSON.stringify(store);
+  localStorage.setItem("store", data);
 }
 
 function syncSelectedEmojis(state: Store) {
