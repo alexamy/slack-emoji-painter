@@ -122,7 +122,7 @@ function FieldSize() {
 
 // the field itself
 function Field() {
-  const [store, { setStore, updateCell }] = useStoreContext();
+  const [store, { setStore, drawCell }] = useStoreContext();
 
   function onMouseDown(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
@@ -131,12 +131,12 @@ function Field() {
       if (e.button === 2) return "right";
       return null;
     });
-    updateCell(row, col);
+    drawCell(row, col);
   }
 
   function onMouseOver(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
-    updateCell(row, col);
+    drawCell(row, col);
   }
 
   function onMouseUp(e: MouseEvent) {

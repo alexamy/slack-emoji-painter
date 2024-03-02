@@ -44,7 +44,7 @@ export function useStoreContext() {
     reader.readAsText(file);
   }
 
-  function updateCell(row: number, col: number) {
+  function drawCell(row: number, col: number) {
     setStore(
       "field",
       produce((field) => {
@@ -57,7 +57,7 @@ export function useStoreContext() {
 
   return [
     store,
-    { setStore, clearWith, asText, loadEmojis, updateCell },
+    { setStore, clearWith, asText, loadEmojis, drawCell },
   ] as const;
 }
 
