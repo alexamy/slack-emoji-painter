@@ -35,9 +35,8 @@ export function createAppStore() {
 
   onMount(() => loadFromLocalStorage([store, setStore]));
   createEffect(() => saveToLocalStorage([store, setStore]));
-
-  syncSelectedEmojis([store, setStore]);
-  syncFieldSize([store, setStore]);
+  createEffect(() => setFgAndBgForNewImages([store, setStore]));
+  createEffect(() => setFieldSizeFromDimensions([store, setStore]));
 
   return [store, setStore] as const;
 }
@@ -67,56 +66,48 @@ function saveToLocalStorage(state: Store) {
   localStorage.setItem("store", data);
 }
 
-function syncSelectedEmojis(state: Store) {
+function setFgAndBgForNewImages(state: Store) {
   const [store, setStore] = state;
+  const [first, second] = Object.keys(store.images);
 
-  // if new images loaded, set the current fg and bg to the first two images
-  createEffect(() => {
-    const [first, second] = Object.keys(store.images);
-
-    if (!store.images[store.fg]) {
-      setStore("fg", first);
-    }
-    if (!store.images[store.bg]) {
-      setStore("bg", second ?? first);
-    }
-  });
+  if (!store.images[store.fg]) {
+    setStore("fg", first);
+  }
+  if (!store.images[store.bg]) {
+    setStore("bg", second ?? first);
+  }
 }
 
-function syncFieldSize(state: Store) {
+function setFieldSizeFromDimensions(state: Store) {
   const [store, setStore] = state;
 
   // change the height of the field
-  createEffect(() => {
-    setStore(
-      "field",
-      produce((field) => {
-        if (store.height < field.length) {
-          field.length = store.height;
-        } else if (store.height > field.length) {
-          for (let i = field.length; i < store.height; i++) {
-            const row = Array(store.width).fill(store.bg);
-            field.push(row);
-          }
+  setStore(
+    "field",
+    produce((field) => {
+      if (store.height < field.length) {
+        field.length = store.height;
+      } else if (store.height > field.length) {
+        for (let i = field.length; i < store.height; i++) {
+          const row = Array(store.width).fill(store.bg);
+          field.push(row);
         }
-      }),
-    );
-  });
+      }
+    }),
+  );
 
   // change the width of the field
-  createEffect(() => {
-    setStore(
-      "field",
-      Array.from({ length: store.height }, (_, i) => i),
-      produce((row) => {
-        if (store.width < row.length) {
-          row.length = store.width;
-        } else if (store.width > row.length) {
-          for (let i = row.length; i < store.width; i++) {
-            row.push(store.bg);
-          }
+  setStore(
+    "field",
+    Array.from({ length: store.height }, (_, i) => i),
+    produce((row) => {
+      if (store.width < row.length) {
+        row.length = store.width;
+      } else if (store.width > row.length) {
+        for (let i = row.length; i < store.width; i++) {
+          row.push(store.bg);
         }
-      }),
-    );
-  });
+      }
+    }),
+  );
 }
