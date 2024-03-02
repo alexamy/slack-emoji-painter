@@ -1,5 +1,5 @@
 import "./App.css";
-import { For, createMemo, createSignal } from "solid-js";
+import { For, Index, createMemo, createSignal } from "solid-js";
 import { StoreProvider, useStoreContext } from "./context";
 
 // app
@@ -39,13 +39,14 @@ function Buttons() {
 
   return (
     <div class="buttons">
-      <button onClick={clearWithBackground}>Clear</button>
       <button onClick={copy}>Copy</button>
+      <div class="divider"></div>
       <button>
         <label for="files" class="btn">
           Load images JSON
         </label>
       </button>
+      <button onClick={clearWithBackground}>Clear</button>
       <input
         id="files"
         type="file"
@@ -121,7 +122,7 @@ function FieldSize() {
 
 // the field itself
 function Field() {
-  const [store, { setStore, updateCell }] = useStoreContext();
+  const [store, { setStore, drawCell }] = useStoreContext();
 
   function onMouseDown(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
@@ -130,12 +131,12 @@ function Field() {
       if (e.button === 2) return "right";
       return null;
     });
-    updateCell(row, col);
+    drawCell(row, col);
   }
 
   function onMouseOver(e: MouseEvent, row: number, col: number) {
     e.preventDefault();
-    updateCell(row, col);
+    drawCell(row, col);
   }
 
   function onMouseUp(e: MouseEvent) {
@@ -146,25 +147,25 @@ function Field() {
   return (
     <div onContextMenu={(e) => e.preventDefault()}>
       <div class="field" onMouseLeave={onMouseUp}>
-        <For each={store.field}>
+        <Index each={store.field}>
           {(emojis, row) => (
             <div>
-              <For each={emojis}>
+              <Index each={emojis()}>
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell]}
+                    src={store.images[cell()]}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
-                    onMouseDown={(e) => onMouseDown(e, row(), col())}
-                    onMouseOver={(e) => onMouseOver(e, row(), col())}
+                    onMouseDown={(e) => onMouseDown(e, row, col)}
+                    onMouseOver={(e) => onMouseOver(e, row, col)}
                     onMouseUp={(e) => onMouseUp(e)}
                   />
                 )}
-              </For>
+              </Index>
             </div>
           )}
-        </For>
+        </Index>
       </div>
     </div>
   );
