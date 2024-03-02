@@ -17,26 +17,13 @@ export function useStoreContext() {
   const [store, setStore] = useContext(AppContext);
 
   function clearWith(emoji: string) {
-    setStore("field", () => {
-      const field = [];
-      for (let i = 0; i < store.height; i++) {
-        const row = Array(store.width).fill(emoji);
-        field.push(row);
-      }
-      return field;
+    setStore("field", (field) => {
+      return field.map((row) => row.map(() => emoji));
     });
   }
 
   function asText() {
-    let text = "";
-    for (const row of store.field) {
-      for (const cell of row) {
-        text += cell;
-      }
-      text += "\n";
-    }
-
-    return text;
+    return store.field.map((row) => row.join("")).join("\n");
   }
 
   function loadEmojis(file: File) {

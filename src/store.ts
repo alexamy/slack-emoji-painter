@@ -113,7 +113,7 @@ function syncFieldSize(state: Store) {
   createEffect(() => {
     setStore(
       "field",
-      Array.from({ length: store.height }).map((_, i) => i),
+      Array.from({ length: store.height }, (_, i) => i),
       produce((row) => {
         if (store.width < row.length) {
           row.length = store.width;
