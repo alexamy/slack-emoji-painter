@@ -1,22 +1,9 @@
-import { createSignal, createMemo, For, Index } from "solid-js";
+import { createSignal, createMemo, Index } from "solid-js";
 import { useStoreContext } from "../context";
 
 export function List() {
   const [store, { setStore }] = useStoreContext();
-
-  const [search, setSearch] = createSignal("");
-  const filtered = createMemo(() => {
-    if (search() === "") return store.images;
-
-    const query = search().toLowerCase();
-    const result: Record<string, string> = {};
-    for (const [name, url] of Object.entries(store.images)) {
-      if (name.includes(query)) {
-        result[name] = url;
-      }
-    }
-    return result;
-  });
+  const [search, setSearch, filtered] = createFiltered(() => store.images);
 
   function onMouseDown(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -47,4 +34,22 @@ export function List() {
       </div>
     </div>
   );
+}
+
+function createFiltered(items: () => Record<string, string>) {
+  const [search, setSearch] = createSignal("");
+  const filtered = createMemo(() => {
+    if (search() === "") return items();
+
+    const query = search().toLowerCase();
+    const result: Record<string, string> = {};
+    for (const [name, url] of Object.entries(items())) {
+      if (name.includes(query)) {
+        result[name] = url;
+      }
+    }
+    return result;
+  });
+
+  return [search, setSearch, filtered] as const;
 }

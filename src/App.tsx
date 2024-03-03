@@ -7,7 +7,6 @@ import { FieldSize } from "./parts/fieldSize";
 import { Help } from "./parts/help";
 import { List } from "./parts/list";
 
-// app
 export function App() {
   return (
     <StoreProvider>
