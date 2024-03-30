@@ -1,11 +1,19 @@
 import { createStore, produce } from "solid-js/store";
 import { onMount, createEffect } from "solid-js";
 
+interface EmojiData {
+  src: string;
+  name: string;
+  date: string;
+  author: string;
+}
+
 interface StoreData {
   version: number;
   width: number;
   height: number;
   field: string[][];
+  emojis: EmojiData[];
   images: Record<string, string>;
   mouse: "left" | "right" | null;
   fg: string;
@@ -27,6 +35,20 @@ export function createAppStore() {
     isListOpened: false,
     emojiSize: 32,
     field: [],
+    emojis: [
+      {
+        name: ":-satan-:",
+        src: "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
+        date: "2024-01-01",
+        author: "John Doe",
+      },
+      {
+        name: ":12ozmouse-buttermilk:",
+        src: "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
+        date: "2024-01-01",
+        author: "John Doe",
+      },
+    ],
     images: {
       ":-satan-:":
         "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
@@ -39,6 +61,7 @@ export function createAppStore() {
   createEffect(() => saveToLocalStorage([store, setStore]));
   createEffect(() => setFgAndBgForNewImages([store, setStore]));
   createEffect(() => setFieldSizeFromDimensions([store, setStore]));
+  createEffect(() => setImages([store, setStore]));
 
   return [store, setStore] as const;
 }
@@ -112,4 +135,15 @@ function setFieldSizeFromDimensions(state: Store) {
       }
     }),
   );
+}
+
+function setImages(state: Store) {
+  const [store, setStore] = state;
+
+  const images: Record<string, string> = {};
+  for (const emoji of store.emojis) {
+    images[emoji.name] = emoji.src;
+  }
+
+  setStore({ images });
 }

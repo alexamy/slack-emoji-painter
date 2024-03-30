@@ -3,15 +3,6 @@ import { createAppStore } from "./store";
 import { Store } from "./store";
 import { produce } from "solid-js/store";
 
-interface EmojiData {
-  src: string;
-  name: string;
-  date: string;
-  author: string;
-}
-
-type T = keyof EmojiData;
-
 const AppContext = createContext<Store>({} as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
@@ -43,10 +34,10 @@ export function useStoreContext() {
         const text = e.target?.result;
         if (typeof text !== "string") return;
 
-        const images = processEmojis(text);
-        if (!images) return;
+        const emojis = processEmojis(text);
+        if (!emojis) return;
 
-        setStore({ images });
+        setStore({ emojis });
       },
       { once: true },
     );
@@ -74,8 +65,7 @@ function processEmojis(text: string) {
   try {
     const emojis = JSON.parse(text);
     if (validateEmojis(emojis)) {
-      const result = convertEmojis(emojis);
-      return result;
+      return emojis;
     }
   } catch (e) {
     console.error(e);
@@ -83,15 +73,7 @@ function processEmojis(text: string) {
   }
 }
 
-function convertEmojis(emojis: EmojiData[]): Record<string, EmojiData> {
-  const result: Record<string, EmojiData> = {};
-  for (const emoji of emojis) {
-    result[emoji.name] = emoji;
-  }
-  return result;
-}
-
-function validateEmojis(emojis: unknown): emojis is EmojiData[] {
+function validateEmojis(emojis: unknown): emojis is Store[0]["emojis"] {
   // prettier-ignore
   try {
     if (!Array.isArray(emojis))
