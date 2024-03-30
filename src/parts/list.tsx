@@ -11,6 +11,10 @@ export function List() {
     if (e.button === 2) setStore("bg", name);
   }
 
+  function changeSort(kind: "none" | "name" | "date" | "author") {
+    console.log(kind);
+  }
+
   return (
     <div class="list" style={{ display: store.isListOpened ? "flex" : "none" }}>
       <input
@@ -30,13 +34,38 @@ export function List() {
           onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
         />
         <label for="sort">Sort:</label>
-        <input type="radio" name="sort" id="none" value="none" checked />
+        <input
+          onChange={[changeSort, "none"]}
+          checked
+          type="radio"
+          name="sort"
+          id="none"
+          value="none"
+        />
         <label for="none">None</label>
-        <input type="radio" name="sort" id="name" value="name" />
+        <input
+          onChange={[changeSort, "name"]}
+          type="radio"
+          name="sort"
+          id="name"
+          value="name"
+        />
         <label for="none">Name</label>
-        <input type="radio" name="sort" id="date" value="date" />
+        <input
+          onChange={[changeSort, "date"]}
+          type="radio"
+          name="sort"
+          id="date"
+          value="date"
+        />
         <label for="none">Date</label>
-        <input type="radio" name="sort" id="author" value="author" />
+        <input
+          onChange={[changeSort, "author"]}
+          type="radio"
+          name="sort"
+          id="author"
+          value="author"
+        />
         <label for="none">Author</label>
       </div>
       <div
