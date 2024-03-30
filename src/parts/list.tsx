@@ -4,6 +4,7 @@ import { useStoreContext } from "../context";
 export function List() {
   const [store, { setStore }] = useStoreContext();
   const [search, setSearch, filtered] = createFiltered(() => store.images);
+  const [size, setSize] = createSignal(32);
 
   function onMouseDown(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -19,7 +20,24 @@ export function List() {
         value={search()}
         onInput={(e) => setSearch(e.target.value)}
       />
-      <div class="emojis">
+      <div>
+        <label for="emoji-size">Size: </label>
+        <input
+          class="emoji-size"
+          id="emoji-size"
+          min={8}
+          type="number"
+          value={size()}
+          onInput={(e) => setSize(parseInt(e.target.value))}
+        />
+      </div>
+      <div
+        class="emojis"
+        style={{
+          "--emoji-width": `${size()}px`,
+          "--emoji-height": `${size()}px`,
+        }}
+      >
         <Index each={Object.entries(filtered())}>
           {(entry) => (
             <img
