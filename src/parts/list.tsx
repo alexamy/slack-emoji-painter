@@ -1,18 +1,18 @@
 import { createSignal, createMemo, Index } from "solid-js";
 import { useStoreContext } from "../context";
 
+type Sorting = "none" | "name" | "date" | "author";
+
 export function List() {
   const [store, { setStore }] = useStoreContext();
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
+  const [sorting, setSorting] = createSignal<Sorting>("none");
+  const sorted = createMemo(() => {});
 
   function selectEmoji(e: MouseEvent, name: string) {
     e.preventDefault();
     if (e.button === 0) setStore("fg", name);
     if (e.button === 2) setStore("bg", name);
-  }
-
-  function changeSort(kind: "none" | "name" | "date" | "author") {
-    console.log(kind);
   }
 
   return (
@@ -35,7 +35,7 @@ export function List() {
         />
         <label for="sort">Sort:</label>
         <input
-          onChange={[changeSort, "none"]}
+          onChange={() => setSorting("none")}
           checked
           type="radio"
           name="sort"
@@ -44,7 +44,7 @@ export function List() {
         />
         <label for="none">None</label>
         <input
-          onChange={[changeSort, "name"]}
+          onChange={() => setSorting("name")}
           type="radio"
           name="sort"
           id="name"
@@ -52,7 +52,7 @@ export function List() {
         />
         <label for="none">Name</label>
         <input
-          onChange={[changeSort, "date"]}
+          onChange={() => setSorting("date")}
           type="radio"
           name="sort"
           id="date"
@@ -60,7 +60,7 @@ export function List() {
         />
         <label for="none">Date</label>
         <input
-          onChange={[changeSort, "author"]}
+          onChange={() => setSorting("author")}
           type="radio"
           name="sort"
           id="author"
