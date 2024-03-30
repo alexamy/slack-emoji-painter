@@ -53,16 +53,16 @@ export function List() {
   );
 }
 
-function createFiltered(items: () => Record<string, string>) {
+function createFiltered<T>(items: () => Record<string, T>) {
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
     if (search() === "") return items();
 
     const query = search().toLowerCase();
-    const result: Record<string, string> = {};
-    for (const [name, url] of Object.entries(items())) {
-      if (name.includes(query)) {
-        result[name] = url;
+    const result: Record<string, T> = {};
+    for (const [key, value] of Object.entries(items())) {
+      if (key.includes(query)) {
+        result[key] = value;
       }
     }
     return result;
