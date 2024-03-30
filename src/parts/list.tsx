@@ -23,7 +23,7 @@ export function List() {
         <Index each={Object.entries(filtered())}>
           {(entry) => (
             <img
-              class="emoji"
+              class="emoji emoji-hover"
               src={entry()[1]}
               title={entry()[0]}
               onContextMenu={(e) => e.preventDefault()}
