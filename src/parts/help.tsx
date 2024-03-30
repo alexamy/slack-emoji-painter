@@ -42,8 +42,14 @@ export function Help() {
           <b>Load images JSON</b> button loads a JSON file with emojis.
         </li>
         <li>
-          The JSON should be structured as an object where each entry consists
-          of a "name" key and a corresponding "url" value.
+          Use{" "}
+          <a
+            target="blank"
+            href="https://gist.github.com/alexamy/67dac86a9e604f29318982a41f7ab53d"
+          >
+            this script
+          </a>{" "}
+          to download emojis from your Slack.
         </li>
       </ul>
       Field settings:
