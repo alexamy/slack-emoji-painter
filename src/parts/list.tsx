@@ -5,7 +5,7 @@ export function List() {
   const [store, { setStore }] = useStoreContext();
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
 
-  function onMouseDown(e: MouseEvent, name: string) {
+  function selectEmoji(e: MouseEvent, name: string) {
     e.preventDefault();
     if (e.button === 0) setStore("fg", name);
     if (e.button === 2) setStore("bg", name);
@@ -44,7 +44,7 @@ export function List() {
               src={entry().src}
               title={entry().name}
               onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => onMouseDown(e, entry().name)}
+              onMouseDown={(e) => selectEmoji(e, entry().name)}
             />
           )}
         </Index>
