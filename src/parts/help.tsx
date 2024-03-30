@@ -39,17 +39,17 @@ export function Help() {
           <b>Copy</b> button copies the field content as text to the clipboard.
         </li>
         <li>
-          <b>Load images JSON</b> button loads a JSON file with emojis.
+          <b>Load images JSON</b> button loads a <i>emojis.json</i> from the
+          script below.
         </li>
         <li>
-          Use{" "}
           <a
             target="blank"
             href="https://gist.github.com/alexamy/67dac86a9e604f29318982a41f7ab53d"
           >
-            this script
+            This script
           </a>{" "}
-          to download emojis from your Slack.
+          downloads emojis from your Slack.
         </li>
       </ul>
       Field settings:
