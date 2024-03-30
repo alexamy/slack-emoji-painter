@@ -3,7 +3,7 @@ import { useStoreContext } from "../context";
 
 export function List() {
   const [store, { setStore }] = useStoreContext();
-  const [search, setSearch, filtered] = createFiltered(() => store.images);
+  const [search, setSearch, filtered] = createFiltered(() => store.emojis);
 
   function onMouseDown(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -37,14 +37,14 @@ export function List() {
           "--emoji-height": `${store.emojiSize}px`,
         }}
       >
-        <Index each={Object.entries(filtered())}>
+        <Index each={filtered()}>
           {(entry) => (
             <img
               class="emoji emoji-in-list"
-              src={entry()[1]}
-              title={entry()[0]}
+              src={entry().src}
+              title={entry().name}
               onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => onMouseDown(e, entry()[0])}
+              onMouseDown={(e) => onMouseDown(e, entry().name)}
             />
           )}
         </Index>
@@ -53,18 +53,12 @@ export function List() {
   );
 }
 
-function createFiltered<T>(items: () => Record<string, T>) {
+function createFiltered<T extends { name: string }>(items: () => T[]) {
   const [search, setSearch] = createSignal("");
   const filtered = createMemo(() => {
     if (search() === "") return items();
-
     const query = search().toLowerCase();
-    const result: Record<string, T> = {};
-    for (const [key, value] of Object.entries(items())) {
-      if (key.includes(query)) {
-        result[key] = value;
-      }
-    }
+    const result = items().filter((item) => item.name.includes(query));
     return result;
   });
 
