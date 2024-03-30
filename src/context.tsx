@@ -3,6 +3,15 @@ import { createAppStore } from "./store";
 import { Store } from "./store";
 import { produce } from "solid-js/store";
 
+interface EmojiData {
+  src: string;
+  name: string;
+  date: string;
+  author: string;
+}
+
+type T = keyof EmojiData;
+
 const AppContext = createContext<Store>({} as Store);
 
 export function StoreProvider(props: { children: JSX.Element }) {
@@ -34,7 +43,7 @@ export function useStoreContext() {
         const text = e.target?.result;
         if (typeof text !== "string") return;
 
-        const images = validateEmojis(text);
+        const images = processEmojis(text);
         if (!images) return;
 
         setStore({ images });
@@ -61,20 +70,48 @@ export function useStoreContext() {
   ] as const;
 }
 
-function validateEmojis(text: string) {
+function processEmojis(text: string) {
   try {
-    const images = JSON.parse(text);
-    // check what images is an object with string keys and values starting with "http"
-    if (typeof images !== "object") throw new Error("Not an object.");
-    for (const [key, value] of Object.entries(images)) {
-      if (typeof key !== "string") throw new Error("Key is not a string.");
-      if (typeof value !== "string") throw new Error("Value is not a string.");
-      if (!value.startsWith("http")) throw new Error("Value is not a URL.");
+    const emojis = JSON.parse(text);
+    if (validateEmojis(emojis)) {
+      const result = convertEmojis(emojis);
+      return result;
     }
-
-    return images as Record<string, string>;
   } catch (e) {
     console.error(e);
     return;
   }
+}
+
+function convertEmojis(emojis: EmojiData[]): Record<string, EmojiData> {
+  const result: Record<string, EmojiData> = {};
+  for (const emoji of emojis) {
+    result[emoji.name] = emoji;
+  }
+  return result;
+}
+
+function validateEmojis(emojis: unknown): emojis is EmojiData[] {
+  // prettier-ignore
+  try {
+    if (!Array.isArray(emojis))
+      throw new Error("Not an array.");
+    for (const emoji of emojis) {
+      if (typeof emoji.src !== "string")
+        throw new Error("src is not a string.");
+      if (!emoji.src.startsWith("http"))
+        throw new Error("src is not an URL.");
+      if (typeof emoji.name !== "string")
+        throw new Error("name is not a string.");
+      if (typeof emoji.date !== "string")
+        throw new Error("date is not a string.");
+      if (typeof emoji.author !== "string")
+        throw new Error("author is not a string.");
+    }
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+
+  return true;
 }
