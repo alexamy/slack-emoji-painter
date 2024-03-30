@@ -29,6 +29,11 @@
   width: 40px;
 }
 
+.toolbar {
+  display: flex;
+  gap: 5px;
+}
+
 .current-emoji {
   position: sticky;
   padding: 10px 0;

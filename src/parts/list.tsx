@@ -19,8 +19,8 @@ export function List() {
         value={search()}
         onInput={(e) => setSearch(e.target.value)}
       />
-      <div>
-        <label for="emoji-size">Size: </label>
+      <div class="toolbar">
+        <label for="emoji-size">Size:</label>
         <input
           class="emoji-size"
           id="emoji-size"
@@ -29,6 +29,15 @@ export function List() {
           value={store.emojiSize}
           onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
         />
+        <label for="sort">Sort:</label>
+        <input type="radio" name="sort" id="none" value="none" checked />
+        <label for="none">None</label>
+        <input type="radio" name="sort" id="name" value="name" />
+        <label for="none">Name</label>
+        <input type="radio" name="sort" id="date" value="date" />
+        <label for="none">Date</label>
+        <input type="radio" name="sort" id="author" value="author" />
+        <label for="none">Author</label>
       </div>
       <div
         class="emojis"
