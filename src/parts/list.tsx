@@ -19,11 +19,28 @@ export function List() {
         value={search()}
         onInput={(e) => setSearch(e.target.value)}
       />
-      <div class="emojis">
+      <div>
+        <label for="emoji-size">Size: </label>
+        <input
+          class="emoji-size"
+          id="emoji-size"
+          min={8}
+          type="number"
+          value={store.emojiSize}
+          onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
+        />
+      </div>
+      <div
+        class="emojis"
+        style={{
+          "--emoji-width": `${store.emojiSize}px`,
+          "--emoji-height": `${store.emojiSize}px`,
+        }}
+      >
         <Index each={Object.entries(filtered())}>
           {(entry) => (
             <img
-              class="emoji"
+              class="emoji emoji-in-list"
               src={entry()[1]}
               title={entry()[0]}
               onContextMenu={(e) => e.preventDefault()}

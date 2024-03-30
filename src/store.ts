@@ -11,6 +11,7 @@ interface StoreData {
   fg: string;
   bg: string;
   isListOpened: boolean;
+  emojiSize: number;
 }
 
 export type Store = ReturnType<typeof createAppStore>;
@@ -24,6 +25,7 @@ export function createAppStore() {
     fg: "",
     bg: "",
     isListOpened: false,
+    emojiSize: 32,
     field: [],
     images: {
       ":-satan-:":
