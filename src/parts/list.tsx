@@ -133,15 +133,11 @@ function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
 
       for (const emoji of sorted()) {
         const header = emoji[key];
-
-        if (!current) {
-          current = { header, emojis: [emoji] };
+        if (current && current.header === header) {
+          current.emojis.push(emoji);
         } else {
-          if (current.header === header) {
-            current.emojis.push(emoji);
-          } else {
-            current = { header, emojis: [emoji] };
-          }
+          if (current) result.push(current);
+          current = { header, emojis: [emoji] };
         }
       }
 
