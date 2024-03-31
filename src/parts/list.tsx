@@ -29,7 +29,7 @@ export function List() {
           value={store.emojiSize}
           onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
         />
-        <label for="sort">Sort:</label>
+        <label>Sort:</label>
         <input
           onChange={() => setSorting("none")}
           checked={sorting() === "none"}
@@ -47,7 +47,7 @@ export function List() {
           id="name"
           value="name"
         />
-        <label for="none">Name</label>
+        <label for="name">Name</label>
         <input
           onChange={() => setSorting("date")}
           checked={sorting() === "date"}
@@ -56,7 +56,7 @@ export function List() {
           id="date"
           value="date"
         />
-        <label for="none">Date</label>
+        <label for="date">Date</label>
         <input
           onChange={() => setSorting("author")}
           checked={sorting() === "author"}
@@ -65,7 +65,7 @@ export function List() {
           id="author"
           value="author"
         />
-        <label for="none">Author</label>
+        <label for="author">Author</label>
         <input
           onChange={() => setDescending((value) => !value)}
           checked={descending()}
@@ -116,8 +116,8 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
             {(name) => (
               <img
                 class="emoji emoji-in-list"
-                src={store.images[name()]}
-                title={name()}
+                src={store.images[name()].src}
+                title={getEmojiTitle(store.images[name()])}
                 onContextMenu={(e) => e.preventDefault()}
                 onMouseDown={(e) => onMouseDown(e, name(), "favorites")}
               />

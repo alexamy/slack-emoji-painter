@@ -14,7 +14,7 @@ export interface StoreData {
   height: number;
   field: string[][];
   emojis: EmojiData[];
-  images: Record<string, string>;
+  images: Record<string, EmojiData>;
   favorites: string[];
   mouse: "left" | "right" | null;
   fg: string;
@@ -25,55 +25,58 @@ export interface StoreData {
 
 export type Store = ReturnType<typeof createAppStore>;
 
+const satan = {
+  name: ":satan:",
+  src: "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
+  date: "2024-01-01",
+  author: "John Doe",
+} satisfies EmojiData;
+
+const mouse = {
+  name: ":mouse:",
+  src: "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
+  date: "2024-01-01",
+  author: "John Doe",
+} satisfies EmojiData;
+
 export function createAppStore() {
   const [store, setStore] = createStore<StoreData>({
-    version: 2,
+    version: 3,
     width: 8,
     height: 4,
     mouse: null,
-    fg: "",
-    bg: "",
+    fg: ":satan:",
+    bg: ":mouse:",
     isListOpened: false,
     emojiSize: 32,
     field: [],
-    emojis: [
-      {
-        name: ":-satan-:",
-        src: "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
-        date: "2024-01-01",
-        author: "John Doe",
-      },
-      {
-        name: ":12ozmouse-buttermilk:",
-        src: "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
-        date: "2024-01-01",
-        author: "John Doe",
-      },
-    ],
-    images: {
-      ":-satan-:":
-        "https://emoji.slack-edge.com/T47BK6X1U/-satan-/e40cbb4f8726fae4.jpg",
-      ":12ozmouse-buttermilk:":
-        "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
-    },
+    emojis: [satan, mouse],
+    images: { ":satan:": satan, ":mouse:": mouse },
     favorites: [],
   });
 
+  // persist in local storage
   onMount(() => loadFromLocalStorage([store, setStore]));
   createEffect(() => saveToLocalStorage([store, setStore]));
-  createEffect(() => setFgAndBgForNewImages([store, setStore]));
-  createEffect(() => setFieldSizeFromDimensions([store, setStore]));
-  createEffect(() => setImages([store, setStore]));
+  // update store after emoji upload
   createEffect(
     on(
-      () => store.emojis,
-      () => filterFavorites([store, setStore]),
+      () => [store.emojis],
+      () => updateStoreOnEmojis([store, setStore]),
+    ),
+  );
+  // update field when size is changed
+  createEffect(
+    on(
+      () => [store.width, store.height],
+      () => changeFieldSize([store, setStore]),
     ),
   );
 
   return [store, setStore] as const;
 }
 
+// persist
 function loadFromLocalStorage(state: Store) {
   const [store, setStore] = state;
 
@@ -101,19 +104,8 @@ function saveToLocalStorage(state: Store) {
   localStorage.setItem("store", data);
 }
 
-function setFgAndBgForNewImages(state: Store) {
-  const [store, setStore] = state;
-  const [first, second] = Object.keys(store.images);
-
-  if (!store.images[store.fg]) {
-    setStore("fg", first);
-  }
-  if (!store.images[store.bg]) {
-    setStore("bg", second ?? first);
-  }
-}
-
-function setFieldSizeFromDimensions(state: Store) {
+// size
+function changeFieldSize(state: Store) {
   const [store, setStore] = state;
 
   // change the height of the field
@@ -147,15 +139,48 @@ function setFieldSizeFromDimensions(state: Store) {
   );
 }
 
+// emojis upload
+function updateStoreOnEmojis(state: Store) {
+  setImages(state);
+  setBrushes(state);
+  clearField(state);
+  filterFavorites(state);
+}
+
 function setImages(state: Store) {
   const [store, setStore] = state;
 
-  const images: Record<string, string> = {};
+  const images: Record<string, EmojiData> = {};
   for (const emoji of store.emojis) {
-    images[emoji.name] = emoji.src;
+    images[emoji.name] = emoji;
   }
 
   setStore({ images });
+}
+
+function setBrushes(state: Store) {
+  const [store, setStore] = state;
+  const [first, second] = store.emojis;
+
+  if (!store.images[store.fg]) {
+    setStore("fg", first.name);
+  }
+  if (!store.images[store.bg]) {
+    setStore("bg", second.name ?? first.name);
+  }
+}
+
+function clearField(state: Store) {
+  const [store, setStore] = state;
+  setStore("field", () => {
+    return Array.from({ length: store.height })
+      .fill(null)
+      .map(() => {
+        return Array.from({ length: store.width })
+          .fill(null)
+          .map(() => store.bg);
+      });
+  });
 }
 
 function filterFavorites(state: Store) {

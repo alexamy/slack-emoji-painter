@@ -34,7 +34,7 @@ export function Field() {
                 {(cell, col) => (
                   <img
                     class="emoji"
-                    src={store.images[cell()]}
+                    src={store.images[cell()].src}
                     onClick={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
                     onMouseDown={(e) => onMouseDown(e, row, col)}
