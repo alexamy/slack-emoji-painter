@@ -64,6 +64,7 @@ export function createAppStore() {
   createEffect(() => setFgAndBgForNewImages([store, setStore]));
   createEffect(() => setFieldSizeFromDimensions([store, setStore]));
   createEffect(() => setImages([store, setStore]));
+  createEffect(() => setFavorites([store, setStore]));
 
   return [store, setStore] as const;
 }
@@ -148,4 +149,14 @@ function setImages(state: Store) {
   }
 
   setStore({ images });
+}
+
+function setFavorites(state: Store) {
+  const [store, setStore] = state;
+
+  const favorites = store.favorites.filter((name) => {
+    return Boolean(store.images[name]);
+  });
+
+  setStore({ favorites });
 }
