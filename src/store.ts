@@ -1,5 +1,5 @@
 import { createStore, produce } from "solid-js/store";
-import { onMount, createEffect } from "solid-js";
+import { onMount, createEffect, on } from "solid-js";
 
 export interface EmojiData {
   src: string;
@@ -64,7 +64,12 @@ export function createAppStore() {
   createEffect(() => setFgAndBgForNewImages([store, setStore]));
   createEffect(() => setFieldSizeFromDimensions([store, setStore]));
   createEffect(() => setImages([store, setStore]));
-  createEffect(() => setFavorites([store, setStore]));
+  createEffect(
+    on(
+      () => store.emojis,
+      () => filterFavorites([store, setStore]),
+    ),
+  );
 
   return [store, setStore] as const;
 }
@@ -151,7 +156,7 @@ function setImages(state: Store) {
   setStore({ images });
 }
 
-function setFavorites(state: Store) {
+function filterFavorites(state: Store) {
   const [store, setStore] = state;
 
   const favorites = store.favorites.filter((name) => {
