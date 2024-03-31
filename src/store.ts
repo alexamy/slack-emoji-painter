@@ -61,14 +61,14 @@ export function createAppStore() {
   // update store after emoji upload
   createEffect(
     on(
-      () => store.emojis,
+      () => [store.emojis],
       () => updateStoreOnEmojis([store, setStore]),
     ),
   );
   // update field when size is changed
   createEffect(
     on(
-      () => [store.width, store.height],
+      () => [store.emojis, store.width, store.height],
       () => changeFieldSize([store, setStore]),
     ),
   );
@@ -141,15 +141,9 @@ function changeFieldSize(state: Store) {
 
 // emojis upload
 function updateStoreOnEmojis(state: Store) {
-  clearField(state);
   setImages(state);
   setBrushes(state);
   filterFavorites(state);
-}
-
-function clearField(state: Store) {
-  const [store, setStore] = state;
-  setStore("field", []);
 }
 
 function setImages(state: Store) {
