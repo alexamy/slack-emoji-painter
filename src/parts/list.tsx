@@ -104,7 +104,7 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
                   <img
                     class="emoji emoji-in-list"
                     src={emoji().src}
-                    title={emoji().name}
+                    title={getEmojiTitle(emoji())}
                     onContextMenu={(e) => e.preventDefault()}
                     onMouseDown={(e) => selectEmoji(e, emoji().name)}
                   />
@@ -116,6 +116,10 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
       </Index>
     </div>
   );
+}
+
+function getEmojiTitle(e: EmojiData) {
+  return `${e.name}\n${e.date}\n${e.author}`;
 }
 
 interface EmojiGroup {
