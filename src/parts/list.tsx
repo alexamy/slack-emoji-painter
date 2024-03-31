@@ -131,6 +131,36 @@ function getEmojiTitle(e: EmojiData) {
   return `${e.name}\n${e.date}\n${e.author}`;
 }
 
+function createFiltered<T extends { name: string }>(items: () => T[]) {
+  const [search, setSearch] = createSignal("");
+  const filtered = createMemo(() => {
+    if (search() === "") return items();
+    const query = search().toLowerCase();
+    const result = items().filter((item) => item.name.includes(query));
+    return result;
+  });
+
+  return [search, setSearch, filtered] as const;
+}
+
+function createSorted(items: () => EmojiData[], descending: () => boolean) {
+  const [sorting, setSorting] = createSignal<Sorting>("none");
+  const sorted = createMemo(() => {
+    const result = rfdc()(items());
+    const key = sorting();
+    if (key === "none") return result;
+
+    result.sort((a, b) => {
+      if (a[key] < b[key]) return descending() ? 1 : -1;
+      if (a[key] > b[key]) return descending() ? -1 : 1;
+      return 0;
+    });
+    return result;
+  });
+
+  return [sorting, setSorting, sorted] as const;
+}
+
 interface EmojiGroup {
   header: string;
   emojis: EmojiData[];
@@ -161,34 +191,4 @@ function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
   });
 
   return groups;
-}
-
-function createFiltered<T extends { name: string }>(items: () => T[]) {
-  const [search, setSearch] = createSignal("");
-  const filtered = createMemo(() => {
-    if (search() === "") return items();
-    const query = search().toLowerCase();
-    const result = items().filter((item) => item.name.includes(query));
-    return result;
-  });
-
-  return [search, setSearch, filtered] as const;
-}
-
-function createSorted(items: () => EmojiData[], descending: () => boolean) {
-  const [sorting, setSorting] = createSignal<Sorting>("none");
-  const sorted = createMemo(() => {
-    const result = rfdc()(items());
-    const key = sorting();
-    if (key === "none") return result;
-
-    result.sort((a, b) => {
-      if (a[key] < b[key]) return descending() ? 1 : -1;
-      if (a[key] > b[key]) return descending() ? -1 : 1;
-      return 0;
-    });
-    return result;
-  });
-
-  return [sorting, setSorting, sorted] as const;
 }
