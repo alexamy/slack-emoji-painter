@@ -1,5 +1,5 @@
 import { JSX, createContext, useContext } from "solid-js";
-import { createAppStore } from "./store";
+import { EmojiData, createAppStore } from "./store";
 import { Store } from "./store";
 import { produce } from "solid-js/store";
 
@@ -73,7 +73,7 @@ function processEmojis(text: string) {
   }
 }
 
-function validateEmojis(emojis: unknown): emojis is Store[0]["emojis"] {
+function validateEmojis(emojis: unknown): emojis is EmojiData[] {
   // prettier-ignore
   try {
     if (!Array.isArray(emojis))

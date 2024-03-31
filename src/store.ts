@@ -1,14 +1,14 @@
 import { createStore, produce } from "solid-js/store";
 import { onMount, createEffect } from "solid-js";
 
-interface EmojiData {
+export interface EmojiData {
   src: string;
   name: string;
   date: string;
   author: string;
 }
 
-interface StoreData {
+export interface StoreData {
   version: number;
   width: number;
   height: number;
