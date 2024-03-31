@@ -82,7 +82,7 @@ export function List() {
 }
 
 function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
-  const [store, { setStore }] = useStoreContext();
+  const [store, { setStore, addFavorite, removeFavorite }] = useStoreContext();
   const groups = createGroups(
     () => props.emojis,
     () => props.sorting,
@@ -95,18 +95,34 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        "--emoji-width": `${store.emojiSize}px`,
+        "--emoji-height": `${store.emojiSize}px`,
+      }}
+    >
+      <div class="emoji-group">
+        <div>Favorites</div>
+        <div class="emojis">
+          <Index each={store.favorites}>
+            {(name) => (
+              <img
+                class="emoji emoji-in-list"
+                src={store.images[name()]}
+                title={name()}
+                onContextMenu={(e) => e.preventDefault()}
+                onMouseDown={(e) => selectEmoji(e, name())}
+                onDblClick={() => removeFavorite(name())}
+              />
+            )}
+          </Index>
+        </div>
+      </div>
       <Index each={groups()}>
         {(group) => (
           <div class="emoji-group">
             <div>{group().header}</div>
-            <div
-              class="emojis"
-              style={{
-                "--emoji-width": `${store.emojiSize}px`,
-                "--emoji-height": `${store.emojiSize}px`,
-              }}
-            >
+            <div class="emojis">
               <Index each={group().emojis}>
                 {(emoji) => (
                   <img
@@ -115,6 +131,7 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
                     title={getEmojiTitle(emoji())}
                     onContextMenu={(e) => e.preventDefault()}
                     onMouseDown={(e) => selectEmoji(e, emoji().name)}
+                    onDblClick={() => addFavorite(emoji().name)}
                   />
                 )}
               </Index>
@@ -170,7 +187,7 @@ function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
     const key = sorting();
 
     if (key === "none" || key === "name") {
-      return [{ header: "", emojis: sorted() }];
+      return [{ header: "Emojis", emojis: sorted() }];
     } else {
       const result: EmojiGroup[] = [];
       let current: EmojiGroup | undefined = undefined;
