@@ -83,7 +83,9 @@ function loadFromLocalStorage(state: Store) {
   try {
     const data = JSON.parse(raw);
     if (data.version !== store.version) {
-      throw new Error("Version mismatch.");
+      throw new Error(
+        "Version mismatch. Please reupload emojis from Slack into the app.",
+      );
     }
     setStore(data);
   } catch (e) {
