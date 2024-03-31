@@ -47,7 +47,7 @@ export function List() {
           id="name"
           value="name"
         />
-        <label for="none">Name</label>
+        <label for="name">Name</label>
         <input
           onChange={() => setSorting("date")}
           checked={sorting() === "date"}
@@ -56,7 +56,7 @@ export function List() {
           id="date"
           value="date"
         />
-        <label for="none">Date</label>
+        <label for="date">Date</label>
         <input
           onChange={() => setSorting("author")}
           checked={sorting() === "author"}
@@ -65,7 +65,7 @@ export function List() {
           id="author"
           value="author"
         />
-        <label for="none">Author</label>
+        <label for="author">Author</label>
         <input
           onChange={() => setDescending((value) => !value)}
           checked={descending()}
