@@ -29,7 +29,7 @@ export function List() {
           value={store.emojiSize}
           onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
         />
-        <label for="sort">Sort:</label>
+        <label>Sort:</label>
         <input
           onChange={() => setSorting("none")}
           checked={sorting() === "none"}

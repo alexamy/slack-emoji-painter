@@ -55,21 +55,28 @@ export function createAppStore() {
     favorites: [],
   });
 
+  // persist in local storage
   onMount(() => loadFromLocalStorage([store, setStore]));
   createEffect(() => saveToLocalStorage([store, setStore]));
-  createEffect(() => setFgAndBgForNewImages([store, setStore]));
-  createEffect(() => setFieldSizeFromDimensions([store, setStore]));
-  createEffect(() => setImages([store, setStore]));
+  // update store after emoji upload
   createEffect(
     on(
       () => store.emojis,
-      () => filterFavorites([store, setStore]),
+      () => updateStoreOnEmojis([store, setStore]),
+    ),
+  );
+  // update field when size is changed
+  createEffect(
+    on(
+      () => [store.width, store.height],
+      () => setFieldSizeFromDimensions([store, setStore]),
     ),
   );
 
   return [store, setStore] as const;
 }
 
+// persist
 function loadFromLocalStorage(state: Store) {
   const [store, setStore] = state;
 
@@ -97,18 +104,7 @@ function saveToLocalStorage(state: Store) {
   localStorage.setItem("store", data);
 }
 
-function setFgAndBgForNewImages(state: Store) {
-  const [store, setStore] = state;
-  const [first, second] = Object.keys(store.images);
-
-  if (!store.images[store.fg]) {
-    setStore("fg", first);
-  }
-  if (!store.images[store.bg]) {
-    setStore("bg", second ?? first);
-  }
-}
-
+// size
 function setFieldSizeFromDimensions(state: Store) {
   const [store, setStore] = state;
 
@@ -141,6 +137,25 @@ function setFieldSizeFromDimensions(state: Store) {
       }
     }),
   );
+}
+
+// emojis upload
+function updateStoreOnEmojis(state: Store) {
+  setFgAndBgForNewImages(state);
+  setImages(state);
+  filterFavorites(state);
+}
+
+function setFgAndBgForNewImages(state: Store) {
+  const [store, setStore] = state;
+  const [first, second] = store.emojis;
+
+  if (!store.images[store.fg]) {
+    setStore("fg", first.name);
+  }
+  if (!store.images[store.bg]) {
+    setStore("bg", second.name ?? first.name);
+  }
 }
 
 function setImages(state: Store) {
