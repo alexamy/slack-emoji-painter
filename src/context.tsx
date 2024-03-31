@@ -55,9 +55,40 @@ export function useStoreContext() {
     );
   }
 
+  function addFavorite(name: string) {
+    setStore(
+      "favorites",
+      produce((favorites) => {
+        if (!favorites.includes(name)) {
+          favorites.push(name);
+        }
+      }),
+    );
+  }
+
+  function removeFavorite(name: string) {
+    setStore(
+      "favorites",
+      produce((favorites) => {
+        const index = favorites.indexOf(name);
+        if (index > -1) {
+          favorites.splice(index, 1);
+        }
+      }),
+    );
+  }
+
   return [
     store,
-    { setStore, clearWith, asText, loadEmojis, drawCell },
+    {
+      setStore,
+      clearWith,
+      asText,
+      loadEmojis,
+      drawCell,
+      addFavorite,
+      removeFavorite,
+    },
   ] as const;
 }
 

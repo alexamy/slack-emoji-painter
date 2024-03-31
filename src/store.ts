@@ -1,5 +1,5 @@
 import { createStore, produce } from "solid-js/store";
-import { onMount, createEffect } from "solid-js";
+import { onMount, createEffect, on } from "solid-js";
 
 export interface EmojiData {
   src: string;
@@ -15,6 +15,7 @@ export interface StoreData {
   field: string[][];
   emojis: EmojiData[];
   images: Record<string, string>;
+  favorites: string[];
   mouse: "left" | "right" | null;
   fg: string;
   bg: string;
@@ -55,6 +56,7 @@ export function createAppStore() {
       ":12ozmouse-buttermilk:":
         "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
     },
+    favorites: [],
   });
 
   onMount(() => loadFromLocalStorage([store, setStore]));
@@ -62,6 +64,12 @@ export function createAppStore() {
   createEffect(() => setFgAndBgForNewImages([store, setStore]));
   createEffect(() => setFieldSizeFromDimensions([store, setStore]));
   createEffect(() => setImages([store, setStore]));
+  createEffect(
+    on(
+      () => store.emojis,
+      () => filterFavorites([store, setStore]),
+    ),
+  );
 
   return [store, setStore] as const;
 }
@@ -75,7 +83,9 @@ function loadFromLocalStorage(state: Store) {
   try {
     const data = JSON.parse(raw);
     if (data.version !== store.version) {
-      throw new Error("Version mismatch.");
+      throw new Error(
+        "Version mismatch. Please reupload emojis from Slack into the app.",
+      );
     }
     setStore(data);
   } catch (e) {
@@ -146,4 +156,14 @@ function setImages(state: Store) {
   }
 
   setStore({ images });
+}
+
+function filterFavorites(state: Store) {
+  const [store, setStore] = state;
+
+  const favorites = store.favorites.filter((name) => {
+    return Boolean(store.images[name]);
+  });
+
+  setStore({ favorites });
 }

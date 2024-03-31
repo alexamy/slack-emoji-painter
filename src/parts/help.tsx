@@ -29,6 +29,14 @@ export function Help() {
         </li>
         <li>Click on the emoji to set foreground emoji.</li>
         <li>Right-click on the emoji to to set background emoji.</li>
+        <li>
+          Press mouse wheel to add the emoji to favorites (sorry if you dont
+          have mouse wheel).
+        </li>
+        <li>
+          Press mouse wheel in favorites list to remove the emoji from
+          favorites.
+        </li>
       </ul>
       Buttons:
       <ul>
