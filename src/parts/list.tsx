@@ -28,7 +28,7 @@ export function List() {
         <label for="sort">Sort:</label>
         <input
           onChange={() => setSorting("none")}
-          checked
+          checked={sorting() === "none"}
           type="radio"
           name="sort"
           id="none"
@@ -37,6 +37,7 @@ export function List() {
         <label for="none">None</label>
         <input
           onChange={() => setSorting("name")}
+          checked={sorting() === "name"}
           type="radio"
           name="sort"
           id="name"
@@ -45,6 +46,7 @@ export function List() {
         <label for="none">Name</label>
         <input
           onChange={() => setSorting("date")}
+          checked={sorting() === "date"}
           type="radio"
           name="sort"
           id="date"
@@ -53,6 +55,7 @@ export function List() {
         <label for="none">Date</label>
         <input
           onChange={() => setSorting("author")}
+          checked={sorting() === "author"}
           type="radio"
           name="sort"
           id="author"
