@@ -10,12 +10,6 @@ export function List() {
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
   const [sorting, setSorting, sorted] = createSorted(filtered);
 
-  function selectEmoji(e: MouseEvent, name: string) {
-    e.preventDefault();
-    if (e.button === 0) setStore("fg", name);
-    if (e.button === 2) setStore("bg", name);
-  }
-
   return (
     <div class="list" style={{ display: store.isListOpened ? "flex" : "none" }}>
       <input
@@ -72,25 +66,39 @@ export function List() {
           onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
         />
       </div>
-      <div
-        class="emojis"
-        style={{
-          "--emoji-width": `${store.emojiSize}px`,
-          "--emoji-height": `${store.emojiSize}px`,
-        }}
-      >
-        <Index each={sorted()}>
-          {(entry) => (
-            <img
-              class="emoji emoji-in-list"
-              src={entry().src}
-              title={entry().name}
-              onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => selectEmoji(e, entry().name)}
-            />
-          )}
-        </Index>
-      </div>
+      <EmojiList emojis={sorted()} sorting={sorting()} />
+    </div>
+  );
+}
+
+function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
+  const [store, { setStore }] = useStoreContext();
+
+  function selectEmoji(e: MouseEvent, name: string) {
+    e.preventDefault();
+    if (e.button === 0) setStore("fg", name);
+    if (e.button === 2) setStore("bg", name);
+  }
+
+  return (
+    <div
+      class="emojis"
+      style={{
+        "--emoji-width": `${store.emojiSize}px`,
+        "--emoji-height": `${store.emojiSize}px`,
+      }}
+    >
+      <Index each={props.emojis}>
+        {(entry) => (
+          <img
+            class="emoji emoji-in-list"
+            src={entry().src}
+            title={entry().name}
+            onContextMenu={(e) => e.preventDefault()}
+            onMouseDown={(e) => selectEmoji(e, entry().name)}
+          />
+        )}
+      </Index>
     </div>
   );
 }
