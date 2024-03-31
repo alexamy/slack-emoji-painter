@@ -85,34 +85,36 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   }
 
   return (
-    <Index each={groups()}>
-      {(group) => (
-        <div class="emoji-group">
-          <Show when={groups().length > 1}>
-            <div>{group().header}</div>
-          </Show>
-          <div
-            class="emojis"
-            style={{
-              "--emoji-width": `${store.emojiSize}px`,
-              "--emoji-height": `${store.emojiSize}px`,
-            }}
-          >
-            <Index each={group().emojis}>
-              {(emoji) => (
-                <img
-                  class="emoji emoji-in-list"
-                  src={emoji().src}
-                  title={emoji().name}
-                  onContextMenu={(e) => e.preventDefault()}
-                  onMouseDown={(e) => selectEmoji(e, emoji().name)}
-                />
-              )}
-            </Index>
+    <div>
+      <Index each={groups()}>
+        {(group) => (
+          <div class="emoji-group">
+            <Show when={groups().length > 1}>
+              <div>{group().header}</div>
+            </Show>
+            <div
+              class="emojis"
+              style={{
+                "--emoji-width": `${store.emojiSize}px`,
+                "--emoji-height": `${store.emojiSize}px`,
+              }}
+            >
+              <Index each={group().emojis}>
+                {(emoji) => (
+                  <img
+                    class="emoji emoji-in-list"
+                    src={emoji().src}
+                    title={emoji().name}
+                    onContextMenu={(e) => e.preventDefault()}
+                    onMouseDown={(e) => selectEmoji(e, emoji().name)}
+                  />
+                )}
+              </Index>
+            </div>
           </div>
-        </div>
-      )}
-    </Index>
+        )}
+      </Index>
+    </div>
   );
 }
 
