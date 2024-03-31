@@ -1,4 +1,4 @@
-import { createSignal, createMemo, Index } from "solid-js";
+import { createSignal, createMemo, Index, Show } from "solid-js";
 import rfdc from "rfdc";
 import { useStoreContext } from "../context";
 import { EmojiData } from "../store";
@@ -73,6 +73,12 @@ export function List() {
 
 function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   const [store, { setStore }] = useStoreContext();
+  const groups = createMemo(() => {
+    return [{ header: "", emojis: props.emojis }];
+  });
+  const withHeaders = createMemo(() => {
+    return ["none", "name"].includes(props.sorting);
+  });
 
   function selectEmoji(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -88,15 +94,24 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
         "--emoji-height": `${store.emojiSize}px`,
       }}
     >
-      <Index each={props.emojis}>
-        {(entry) => (
-          <img
-            class="emoji emoji-in-list"
-            src={entry().src}
-            title={entry().name}
-            onContextMenu={(e) => e.preventDefault()}
-            onMouseDown={(e) => selectEmoji(e, entry().name)}
-          />
+      <Index each={groups()}>
+        {(group) => (
+          <>
+            <Show when={withHeaders()}>
+              <div>{group().header}</div>
+            </Show>
+            <Index each={group().emojis}>
+              {(entry) => (
+                <img
+                  class="emoji emoji-in-list"
+                  src={entry().src}
+                  title={entry().name}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onMouseDown={(e) => selectEmoji(e, entry().name)}
+                />
+              )}
+            </Index>
+          </>
         )}
       </Index>
     </div>
