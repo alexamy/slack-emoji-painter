@@ -19,6 +19,15 @@ export function List() {
         onInput={(e) => setSearch(e.target.value)}
       />
       <div class="toolbar">
+        <label for="emoji-size">Size:</label>
+        <input
+          class="emoji-size"
+          id="emoji-size"
+          min={8}
+          type="number"
+          value={store.emojiSize}
+          onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
+        />
         <label for="sort">Sort:</label>
         <input
           onChange={() => setSorting("none")}
@@ -56,15 +65,6 @@ export function List() {
           value="author"
         />
         <label for="none">Author</label>
-        <label for="emoji-size">Size:</label>
-        <input
-          class="emoji-size"
-          id="emoji-size"
-          min={8}
-          type="number"
-          value={store.emojiSize}
-          onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
-        />
       </div>
       <EmojiList emojis={sorted()} sorting={sorting()} />
     </div>
