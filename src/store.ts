@@ -15,6 +15,7 @@ export interface StoreData {
   field: string[][];
   emojis: EmojiData[];
   images: Record<string, string>;
+  favorites: string[];
   mouse: "left" | "right" | null;
   fg: string;
   bg: string;
@@ -55,6 +56,7 @@ export function createAppStore() {
       ":12ozmouse-buttermilk:":
         "https://emoji.slack-edge.com/T47BK6X1U/12ozmouse-buttermilk/2e626d7ad2ff12bb.png",
     },
+    favorites: [],
   });
 
   onMount(() => loadFromLocalStorage([store, setStore]));
