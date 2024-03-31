@@ -116,8 +116,8 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
             {(name) => (
               <img
                 class="emoji emoji-in-list"
-                src={store.images[name()]}
-                title={name()}
+                src={store.images[name()].src}
+                title={getEmojiTitle(store.images[name()])}
                 onContextMenu={(e) => e.preventDefault()}
                 onMouseDown={(e) => onMouseDown(e, name(), "favorites")}
               />

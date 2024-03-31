@@ -18,14 +18,14 @@ export function CurrentEmoji() {
       Foreground:
       <img
         class="emoji"
-        src={store.images[store.fg]}
+        src={store.images[store.fg].src}
         onClick={switchList}
         onContextMenu={switchList}
       />
       Background:
       <img
         class="emoji"
-        src={store.images[store.bg]}
+        src={store.images[store.bg].src}
         onClick={switchList}
         onContextMenu={switchList}
       />
