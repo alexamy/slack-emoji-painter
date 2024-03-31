@@ -68,7 +68,7 @@ export function createAppStore() {
   // update field when size is changed
   createEffect(
     on(
-      () => [store.emojis, store.width, store.height],
+      () => [store.width, store.height],
       () => changeFieldSize([store, setStore]),
     ),
   );
@@ -143,6 +143,7 @@ function changeFieldSize(state: Store) {
 function updateStoreOnEmojis(state: Store) {
   setImages(state);
   setBrushes(state);
+  clearField(state);
   filterFavorites(state);
 }
 
@@ -167,6 +168,19 @@ function setBrushes(state: Store) {
   if (!store.images[store.bg]) {
     setStore("bg", second.name ?? first.name);
   }
+}
+
+function clearField(state: Store) {
+  const [store, setStore] = state;
+  setStore("field", () => {
+    return Array.from({ length: store.height })
+      .fill(null)
+      .map(() => {
+        return Array.from({ length: store.width })
+          .fill(null)
+          .map(() => store.bg);
+      });
+  });
 }
 
 function filterFavorites(state: Store) {
