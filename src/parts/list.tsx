@@ -110,14 +110,15 @@ function createFiltered<T extends { name: string }>(items: () => T[]) {
 function createSorted(items: () => EmojiData[]) {
   const [sorting, setSorting] = createSignal<Sorting>("none");
   const sorted = createMemo(() => {
-    function compare(a, b, key) {
+    const result = rfdc()(items());
+    const key = sorting();
+    if (key === "none") return result;
+
+    result.sort((a, b) => {
       if (a[key] < b[key]) return -1;
       if (a[key] > b[key]) return 1;
       return 0;
-    }
-
-    const result = rfdc()(items());
-    // result.sort(compare);
+    });
     return result;
   });
 
