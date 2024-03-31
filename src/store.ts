@@ -141,9 +141,26 @@ function setFieldSizeFromDimensions(state: Store) {
 
 // emojis upload
 function updateStoreOnEmojis(state: Store) {
-  setFgAndBgForNewImages(state);
+  clearField(state);
   setImages(state);
+  setFgAndBgForNewImages(state);
   filterFavorites(state);
+}
+
+function clearField(state: Store) {
+  const [store, setStore] = state;
+  setStore("field", []);
+}
+
+function setImages(state: Store) {
+  const [store, setStore] = state;
+
+  const images: Record<string, EmojiData> = {};
+  for (const emoji of store.emojis) {
+    images[emoji.name] = emoji;
+  }
+
+  setStore({ images });
 }
 
 function setFgAndBgForNewImages(state: Store) {
@@ -156,17 +173,6 @@ function setFgAndBgForNewImages(state: Store) {
   if (!store.images[store.bg]) {
     setStore("bg", second.name ?? first.name);
   }
-}
-
-function setImages(state: Store) {
-  const [store, setStore] = state;
-
-  const images: Record<string, EmojiData> = {};
-  for (const emoji of store.emojis) {
-    images[emoji.name] = emoji;
-  }
-
-  setStore({ images });
 }
 
 function filterFavorites(state: Store) {
