@@ -9,7 +9,7 @@ export function List() {
   const [store, { setStore }] = useStoreContext();
   const [descending, setDescending] = createSignal(false);
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
-  const [sorting, setSorting, sorted] = createSorted(filtered);
+  const [sorting, setSorting, sorted] = createSorted(filtered, descending);
 
   return (
     <div class="list" style={{ display: store.isListOpened ? "flex" : "none" }}>
@@ -67,7 +67,7 @@ export function List() {
         />
         <label for="none">Author</label>
         <input
-          onChange={(e) => setDescending(!e.target.checked)}
+          onChange={() => setDescending((value) => !value)}
           checked={descending()}
           type="checkbox"
           name="descending"
@@ -175,7 +175,7 @@ function createFiltered<T extends { name: string }>(items: () => T[]) {
   return [search, setSearch, filtered] as const;
 }
 
-function createSorted(items: () => EmojiData[]) {
+function createSorted(items: () => EmojiData[], descending: () => boolean) {
   const [sorting, setSorting] = createSignal<Sorting>("none");
   const sorted = createMemo(() => {
     const result = rfdc()(items());
@@ -183,8 +183,8 @@ function createSorted(items: () => EmojiData[]) {
     if (key === "none") return result;
 
     result.sort((a, b) => {
-      if (a[key] < b[key]) return -1;
-      if (a[key] > b[key]) return 1;
+      if (a[key] < b[key]) return descending() ? 1 : -1;
+      if (a[key] > b[key]) return descending() ? -1 : 1;
       return 0;
     });
     return result;
