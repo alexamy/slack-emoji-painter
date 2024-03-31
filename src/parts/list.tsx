@@ -69,6 +69,7 @@ export function List() {
         <input
           onChange={() => setDescending((value) => !value)}
           checked={descending()}
+          disabled={sorting() === "none"}
           type="checkbox"
           name="descending"
           id="descending"
@@ -98,9 +99,7 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
       <Index each={groups()}>
         {(group) => (
           <div class="emoji-group">
-            <Show when={groups().length > 1}>
-              <div>{group().header}</div>
-            </Show>
+            <div>{group().header}</div>
             <div
               class="emojis"
               style={{
@@ -185,6 +184,7 @@ function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
           current = { header, emojis: [emoji] };
         }
       }
+      if (current) result.push(current);
 
       return result;
     }
