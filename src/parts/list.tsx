@@ -116,16 +116,16 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   );
 }
 
-function createGroups(emojis: () => EmojiData[], sorting: () => Sorting) {
-  const withHeaders = createMemo(() => {
-    return ["none", "name"].includes(sorting());
+function createGroups(sorted: () => EmojiData[], key: () => Sorting) {
+  const withGroups = createMemo(() => {
+    return ["none", "name"].includes(key());
   });
 
   const groups = createMemo(() => {
-    return [{ header: "", emojis: emojis() }];
+    return [{ header: "", emojis: sorted() }];
   });
 
-  return [withHeaders, groups] as const;
+  return [withGroups, groups] as const;
 }
 
 function createFiltered<T extends { name: string }>(items: () => T[]) {
