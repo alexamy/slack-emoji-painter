@@ -26,7 +26,7 @@ export type Store = ReturnType<typeof createAppStore>;
 
 export function createAppStore() {
   const [store, setStore] = createStore<StoreData>({
-    version: 1,
+    version: 2,
     width: 8,
     height: 4,
     mouse: null,
