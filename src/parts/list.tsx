@@ -73,12 +73,10 @@ export function List() {
 
 function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   const [store, { setStore }] = useStoreContext();
-  const groups = createMemo(() => {
-    return [{ header: "", emojis: props.emojis }];
-  });
-  const withHeaders = createMemo(() => {
-    return ["none", "name"].includes(props.sorting);
-  });
+  const [withHeaders, groups] = createGroups(
+    () => props.emojis,
+    () => props.sorting,
+  );
 
   function selectEmoji(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -101,13 +99,13 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
               <div>{group().header}</div>
             </Show>
             <Index each={group().emojis}>
-              {(entry) => (
+              {(emoji) => (
                 <img
                   class="emoji emoji-in-list"
-                  src={entry().src}
-                  title={entry().name}
+                  src={emoji().src}
+                  title={emoji().name}
                   onContextMenu={(e) => e.preventDefault()}
-                  onMouseDown={(e) => selectEmoji(e, entry().name)}
+                  onMouseDown={(e) => selectEmoji(e, emoji().name)}
                 />
               )}
             </Index>
@@ -116,6 +114,18 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
       </Index>
     </div>
   );
+}
+
+function createGroups(emojis: () => EmojiData[], sorting: () => Sorting) {
+  const withHeaders = createMemo(() => {
+    return ["none", "name"].includes(sorting());
+  });
+
+  const groups = createMemo(() => {
+    return [{ header: "", emojis: emojis() }];
+  });
+
+  return [withHeaders, groups] as const;
 }
 
 function createFiltered<T extends { name: string }>(items: () => T[]) {
