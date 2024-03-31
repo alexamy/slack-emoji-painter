@@ -1,13 +1,14 @@
 import { createSignal, createMemo, Index } from "solid-js";
 import { useStoreContext } from "../context";
+import rfdc from "rfdc";
+import { EmojiData } from "../store";
 
 type Sorting = "none" | "name" | "date" | "author";
 
 export function List() {
   const [store, { setStore }] = useStoreContext();
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
-  const [sorting, setSorting] = createSignal<Sorting>("none");
-  const sorted = createMemo(() => {});
+  const [sorting, setSorting, sorted] = createSorted(filtered);
 
   function selectEmoji(e: MouseEvent, name: string) {
     e.preventDefault();
@@ -24,15 +25,6 @@ export function List() {
         onInput={(e) => setSearch(e.target.value)}
       />
       <div class="toolbar">
-        <label for="emoji-size">Size:</label>
-        <input
-          class="emoji-size"
-          id="emoji-size"
-          min={8}
-          type="number"
-          value={store.emojiSize}
-          onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
-        />
         <label for="sort">Sort:</label>
         <input
           onChange={() => setSorting("none")}
@@ -67,6 +59,15 @@ export function List() {
           value="author"
         />
         <label for="none">Author</label>
+        <label for="emoji-size">Size:</label>
+        <input
+          class="emoji-size"
+          id="emoji-size"
+          min={8}
+          type="number"
+          value={store.emojiSize}
+          onInput={(e) => setStore("emojiSize", parseInt(e.target.value))}
+        />
       </div>
       <div
         class="emojis"
@@ -75,7 +76,7 @@ export function List() {
           "--emoji-height": `${store.emojiSize}px`,
         }}
       >
-        <Index each={filtered()}>
+        <Index each={sorted()}>
           {(entry) => (
             <img
               class="emoji emoji-in-list"
@@ -101,4 +102,21 @@ function createFiltered<T extends { name: string }>(items: () => T[]) {
   });
 
   return [search, setSearch, filtered] as const;
+}
+
+function createSorted(items: () => EmojiData[]) {
+  const [sorting, setSorting] = createSignal<Sorting>("none");
+  const sorted = createMemo(() => {
+    function compare(a, b, key) {
+      if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) return 1;
+      return 0;
+    }
+
+    const result = rfdc()(items());
+    // result.sort(compare);
+    return result;
+  });
+
+  return [sorting, setSorting, sorted] as const;
 }
