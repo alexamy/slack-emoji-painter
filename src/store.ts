@@ -69,7 +69,7 @@ export function createAppStore() {
   createEffect(
     on(
       () => [store.width, store.height],
-      () => setFieldSizeFromDimensions([store, setStore]),
+      () => changeFieldSize([store, setStore]),
     ),
   );
 
@@ -105,7 +105,7 @@ function saveToLocalStorage(state: Store) {
 }
 
 // size
-function setFieldSizeFromDimensions(state: Store) {
+function changeFieldSize(state: Store) {
   const [store, setStore] = state;
 
   // change the height of the field
@@ -143,7 +143,7 @@ function setFieldSizeFromDimensions(state: Store) {
 function updateStoreOnEmojis(state: Store) {
   clearField(state);
   setImages(state);
-  setFgAndBgForNewImages(state);
+  setBrushes(state);
   filterFavorites(state);
 }
 
@@ -163,7 +163,7 @@ function setImages(state: Store) {
   setStore({ images });
 }
 
-function setFgAndBgForNewImages(state: Store) {
+function setBrushes(state: Store) {
   const [store, setStore] = state;
   const [first, second] = store.emojis;
 
