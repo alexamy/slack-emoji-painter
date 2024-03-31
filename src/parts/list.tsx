@@ -1,6 +1,6 @@
 import { createSignal, createMemo, Index } from "solid-js";
-import { useStoreContext } from "../context";
 import rfdc from "rfdc";
+import { useStoreContext } from "../context";
 import { EmojiData } from "../store";
 
 type Sorting = "none" | "name" | "date" | "author";
