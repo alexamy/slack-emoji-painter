@@ -73,7 +73,7 @@ export function List() {
 
 function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   const [store, { setStore }] = useStoreContext();
-  const [withHeaders, groups] = createGroups(
+  const groups = createGroups(
     () => props.emojis,
     () => props.sorting,
   );
@@ -95,7 +95,7 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
       <Index each={groups()}>
         {(group) => (
           <>
-            <Show when={withHeaders()}>
+            <Show when={groups().length > 1}>
               <div>{group().header}</div>
             </Show>
             <Index each={group().emojis}>
@@ -116,16 +116,24 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   );
 }
 
-function createGroups(sorted: () => EmojiData[], key: () => Sorting) {
-  const withGroups = createMemo(() => {
-    return ["none", "name"].includes(key());
-  });
-
+function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
   const groups = createMemo(() => {
-    return [{ header: "", emojis: sorted() }];
+    const key = sorting();
+
+    if (key === "none" || key === "name") {
+      return [{ header: "", emojis: sorted() }];
+    } else {
+      const result = [];
+      const current = { header: "", emojis: [] };
+      for (const emoji of sorted()) {
+        const group = emoji[key];
+      }
+
+      return result;
+    }
   });
 
-  return [withGroups, groups] as const;
+  return groups;
 }
 
 function createFiltered<T extends { name: string }>(items: () => T[]) {
