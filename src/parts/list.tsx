@@ -7,6 +7,7 @@ type Sorting = "none" | "name" | "date" | "author";
 
 export function List() {
   const [store, { setStore }] = useStoreContext();
+  const [descending, setDescending] = createSignal(false);
   const [search, setSearch, filtered] = createFiltered(() => store.emojis);
   const [sorting, setSorting, sorted] = createSorted(filtered);
 
@@ -65,6 +66,14 @@ export function List() {
           value="author"
         />
         <label for="none">Author</label>
+        <input
+          onChange={(e) => setDescending(!e.target.checked)}
+          checked={descending()}
+          type="checkbox"
+          name="descending"
+          id="descending"
+        />
+        <label for="descending">Descending</label>
       </div>
       <EmojiList emojis={sorted()} sorting={sorting()} />
     </div>
