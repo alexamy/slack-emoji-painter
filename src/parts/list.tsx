@@ -116,6 +116,11 @@ function EmojiList(props: { emojis: EmojiData[]; sorting: Sorting }) {
   );
 }
 
+interface EmojiGroup {
+  header: string;
+  emojis: EmojiData[];
+}
+
 function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
   const groups = createMemo(() => {
     const key = sorting();
@@ -123,10 +128,21 @@ function createGroups(sorted: () => EmojiData[], sorting: () => Sorting) {
     if (key === "none" || key === "name") {
       return [{ header: "", emojis: sorted() }];
     } else {
-      const result = [];
-      const current = { header: "", emojis: [] };
+      const result: EmojiGroup[] = [];
+      let current: EmojiGroup | undefined = undefined;
+
       for (const emoji of sorted()) {
-        const group = emoji[key];
+        const header = emoji[key];
+
+        if (!current) {
+          current = { header, emojis: [emoji] };
+        } else {
+          if (current.header === header) {
+            current.emojis.push(emoji);
+          } else {
+            current = { header, emojis: [emoji] };
+          }
+        }
       }
 
       return result;
